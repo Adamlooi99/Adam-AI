@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EBC Creative Studio Pack · July 2026</title>
+<meta name="description" content="EBC Creative Studio Pack — news-driven ad creatives, video scripts and Meta copy for Korea, Mongolia and South Africa. July 2026.">
+<style>
+/* ── EBC BRAND TOKENS ── */
+:root {
+  --burg:   #5D2333;
+  --burg-d: #401828;
+  --burg-l: #7A3048;
+  --lime:   #E6DDCF;
+  --lime-d: #C8BAA6;
+  --lime-m: #A89280;
+  --gold:   #AF8764;
+  --gold-b: #C9A07C;
+  --red:    #C0292A;
+  --white:  #F8F4EF;
+  --fd: 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+  --gs: 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', -apple-system, sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#EDE6DA;color:var(--burg);font-family:var(--gs);font-size:14px;line-height:1.6}
+
+/* ── PAGE HEADER ── */
+.pg-header{background:var(--burg-d);padding:28px 44px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;border-bottom:3px solid var(--gold)}
+.pg-eyebrow{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;display:block;margin-bottom:7px}
+.pg-title{font-family:var(--fd);font-size:24px;font-weight:400;color:var(--lime);line-height:1.2}
+.pg-meta{font-size:11px;color:var(--lime-d);text-align:right;line-height:1.7}
+.pg-star{opacity:.25;flex-shrink:0}
+
+/* ── SECTION ── */
+.sect{padding:48px 44px;border-bottom:1px solid #CFC6B4}
+.sect-no{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:700;display:flex;align-items:center;gap:16px;margin-bottom:32px}
+.sect-no::after{content:'';flex:1;height:1px;background:#C8BFAF}
+.sect-h{font-family:var(--fd);font-size:20px;font-weight:400;color:var(--burg-d);margin-bottom:6px}
+.sect-sub{font-size:12px;color:var(--lime-m);margin-bottom:28px}
+
+/* ── BRIEF CARD ── */
+.brief-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.brief-card{background:var(--burg);border-radius:3px;padding:22px 24px;color:var(--lime)}
+.brief-card-label{font-size:8px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
+.brief-card-body{font-size:12.5px;line-height:1.75;color:var(--lime-d)}
+.brief-card-body strong{color:var(--lime);font-weight:600}
+.instr-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px}
+.instr{background:rgba(230,221,207,.07);border:1px solid rgba(175,135,100,.3);border-radius:2px;padding:10px 12px}
+.instr-code{font-family:var(--fd);font-size:16px;color:var(--gold-b);font-weight:600;letter-spacing:.03em}
+.instr-name{font-size:10px;color:var(--lime-d);margin-top:2px;letter-spacing:.04em}
+.instr-why{font-size:9.5px;color:var(--lime-m);margin-top:5px;line-height:1.55;border-top:1px solid rgba(175,135,100,.2);padding-top:5px}
+
+/* ── BANNER LAYOUT ── */
+.banner-row{display:flex;gap:44px;flex-wrap:wrap;align-items:flex-start;margin-top:12px}
+.banner-slot{display:flex;flex-direction:column;gap:10px}
+.banner-spec{font-size:10px;color:#9A8070;letter-spacing:.1em;text-transform:uppercase}
+.banner-notes{font-size:11px;color:#7A6858;margin-top:8px;max-width:320px;line-height:1.6;border-left:2px solid var(--gold);padding-left:10px}
+
+/* ── STAR SVG ── */
+.star-svg{fill:currentColor;display:block}
+
+/* ── IG SQUARE BANNER 480×480 ── */
+.bnr-ig{
+  width:480px;height:480px;
+  background:var(--burg);
+  position:relative;overflow:hidden;
+  flex-shrink:0;
+}
+.bnr-ig::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 90% 70% at 100% 110%,rgba(175,135,100,.10) 0%,transparent 60%),
+             radial-gradient(ellipse 60% 50% at -10% -10%,rgba(192,41,42,.12) 0%,transparent 55%);
+  pointer-events:none;
+}
+/* large ghost star device — bottom-right */
+.bnr-star-ghost{
+  position:absolute;right:-60px;bottom:-60px;
+  width:280px;height:280px;
+  opacity:.07;pointer-events:none;
+  color:var(--lime);
+}
+/* ig content */
+.bnr-ig-inner{position:relative;z-index:2;padding:28px 30px;height:100%;display:flex;flex-direction:column;justify-content:space-between}
+.bnr-brand-row{display:flex;align-items:center;gap:9px}
+.bnr-brand-mark{width:22px;height:22px;color:var(--gold)}
+.bnr-brand-name{font-size:8.5px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);opacity:.85}
+.bnr-news-pill{display:inline-flex;align-items:center;gap:6px;font-size:8px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;color:#FF8080;background:rgba(192,41,42,.22);border:1px solid rgba(192,41,42,.45);padding:3px 10px;margin-top:14px;align-self:flex-start}
+.bnr-rule{width:32px;height:1.5px;background:var(--gold);display:block;margin:14px 0 12px}
+.bnr-hl{font-family:var(--fd);font-size:38px;font-weight:600;color:var(--lime);line-height:1;letter-spacing:-.02em}
+.bnr-hl span{color:var(--gold-b)}
+.bnr-sub{font-size:12px;color:var(--lime-d);margin-top:10px;letter-spacing:.03em;line-height:1.55;max-width:280px}
+/* instrument ticker row */
+.bnr-tickers{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.bnr-tick{border:1px solid rgba(175,135,100,.55);padding:5px 12px;font-family:var(--fd);font-size:12px;font-weight:600;color:var(--gold-b);letter-spacing:.06em;background:rgba(175,135,100,.1)}
+/* bottom row */
+.bnr-bottom{display:flex;align-items:center;justify-content:space-between;padding:14px 18px 14px 0;border-top:1px solid rgba(175,135,100,.25)}
+.bnr-cta-text{font-size:9.5px;color:var(--lime-d);letter-spacing:.12em;text-transform:uppercase}
+.bnr-cta-text strong{color:var(--lime)}
+.bnr-url{font-size:9px;letter-spacing:.1em;color:var(--lime-m)}
+
+/* ── FB FEED BANNER 600×315 ── */
+.bnr-fb{
+  width:600px;height:315px;
+  background:var(--burg-d);
+  position:relative;overflow:hidden;
+  flex-shrink:0;display:flex;
+}
+.bnr-fb::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(192,41,42,.18) 0%,transparent 50%),
+             radial-gradient(ellipse 70% 90% at 100% 50%,rgba(175,135,100,.08) 0%,transparent 65%);
+  pointer-events:none;z-index:0;
+}
+.bnr-fb-left{flex:0 0 52%;padding:24px 28px;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between;border-right:1px solid rgba(175,135,100,.22)}
+.bnr-fb-right{flex:1;padding:18px 18px 18px 20px;position:relative;z-index:2;display:flex;flex-direction:column;justify-content:space-between}
+.fb-brand-row{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.fb-brand-mark{width:17px;height:17px;color:var(--gold)}
+.fb-brand-name{font-size:7.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--lime);opacity:.8}
+.fb-news-tag{font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin:10px 0 6px}
+.fb-amount{font-family:var(--fd);font-size:42px;font-weight:600;color:var(--gold-b);line-height:1;letter-spacing:-.02em}
+.fb-amount-sub{font-size:11px;color:var(--lime-d);margin-top:4px;line-height:1.45}
+.fb-hl{font-family:var(--fd);font-size:14px;font-weight:400;color:var(--lime);line-height:1.35;margin-top:10px;max-width:230px}
+.fb-cta-row{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:12px;border-top:1px solid rgba(175,135,100,.22)}
+.fb-cta-badge{font-size:8px;letter-spacing:.12em;text-transform:uppercase;background:var(--gold);color:var(--burg-d);padding:4px 10px;font-weight:700}
+.fb-cta-url{font-size:9px;color:var(--lime-m);letter-spacing:.06em}
+/* instrument cards on fb right */
+.fb-instr-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;flex:1}
+.fb-instr-card{background:rgba(230,221,207,.07);border:1px solid rgba(175,135,100,.28);padding:8px 10px;display:flex;flex-direction:column;gap:2px}
+.fb-ic-code{font-family:var(--fd);font-size:14px;font-weight:600;color:var(--gold-b);letter-spacing:.04em}
+.fb-ic-type{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--lime-m)}
+.fb-ic-desc{font-size:8.5px;color:var(--lime-d);margin-top:3px;line-height:1.45}
+.fb-right-label{font-size:7.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:8px}
+.fb-right-footer{font-size:8px;color:var(--lime-m);letter-spacing:.08em;text-align:center;padding-top:7px;border-top:1px solid rgba(175,135,100,.2)}
+
+/* ── VIDEO SCRIPTS ── */
+.script-wrap{display:flex;flex-direction:column;gap:24px;margin-top:4px}
+.script-card{background:var(--white);border:1px solid #D4C8B8;padding:24px 26px}
+.sc-header{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:18px;padding-bottom:12px;border-bottom:1px solid #D4C8B8}
+.sc-title{font-family:var(--fd);font-size:16px;font-weight:500;color:var(--burg-d)}
+.sc-duration{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gold);font-weight:700}
+.sc-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.sc-table th{font-size:8px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;padding:5px 0 8px;border-bottom:2px solid #D4C8B8;text-align:left;color:var(--lime-m)}
+.sc-table th:first-child{width:72px;padding-right:12px}
+.sc-table th:nth-child(2){padding-right:16px}
+.sc-table th:nth-child(3){padding-left:14px;color:var(--gold);border-left:2px solid rgba(175,135,100,.4)}
+.sc-table td{padding:9px 0;border-bottom:1px solid #EAE0D0;font-size:12px;vertical-align:top}
+.sc-table td:first-child{font-size:9px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);width:72px;padding-right:12px;padding-top:11px;font-family:var(--gs);white-space:nowrap}
+.sc-table td:nth-child(2){padding-right:16px}
+.sc-table td:nth-child(3){padding-left:14px;border-left:2px solid rgba(175,135,100,.3);background:#FAF5F0;font-size:11px;color:#5A4040;font-style:italic;line-height:1.65;width:40%}
+.sc-table tr:last-child td{border-bottom:none}
+.sc-beat{font-weight:600;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--burg-l);margin-bottom:3px;display:block}
+.sc-copy{color:#4A3038;line-height:1.65}
+.sc-ticker-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.sc-tick{font-size:9px;font-weight:700;border:1px solid var(--gold);color:var(--gold);padding:1px 7px;letter-spacing:.06em;font-family:var(--fd)}
+
+/* ── META AD COPY ── */
+.meta-intro{background:var(--burg);color:var(--lime);padding:20px 24px;border-radius:2px;margin-bottom:28px;font-size:12.5px;line-height:1.75}
+.meta-intro strong{color:var(--lime);font-weight:600}
+.meta-intro .gold{color:var(--gold-b)}
+
+.meta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px}
+.meta-card{background:var(--white);border:1px solid #D4C8B8;overflow:hidden}
+.meta-card-head{background:var(--burg);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.meta-card-title{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--lime)}
+.meta-card-badge{font-size:8px;letter-spacing:.12em;text-transform:uppercase;background:var(--gold);color:var(--burg-d);padding:2px 8px;font-weight:700}
+.meta-card-body{padding:16px}
+.meta-field{margin-bottom:13px}
+.meta-field:last-child{margin-bottom:0}
+.meta-field-label{font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--lime-m);font-weight:700;margin-bottom:4px}
+.meta-field-value{font-size:12px;color:#3A2028;line-height:1.65}
+.meta-field-value.mono{font-family:monospace;font-size:11.5px;background:#F0E8DE;padding:8px 10px;border-left:2px solid var(--gold);white-space:pre-wrap;word-break:break-word}
+.meta-char{font-size:9px;color:var(--lime-m);margin-top:3px;font-style:italic}
+.meta-cta-pill{display:inline-block;background:var(--burg-d);color:var(--lime);font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 10px;border-radius:1px;margin-top:4px}
+
+/* ── PLATFORM SPECIFIC NOTES ── */
+.platform-row{display:flex;gap:18px;margin-top:28px;flex-wrap:wrap}
+.platform-note{background:var(--white);border:1px solid #D4C8B8;padding:18px 20px;flex:1;min-width:260px}
+.pn-label{font-size:8.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.pn-label::after{content:'';flex:1;height:1px;background:#D4C8B8}
+.pn-body{font-size:12px;color:#4A3038;line-height:1.7}
+.pn-body li{margin-left:16px;margin-bottom:4px}
+
+/* ── FOOTER ── */
+.pg-footer{background:var(--burg-d);padding:22px 44px;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.pg-footer-risk{font-size:9.5px;color:var(--lime-m);line-height:1.65;max-width:680px}
+.pg-footer-brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.pg-footer-url{font-size:11px;color:var(--gold);letter-spacing:.08em}
+
+/* ── SHARED UTILITY CLASSES (consolidate repeated inline styles) ── */
+.nav-tab{padding:12px 20px;font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--lime-d);border-bottom:2px solid transparent;text-decoration:none;font-family:var(--gs)}
+.nav-tab.on{color:var(--gold);border-bottom-color:var(--gold)}
+.tick-gold{color:#F5D080;border-color:rgba(245,208,128,0.55);background:rgba(245,208,128,0.1)}
+.sc-tick-gold{color:#C9A07C;border-color:#C9A07C}
+.fb-card-gold{border-color:rgba(245,208,128,0.3);background:rgba(245,208,128,0.07)}
+.ic-gold{color:#F5D080}
+
+@media(max-width:900px){
+  .brief-grid,.banner-row,.meta-grid{grid-template-columns:1fr}
+  .sc-table th:nth-child(3),.sc-table td:nth-child(3){display:none}
+  .bnr-fb{width:100%;height:auto;flex-direction:column}
+  .bnr-fb-left{border-right:none;border-bottom:1px solid rgba(175,135,100,.22)}
+  .sect{padding:36px 24px}
+  .pg-header,.pg-footer{padding:24px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- ══ PAGE HEADER ══ -->
+<header class="pg-header">
+  <div>
+    <span class="pg-eyebrow">EBC Financial Group · Creative Studio Pack</span>
+    <h1 class="pg-title">EBC Creative Studio Pack<br><span style="font-size:16px;font-weight:400;opacity:.75">Korea · Mongolia · South Africa · July 2026</span></h1>
+  </div>
+  <div class="pg-meta">
+    News-Driven Ad Creatives · July 2026<br>
+    Banners · Video Scripts · Meta Ad Copy<br>
+    <span style="color:var(--gold);font-size:10px">🇰🇷 EWY · SOXX · MU · NVDA &nbsp;|&nbsp; 🇲🇳 XAUUSD · XAGUSD &nbsp;|&nbsp; 🇿🇦 XAUUSD · XAGUSD · USDZAR</span>
+  </div>
+  <svg class="pg-star" width="48" height="48" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z" fill="#E6DDCF"/>
+  </svg>
+</header>
+
+<!-- ══ COUNTRY NAV ══ -->
+<nav style="background:var(--burg);padding:0 44px;display:flex;gap:0;border-bottom:1px solid rgba(175,135,100,0.3)">
+  <a href="#kr" class="nav-tab on">🇰🇷 Korea</a>
+  <a href="#mn" class="nav-tab">🇲🇳 Mongolia</a>
+  <a href="#za" class="nav-tab">🇿🇦 South Africa</a>
+</nav>
+
+<!-- ══ KOREA ANCHOR ══ -->
+<div id="kr" style="background:var(--burg-d);padding:10px 44px">
+  <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;font-family:var(--gs)">🇰🇷 Korea — $576B Chip Strategy · EWY · SOXX · MU · NVDA · ASML</span>
+</div>
+
+<!-- ══ SECTION 01: BRIEF ══ -->
+<section class="sect">
+  <div class="sect-no">01 — Campaign Brief</div>
+  <h2 class="sect-h">The News & Instruments Affected</h2>
+  <p class="sect-sub">Only instruments listed in the EBC Product Guide are featured — no misleading implications about stock availability.</p>
+
+  <div class="brief-grid">
+    <div class="brief-card">
+      <div class="brief-card-label">The News Event</div>
+      <div class="brief-card-body">
+        <strong>South Korea announces a ₩810 trillion ($576B) national chip and AI investment strategy</strong> — the largest state-backed tech commitment in the country's history. The plan targets semiconductor manufacturing, HBM memory dominance, and AI infrastructure through 2030.<br><br>
+        SK Hynix and Samsung are at the centre of the story. While these Korean stocks are not on EBC's platform, the news is <strong>directly moving global instruments that EBC clients can trade</strong> — the Korea ETF, semiconductor ETFs, and competing chipmakers.
+      </div>
+    </div>
+
+    <div class="brief-card">
+      <div class="brief-card-label">EBC Instruments in Focus</div>
+      <div class="instr-grid">
+        <div class="instr">
+          <div class="instr-code">EWY</div>
+          <div class="instr-name">iShares MSCI South Korea ETF</div>
+          <div class="instr-why">Holds Samsung, SK Hynix, POSCO. Most direct Korea market exposure on EBC.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">SOXX</div>
+          <div class="instr-name">iShares Semiconductor ETF</div>
+          <div class="instr-why">Tracks global chip sector. Korea's $576B plan reshapes competitive dynamics.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">MU</div>
+          <div class="instr-name">Micron Technology</div>
+          <div class="instr-why">Competes directly with SK Hynix in HBM/DRAM. Korea's move is a direct headwind.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">NVDA</div>
+          <div class="instr-name">NVIDIA Corp</div>
+          <div class="instr-why">Largest buyer of HBM memory. Korea's chip investment strengthens AI supply chain.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">ASML</div>
+          <div class="instr-name">ASML Holding</div>
+          <div class="instr-why">Only supplier of EUV lithography. Korea's fab expansion = more ASML orders.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">SMH</div>
+          <div class="instr-name">VanEck Semiconductor ETF</div>
+          <div class="instr-why">Broad chip sector exposure. Captures the full semiconductor value chain reaction.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 02: BANNERS ══ -->
+<section class="sect">
+  <div class="sect-no">02 — Banner Mockups</div>
+  <h2 class="sect-h">Static Ad Creatives</h2>
+  <p class="sect-sub">Two formats. Message: news event → affected EBC instruments → platform CTA. No non-EBC stocks shown.</p>
+
+  <div class="banner-row">
+
+    <!-- IG SQUARE 1:1 -->
+    <div class="banner-slot">
+      <div class="banner-spec">Instagram Square · 1080 × 1080 px (displayed at 480×480)</div>
+
+      <div class="bnr-ig">
+        <!-- ghost star device bottom-right -->
+        <svg class="bnr-star-ghost" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/>
+        </svg>
+
+        <div class="bnr-ig-inner">
+          <!-- top: brand -->
+          <div>
+            <div class="bnr-brand-row">
+              <svg class="bnr-brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/>
+              </svg>
+              <span class="bnr-brand-name">EBC Financial Group</span>
+            </div>
+
+            <div class="bnr-news-pill">● Market Signal · July 2026</div>
+            <span class="bnr-rule"></span>
+
+            <div class="bnr-hl">Korea Bets<br><span>$576 Billion</span><br>on Chips.</div>
+            <div class="bnr-sub">These instruments on EBC<br>are reacting right now.</div>
+
+            <div class="bnr-tickers">
+              <span class="bnr-tick">EWY</span>
+              <span class="bnr-tick">SOXX</span>
+              <span class="bnr-tick">MU</span>
+              <span class="bnr-tick">NVDA</span>
+              <span class="bnr-tick">ASML</span>
+            </div>
+          </div>
+
+          <!-- bottom: CTA -->
+          <div class="bnr-bottom">
+            <div class="bnr-cta-text"><strong>Trade on EBC.</strong> The Better Way to Trade Globally.</div>
+            <div class="bnr-url">ebc.com</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="banner-notes">
+        <strong>Copy direction:</strong> Lead with the news number ($576B), then pivot to what's tradeable. Tickers act as proof — they're all live on EBC. No mention of SK Hynix or Samsung directly.
+      </div>
+    </div>
+
+    <!-- FB FEED 1.91:1 -->
+    <div class="banner-slot">
+      <div class="banner-spec">Facebook Feed · 1200 × 628 px (displayed at 600×315)</div>
+
+      <div class="bnr-fb">
+        <!-- LEFT COLUMN: headline -->
+        <div class="bnr-fb-left">
+          <div>
+            <div class="fb-brand-row">
+              <svg class="fb-brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/>
+              </svg>
+              <span class="fb-brand-name">EBC Financial Group</span>
+            </div>
+            <div class="fb-news-tag">Korea National Chip Strategy · 2026</div>
+            <div class="fb-amount">$576B</div>
+            <div class="fb-amount-sub">State-backed semiconductor<br>&amp; AI investment plan</div>
+            <div class="fb-hl">How does it affect instruments you can trade?</div>
+          </div>
+          <div class="fb-cta-row">
+            <span class="fb-cta-badge">Trade on EBC →</span>
+            <span class="fb-cta-url">ebc.com</span>
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: instrument cards -->
+        <div class="bnr-fb-right">
+          <div class="fb-right-label">On EBC Now</div>
+          <div class="fb-instr-grid">
+            <div class="fb-instr-card">
+              <div class="fb-ic-code">EWY</div>
+              <div class="fb-ic-type">Korea ETF</div>
+              <div class="fb-ic-desc">Direct Korea market basket — Samsung, SK Hynix</div>
+            </div>
+            <div class="fb-instr-card">
+              <div class="fb-ic-code">SOXX</div>
+              <div class="fb-ic-type">Chip Sector ETF</div>
+              <div class="fb-ic-desc">iShares global semiconductor index</div>
+            </div>
+            <div class="fb-instr-card">
+              <div class="fb-ic-code">MU</div>
+              <div class="fb-ic-type">Micron · Stock</div>
+              <div class="fb-ic-desc">Direct HBM/DRAM rival to SK Hynix</div>
+            </div>
+            <div class="fb-instr-card">
+              <div class="fb-ic-code">NVDA</div>
+              <div class="fb-ic-type">NVIDIA · Stock</div>
+              <div class="fb-ic-desc">AI chip demand — benefits from HBM supply growth</div>
+            </div>
+          </div>
+          <div class="fb-right-footer">Up to 500:1 leverage · Tight spreads · MT4/MT5</div>
+        </div>
+      </div>
+
+      <div class="banner-notes">
+        <strong>Copy direction:</strong> Left column states the news; right column answers "so what can I trade?" — all instrument names are EBC-listed. No implied products outside EBC's guide.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 03: VIDEO SCRIPTS ══ -->
+<section class="sect">
+  <div class="sect-no">03 — Video Scripts</div>
+  <h2 class="sect-h">Motion Ad Scripts</h2>
+  <p class="sect-sub">Both scripts follow: news hook → which EBC instruments are affected → why EBC → CTA. No stocks outside EBC product guide are named as tradeable.</p>
+
+  <div class="script-wrap">
+
+    <div class="script-card">
+      <div class="sc-header">
+        <div class="sc-title">15-Second · IG Reels / TikTok</div>
+        <div class="sc-duration">15s</div>
+      </div>
+      <table class="sc-table">
+        <thead><tr><th>Time</th><th>VO / On-Screen Copy</th><th>🎬 Visual Direction</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>0:00–0:03</td>
+          <td>
+            <span class="sc-beat">Hook — Visual</span>
+            <span class="sc-copy">Full-screen headline card:<br>"South Korea: $576,000,000,000."<br>Hard cut. Silence.</span>
+          </td>
+          <td>Giant white numerals on pure black — count up one digit group at a time. No music. Silence holds 1 second after the full number lands. No logos yet.</td>
+        </tr>
+        <tr>
+          <td>0:03–0:08</td>
+          <td>
+            <span class="sc-beat">News Impact</span>
+            <span class="sc-copy">VO: "Korea just announced the biggest national chip investment in history. And it's already moving markets."</span>
+          </td>
+          <td>Fast cut montage: semiconductor wafer close-up → Seoul skyline at night → live stock ticker crawl. EWY · SOXX · MU chips flash in sequence as lower-third.</td>
+        </tr>
+        <tr>
+          <td>0:08–0:13</td>
+          <td>
+            <span class="sc-beat">The EBC Bridge</span>
+            <span class="sc-copy">VO: "The Korea ETF. Semiconductor funds. Competing chip stocks. All of them — right here on EBC."</span>
+            <div class="sc-ticker-row"><span class="sc-tick">EWY</span><span class="sc-tick">SOXX</span><span class="sc-tick">SMH</span><span class="sc-tick">MU</span><span class="sc-tick">NVDA</span><span class="sc-tick">ASML</span></div>
+          </td>
+          <td>EBC platform UI: instrument search list scrolls — EWY, SOXX, MU, NVDA, ASML each highlight in gold as named. Clean screen-capture aesthetic, no clutter.</td>
+        </tr>
+        <tr>
+          <td>0:13–0:15</td>
+          <td>
+            <span class="sc-beat">CTA</span>
+            <span class="sc-copy">VO + Super: "EBC. The Better Way to Trade Globally."</span>
+          </td>
+          <td>EBC star logo fades in on deep burgundy. ebc.com lower-third. Slow fade to black.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="script-card">
+      <div class="sc-header">
+        <div class="sc-title">30-Second · Facebook / YouTube</div>
+        <div class="sc-duration">30s</div>
+      </div>
+      <table class="sc-table">
+        <thead><tr><th>Time</th><th>VO / On-Screen Copy</th><th>🎬 Visual Direction</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>0:00–0:05</td>
+          <td>
+            <span class="sc-beat">Hook — The Number</span>
+            <span class="sc-copy">VO: "South Korea has just committed five hundred and seventy-six billion dollars to dominate the global semiconductor industry."</span>
+          </td>
+          <td>Reuters-style news headline overlay on dark background. "$576B" super animates in bold. B-roll: Korean flag, semiconductor fab exterior. No Samsung/SK Hynix branding visible.</td>
+        </tr>
+        <tr>
+          <td>0:05–0:12</td>
+          <td>
+            <span class="sc-beat">Why It Matters</span>
+            <span class="sc-copy">VO: "This isn't just a local story. When a country bets this big on chips, it moves the entire global semiconductor supply chain — from ETFs to competing chipmakers."</span>
+          </td>
+          <td>Animated global supply chain map — glowing lines connecting Korea to US, Europe, Taiwan. Chip wafer extreme close-up. Clean fab floor wide shot. No country-specific logos.</td>
+        </tr>
+        <tr>
+          <td>0:12–0:21</td>
+          <td>
+            <span class="sc-beat">The Instruments</span>
+            <span class="sc-copy">VO: "The iShares Korea ETF — EWY — captures the direct market reaction. Semiconductor ETFs like SOXX and SMH track the sector shift. Micron faces competitive pressure. NVIDIA benefits from stronger HBM supply. ASML wins from new fab orders."</span>
+          </td>
+          <td>Each ticker card appears as named: EWY → SOXX → SMH → MU → NVDA → ASML. Gold stamp "Available on EBC" appears on each card. Cards grid in EBC brand palette.</td>
+        </tr>
+        <tr>
+          <td>0:21–0:27</td>
+          <td>
+            <span class="sc-beat">EBC Platform</span>
+            <span class="sc-copy">VO: "EBC gives you access to all of these instruments — stocks, ETFs, and more — on one platform. Up to 500 to 1 leverage. Tight spreads. MT4 and MT5."</span>
+          </td>
+          <td>EBC MT4/MT5 platform UI: instrument list with chip stocks visible. Order ticket open on EWY. Clean, premium screen aesthetic — institutional quality. EBC branding prominent.</td>
+        </tr>
+        <tr>
+          <td>0:27–0:30</td>
+          <td>
+            <span class="sc-beat">CTA</span>
+            <span class="sc-copy">VO + Super: "Trade the move. EBC — The Better Way to Trade Globally."</span>
+          </td>
+          <td>EBC star logo on deep burgundy. ebc.com prominent. Risk disclaimer text fades in at bottom in small print. Fade to black.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ SECTION 04: META AD COPY ══ -->
+<section class="sect">
+  <div class="sect-no">04 — Meta Ad Copy</div>
+  <h2 class="sect-h">Facebook &amp; Instagram Ad Variations</h2>
+  <p class="sect-sub">Three funnel stages × two formats each. All copy references only EBC-listed instruments.</p>
+
+  <div class="meta-intro">
+    <strong>Meta Ad Specs Reminder</strong> — <span class="gold">Primary Text:</span> 125 chars optimal (truncated on mobile after ~3 lines, always write the hook first). <span class="gold">Headline:</span> 27 chars (bold, below image). <span class="gold">Description:</span> 27 chars (grey subtext). <span class="gold">CTA Button:</span> select from Meta's options. Longer primary text is allowed and works in desktop feed &amp; right column — include both short and full versions where marked.
+  </div>
+
+  <div class="meta-grid">
+
+    <!-- VAR A: AWARENESS -->
+    <div class="meta-card">
+      <div class="meta-card-head">
+        <div class="meta-card-title">Variation A — Awareness</div>
+        <div class="meta-card-badge">Top of Funnel</div>
+      </div>
+      <div class="meta-card-body">
+
+        <div class="meta-field">
+          <div class="meta-field-label">Primary Text (Short — Mobile)</div>
+          <div class="meta-field-value mono">South Korea just pledged $576 billion to dominate global chips. The Korea ETF (EWY), semiconductor funds, and rival chip stocks are already reacting. Are you positioned?</div>
+          <div class="meta-char">~170 chars · Hook leads with the number</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Primary Text (Long — Desktop/Right Column)</div>
+          <div class="meta-field-value mono">South Korea just pledged $576 billion to dominate global chips and AI through 2030 — the largest state tech bet in the country's history.
+
+When a country moves this big, it doesn't just move local stocks. It moves the Korea ETF (EWY), global semiconductor funds like SOXX and SMH, competing chipmakers like Micron, and AI beneficiaries like NVIDIA.
+
+All of these are on EBC. One platform, tight spreads, up to 500:1 leverage.</div>
+          <div class="meta-char">~430 chars · Explains the market connection, names only EBC instruments</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Headline (27 chars max)</div>
+          <div class="meta-field-value mono">Korea's $576B Chip Surge</div>
+          <div class="meta-char">24 chars ✓</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Description (27 chars max)</div>
+          <div class="meta-field-value mono">Trade EWY, SOXX &amp; more on EBC</div>
+          <div class="meta-char">30 chars — trim to: "Trade it on EBC" if needed</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">CTA Button</div>
+          <span class="meta-cta-pill">Learn More</span>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Audience Signal</div>
+          <div class="meta-field-value">Interest: Investing, Stocks, ETFs, Korea Finance. Lookalike excluded (cold audience).</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VAR B: CONSIDERATION -->
+    <div class="meta-card">
+      <div class="meta-card-head">
+        <div class="meta-card-title">Variation B — Consideration</div>
+        <div class="meta-card-badge">Mid Funnel</div>
+      </div>
+      <div class="meta-card-body">
+
+        <div class="meta-field">
+          <div class="meta-field-label">Primary Text (Short — Mobile)</div>
+          <div class="meta-field-value mono">Korea's $576B chip plan is moving EWY, SOXX, MU, and NVDA — all tradeable on EBC. Stocks + ETFs. Up to 500:1 leverage. MT4 &amp; MT5 ready.</div>
+          <div class="meta-char">~140 chars · Lists instruments + platform proof points</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Primary Text (Long — Desktop)</div>
+          <div class="meta-field-value mono">Korea's $576 billion national chip strategy isn't just news — it's a trading signal.
+
+Here's what's in motion on EBC right now:
+→ EWY (iShares Korea ETF) — direct Korea market exposure
+→ SOXX &amp; SMH — global semiconductor ETFs reacting to the news
+→ MU (Micron) — competing directly with Korea's HBM push
+→ NVDA (NVIDIA) — AI chip demand beneficiary
+→ ASML — only EUV lithography supplier; new Korea fabs = more orders
+
+EBC: 200+ instruments. Tight spreads. Up to 500:1 leverage. Regulated globally.</div>
+          <div class="meta-char">~500 chars · Instrument-by-instrument rationale, clear EBC USP</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Headline (27 chars max)</div>
+          <div class="meta-field-value mono">Trade EWY, SOXX &amp; MU on EBC</div>
+          <div class="meta-char">27 chars ✓</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Description (27 chars max)</div>
+          <div class="meta-field-value mono">500:1 leverage · MT4/MT5</div>
+          <div class="meta-char">24 chars ✓</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">CTA Button</div>
+          <span class="meta-cta-pill">Sign Up</span>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Audience Signal</div>
+          <div class="meta-field-value">Retarget: website visitors (30d), video viewers (75%). Lookalike: existing depositors.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VAR C: CONVERSION -->
+    <div class="meta-card">
+      <div class="meta-card-head">
+        <div class="meta-card-title">Variation C — Conversion</div>
+        <div class="meta-card-badge">Bottom Funnel</div>
+      </div>
+      <div class="meta-card-body">
+
+        <div class="meta-field">
+          <div class="meta-field-label">Primary Text (Short — Mobile)</div>
+          <div class="meta-field-value mono">Korea's $576B chip story is moving NOW. EWY, SOXX, MU, NVDA — open your EBC account and trade the move today.</div>
+          <div class="meta-char">~110 chars · Urgency + direct CTA</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Primary Text (Long — Desktop)</div>
+          <div class="meta-field-value mono">The Korea chip surge is a live trading opportunity — and it's happening now.
+
+South Korea's $576B semiconductor commitment is reshaping global chip dynamics. The instruments are moving. The window is open.
+
+On EBC you can trade:
+✓ EWY — Korea ETF (direct Korea market)
+✓ SOXX / SMH — Semiconductor ETFs
+✓ MU, NVDA, ASML, TSM — Individual chip stocks
+
+Open your account in minutes. No minimum deposit to start. MT4 &amp; MT5.
+
+CFDs involve significant risk. Losses can exceed deposits.</div>
+          <div class="meta-char">~480 chars · Strong urgency, checklist format, includes risk disclaimer</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Headline (27 chars max)</div>
+          <div class="meta-field-value mono">Open Account. Trade Korea.</div>
+          <div class="meta-char">26 chars ✓</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Description (27 chars max)</div>
+          <div class="meta-field-value mono">EWY · SOXX · MU on EBC now</div>
+          <div class="meta-char">27 chars ✓</div>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">CTA Button</div>
+          <span class="meta-cta-pill">Open Account</span>
+        </div>
+
+        <div class="meta-field">
+          <div class="meta-field-label">Audience Signal</div>
+          <div class="meta-field-value">Retarget: registration started but not completed (7d). High-intent custom audience.</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- PLATFORM NOTES -->
+  <div class="platform-row">
+    <div class="platform-note">
+      <div class="pn-label">Facebook Feed</div>
+      <div class="pn-body">
+        <ul>
+          <li>Use <strong>Variation A long copy</strong> for cold audiences — explain the market connection before naming instruments</li>
+          <li>Image: FB Feed banner (1200×628). Add captions to the creative for accessibility</li>
+          <li>Always append risk disclaimer as last sentence of primary text for compliance</li>
+          <li>A/B test headline: "Korea's $576B Chip Surge" vs "Trade EWY, SOXX &amp; MU on EBC"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="platform-note">
+      <div class="pn-label">Instagram Reels / Stories</div>
+      <div class="pn-body">
+        <ul>
+          <li>Use <strong>15s video script</strong> with bold supers replacing VO for muted autoplay</li>
+          <li>First 3 seconds: "$576,000,000,000" full screen — number is the hook</li>
+          <li>Primary text appears above the video in feed; keep it under 125 chars (short versions)</li>
+          <li>Swipe-up / Link sticker → EBC registration page</li>
+        </ul>
+      </div>
+    </div>
+    <div class="platform-note">
+      <div class="pn-label">Instagram Square Feed</div>
+      <div class="pn-body">
+        <ul>
+          <li>Use IG Square banner (1080×1080). Ticker row (EWY SOXX MU) is the key visual anchor</li>
+          <li>Use <strong>Variation B short copy</strong> — mid-funnel audience expects instrument specifics</li>
+          <li>Caption can include emoji sparingly: 📈 for the number, no fluff</li>
+          <li>Tag location: South Korea / Seoul for geographic targeting boost</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ══ MONGOLIA ANCHOR ══ -->
+<div id="mn" style="background:var(--burg-d);padding:10px 44px;border-top:3px solid var(--gold)">
+  <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;font-family:var(--gs)">🇲🇳 Mongolia — Gold & Copper Boom · XAUUSD · XAGUSD</span>
+</div>
+
+<!-- ══ MN-01: BRIEF ══ -->
+<section class="sect">
+  <div class="sect-no">MN-01 — Campaign Brief</div>
+  <h2 class="sect-h">The News & Instruments Affected</h2>
+  <p class="sect-sub">Mongolia's economic story is now a precious metals story — gold +86% YoY, copper +57% YoY, coal collapsing. All EBC instruments listed.</p>
+
+  <div class="brief-grid">
+    <div class="brief-card">
+      <div class="brief-card-label">The News Event</div>
+      <div class="brief-card-body">
+        <strong>Mongolia's copper exports surged 76% to $5.83B, overtaking coal as the nation's #1 earner for the first time.</strong> Gold prices jumped 86% year-on-year, boosting Mongolia's trade surplus and reserves. Meanwhile, coal revenues collapsed 34% despite record volumes — China's softening demand is crushing prices even as Mongolia ships more.<br><br>
+        Rio Tinto's Oyu Tolgoi copper mine — set to be the world's 4th largest by 2030 — had exports <strong>temporarily blocked by protesters</strong>, exposing political risk. Mongolia's parliament launched an inquiry into the nation's financial arrangements with Rio Tinto. Economy projected to grow 5–5.6% in 2026, <strong>entirely dependent on commodity prices</strong>.
+      </div>
+    </div>
+    <div class="brief-card">
+      <div class="brief-card-label">EBC Instruments in Focus</div>
+      <div class="instr-grid">
+        <div class="instr">
+          <div class="instr-code">XAUUSD</div>
+          <div class="instr-name">Gold vs US Dollar</div>
+          <div class="instr-why">Mongolia's entire trade surplus, MNT strength, and GDP growth track gold price. +86% YoY pricing drives record export revenues.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">XAGUSD</div>
+          <div class="instr-name">Silver vs US Dollar</div>
+          <div class="instr-why">Silver follows gold sentiment. Industrial demand from Mongolia's copper/mining narrative amplifies the precious metals trade.</div>
+        </div>
+        <div class="instr" style="grid-column:1/-1">
+          <div class="instr-code" style="font-size:13px">Trading Context</div>
+          <div class="instr-why" style="margin-top:6px">Mongolia is landlocked and 91% export-dependent on China. Any China slowdown = MNT weakness + commodity pressure. But the gold/copper boom is a structural tailwind for XAUUSD as long as AI infrastructure and green energy demand persists. Oyu Tolgoi protests = copper supply-risk premium.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MN-02: BANNERS ══ -->
+<section class="sect">
+  <div class="sect-no">MN-02 — Banner Mockups</div>
+  <h2 class="sect-h">Static Ad Creatives</h2>
+  <p class="sect-sub">Mongolia's gold story is the hook. XAUUSD and XAGUSD are the trade. EBC is the platform.</p>
+
+  <div class="banner-row">
+
+    <!-- MN IG SQUARE -->
+    <div class="banner-slot">
+      <div class="banner-spec">Instagram Square · 1080 × 1080 px (displayed at 480×480)</div>
+      <div class="bnr-ig" style="background:linear-gradient(155deg,#2A1A08 0%,#1E1206 60%,#0E0A04 100%)">
+        <!-- ghost star -->
+        <svg class="bnr-star-ghost" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/>
+        </svg>
+        <div class="bnr-ig-inner">
+          <div>
+            <div class="bnr-brand-row">
+              <svg class="bnr-brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/></svg>
+              <span class="bnr-brand-name">EBC Financial Group</span>
+            </div>
+            <div class="bnr-news-pill" style="color:#F5D080;background:rgba(245,208,128,0.18);border-color:rgba(245,208,128,0.45)">● Mongolia · Market Signal · July 2026</div>
+            <span class="bnr-rule" style="background:#C9A07C"></span>
+            <div class="bnr-hl" style="font-size:34px">Gold Up<br><span style="color:#F5D080">+86%</span><br>in a Year.</div>
+            <div class="bnr-sub">Mongolia's commodity boom is<br>moving global precious metals.</div>
+            <div class="bnr-tickers">
+              <span class="bnr-tick tick-gold">XAUUSD</span>
+              <span class="bnr-tick tick-gold">XAGUSD</span>
+            </div>
+          </div>
+          <div class="bnr-bottom">
+            <div class="bnr-cta-text"><strong>Trade Gold on EBC.</strong> The Better Way to Trade Globally.</div>
+            <div class="bnr-url">ebc.com</div>
+          </div>
+        </div>
+      </div>
+      <div class="banner-notes"><strong>Design note:</strong> Deep warm amber-black background (vs Korea's burgundy) differentiates the market. Gold +86% is the scroll-stopping number. Tickers XAUUSD and XAGUSD are the only instruments shown.</div>
+    </div>
+
+    <!-- MN FB FEED -->
+    <div class="banner-slot">
+      <div class="banner-spec">Facebook Feed · 1200 × 628 px (displayed at 600×315)</div>
+      <div class="bnr-fb" style="background:linear-gradient(135deg,#1A1004 0%,#251808 60%,#1A1004 100%)">
+        <div class="bnr-fb-left">
+          <div>
+            <div class="fb-brand-row">
+              <svg class="fb-brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/></svg>
+              <span class="fb-brand-name">EBC Financial Group</span>
+            </div>
+            <div class="fb-news-tag" style="color:#C9A07C">Mongolia Commodity Boom · July 2026</div>
+            <div class="fb-amount" style="color:#F5D080">+86%</div>
+            <div class="fb-amount-sub">Gold price surge year-on-year<br>Copper exports hit record $5.83B</div>
+            <div class="fb-hl">What does Mongolia's mining boom mean for precious metals?</div>
+          </div>
+          <div class="fb-cta-row">
+            <span class="fb-cta-badge" style="background:#C9A07C;color:#1A1004">Trade Gold on EBC →</span>
+            <span class="fb-cta-url">ebc.com</span>
+          </div>
+        </div>
+        <div class="bnr-fb-right">
+          <div class="fb-right-label" style="color:#C9A07C">On EBC Now</div>
+          <div class="fb-instr-grid">
+            <div class="fb-instr-card fb-card-gold">
+              <div class="fb-ic-code ic-gold">XAUUSD</div>
+              <div class="fb-ic-type">Gold Spot</div>
+              <div class="fb-ic-desc">Mongolia's #1 export driver. Trade spot gold with up to 500:1 leverage.</div>
+            </div>
+            <div class="fb-instr-card fb-card-gold">
+              <div class="fb-ic-code ic-gold">XAGUSD</div>
+              <div class="fb-ic-type">Silver Spot</div>
+              <div class="fb-ic-desc">Follows gold sentiment + industrial metals momentum from mining boom.</div>
+            </div>
+          </div>
+          <div class="fb-right-footer" style="color:rgba(245,208,128,0.6)">500:1 leverage · Tight spreads · MT4/MT5</div>
+        </div>
+      </div>
+      <div class="banner-notes"><strong>Design note:</strong> Warm amber/dark gold tones signal Mongolia's gold story. The +86% number does the heavy lifting on the left; instrument cards on the right anchor the trade opportunity.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ MN-03: VIDEO SCRIPTS ══ -->
+<section class="sect">
+  <div class="sect-no">MN-03 — Video Scripts</div>
+  <h2 class="sect-h">Motion Ad Scripts — Mongolia Gold</h2>
+  <p class="sect-sub">Hook on the commodity surge → connect to XAUUSD/XAGUSD → EBC as the platform to act.</p>
+
+  <div class="script-wrap">
+    <div class="script-card">
+      <div class="sc-header">
+        <div class="sc-title">15-Second · IG Reels / TikTok</div>
+        <div class="sc-duration">15s</div>
+      </div>
+      <table class="sc-table">
+        <thead><tr><th>Time</th><th>VO / On-Screen Copy</th><th>🎬 Visual Direction</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>0:00–0:03</td>
+          <td>
+            <span class="sc-beat">Hook — The Number</span>
+            <span class="sc-copy">Full screen: "Gold. Up 86% in a year."<br>Cut to: map of Mongolia → mine visual.</span>
+          </td>
+          <td>XAUUSD candlestick chart animates sharply upward. "+86% YoY" stat card pulses in warm amber. Hard cut: aerial shot of Oyu Tolgoi open-pit mine against the Mongolian steppe.</td>
+        </tr>
+        <tr>
+          <td>0:03–0:08</td>
+          <td>
+            <span class="sc-beat">News Bridge</span>
+            <span class="sc-copy">VO: "Mongolia's gold and copper boom is reshaping global commodity prices — and the move is still live."</span>
+          </td>
+          <td>XAUUSD price chart trending up, live-feed style. Copper price line overlaid in warm orange. Infographic bar: copper export bar surpassing coal bar with animated transition.</td>
+        </tr>
+        <tr>
+          <td>0:08–0:13</td>
+          <td>
+            <span class="sc-beat">The Trade</span>
+            <span class="sc-copy">VO: "Gold. Silver. Both on EBC — spot metals, tight spreads, up to 500 to 1 leverage."</span>
+            <div class="sc-ticker-row"><span class="sc-tick sc-tick-gold">XAUUSD</span><span class="sc-tick sc-tick-gold">XAGUSD</span></div>
+          </td>
+          <td>Split screen: XAUUSD chart (left) / XAGUSD chart (right). EBC platform overlay shows both instruments active. Ticker labels pulse in warm gold. "500:1" leverage badge appears bottom-right.</td>
+        </tr>
+        <tr>
+          <td>0:13–0:15</td>
+          <td>
+            <span class="sc-beat">CTA</span>
+            <span class="sc-copy">VO + Super: "EBC. The Better Way to Trade Globally."</span>
+          </td>
+          <td>EBC star logo centred on deep amber-black background. ebc.com lower-third. Warm fade to black.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="script-card">
+      <div class="sc-header">
+        <div class="sc-title">30-Second · Facebook / YouTube</div>
+        <div class="sc-duration">30s</div>
+      </div>
+      <table class="sc-table">
+        <thead><tr><th>Time</th><th>VO / On-Screen Copy</th><th>🎬 Visual Direction</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>0:00–0:05</td>
+          <td>
+            <span class="sc-beat">Hook</span>
+            <span class="sc-copy">VO: "Gold prices are up 86 percent in a year. Copper is up 57 percent. And at the centre of it — Mongolia."</span>
+          </td>
+          <td>Aerial: Oyu Tolgoi open-pit mine, scale of excavation visible. Dual stat cards animate in: "XAUUSD +86% YoY" and "Copper +57% YoY". Gold price chart glows amber in overlay.</td>
+        </tr>
+        <tr>
+          <td>0:05–0:13</td>
+          <td>
+            <span class="sc-beat">The Story</span>
+            <span class="sc-copy">VO: "Mongolia's mining boom has made it one of the fastest-growing economies in Asia. Copper exports just hit a record $5.83 billion — overtaking coal for the first time ever. When a country this dependent on commodities goes through a boom of this scale, it moves global gold and silver markets."</span>
+          </td>
+          <td>Copper ore close-up → container freight loading → animated bar chart: copper ($5.83B) overtaking coal bar. GDP growth "5.6%" super fades in. Mongolian flag brief cameo. No Rio Tinto branding.</td>
+        </tr>
+        <tr>
+          <td>0:13–0:22</td>
+          <td>
+            <span class="sc-beat">The Instruments</span>
+            <span class="sc-copy">VO: "Gold spot — XAUUSD — is the direct play. It captures the demand signal from mining-driven economies and AI infrastructure buildout globally. Silver — XAGUSD — amplifies that move with added industrial metals momentum."</span>
+          </td>
+          <td>XAUUSD card appears and holds. XAGUSD card slides in beside it. Both stamped "Available on EBC" in gold. Animated price charts pulse beneath each card. Warm amber palette throughout.</td>
+        </tr>
+        <tr>
+          <td>0:22–0:27</td>
+          <td>
+            <span class="sc-beat">EBC Platform</span>
+            <span class="sc-copy">VO: "EBC gives you spot gold and silver trading — up to 500 to 1 leverage, tight spreads, on MT4 and MT5. No complicated derivatives. Just the move."</span>
+          </td>
+          <td>EBC MT4 interface: gold chart with open position entry visible. Leverage and spread indicators shown. Dark amber-toned screen — consistent with Mongolia banner palette.</td>
+        </tr>
+        <tr>
+          <td>0:27–0:30</td>
+          <td>
+            <span class="sc-beat">CTA</span>
+            <span class="sc-copy">VO + Super: "Trade the commodity boom. EBC — The Better Way to Trade Globally."</span>
+          </td>
+          <td>EBC star logo centred. ebc.com prominent. Risk disclaimer lower-third. Warm amber fade to black — matches Mongolia colour identity.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════ -->
+<!-- ══ SOUTH AFRICA ANCHOR ══ -->
+<div id="za" style="background:var(--burg-d);padding:10px 44px;border-top:3px solid var(--gold)">
+  <span style="font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:700;font-family:var(--gs)">🇿🇦 South Africa — Gold Rally + Trade War Safe Haven · XAUUSD · XAGUSD · USDZAR</span>
+</div>
+
+<!-- ══ ZA-01: BRIEF ══ -->
+<section class="sect">
+  <div class="sect-no">ZA-01 — Campaign Brief</div>
+  <h2 class="sect-h">The News & Instruments Affected</h2>
+  <p class="sect-sub">South Africa's JSE hit record highs on gold's relentless rally — while US tariffs and a SARB rate hike create a high-tension ZAR trade.</p>
+
+  <div class="brief-grid">
+    <div class="brief-card">
+      <div class="brief-card-label">The News Event</div>
+      <div class="brief-card-body">
+        <strong>The JSE All Share Index is near record highs — up 43.6% in 12 months — powered almost entirely by South Africa's gold and platinum miners.</strong> Impala Platinum surged +5%, Sibanye Stillwater jumped +8% on PGM price strength.<br><br>
+        The backdrop is complex: The US imposed <strong>30% tariffs</strong> on South African exports as punishment for BRICS alignment, and AGOA expired in October 2025 — threatening a $1.05B trade surplus collapse. But <strong>gold, platinum and critical minerals are explicitly tariff-exempt</strong>, making mining stocks a safe haven within a tariff-hit economy.<br><br>
+        The SARB <strong>hiked rates in May</strong> for the first time in 3 years to defend against oil shock. USD/ZAR near <strong>16.40</strong> — ZAR at its strongest since mid-June on gold price support. Governor Kganyago has warned further hikes remain possible.
+      </div>
+    </div>
+    <div class="brief-card">
+      <div class="brief-card-label">EBC Instruments in Focus</div>
+      <div class="instr-grid">
+        <div class="instr">
+          <div class="instr-code">XAUUSD</div>
+          <div class="instr-name">Gold vs US Dollar</div>
+          <div class="instr-why">JSE and ZAR move in lockstep with gold. South Africa holds world's largest gold reserves. Gold rally = JSE rally = ZAR support.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">XAGUSD</div>
+          <div class="instr-name">Silver vs US Dollar</div>
+          <div class="instr-why">PGM/precious metals sentiment play. South Africa's platinum and palladium dominance makes the whole PGM complex reactive to SA news.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">USDZAR</div>
+          <div class="instr-name">USD vs South African Rand</div>
+          <div class="instr-why">Three-way tension: gold price support (ZAR bullish) vs US tariffs + BRICS risk (ZAR bearish) vs SARB rate hikes (ZAR supportive). High-volatility pair.</div>
+        </div>
+        <div class="instr">
+          <div class="instr-code">Context</div>
+          <div class="instr-name">Why 3 Instruments?</div>
+          <div class="instr-why">SA is unique: it lets you trade the same macro story three ways — commodities (XAUUSD), industrial metals sentiment (XAGUSD), and the currency reaction itself (USDZAR). Rare convergence of all three in one news cycle.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ZA-02: BANNERS ══ -->
+<section class="sect">
+  <div class="sect-no">ZA-02 — Banner Mockups</div>
+  <h2 class="sect-h">Static Ad Creatives</h2>
+  <p class="sect-sub">Two angles: gold-driven JSE record for precious metals traders; ZAR volatility for forex traders.</p>
+
+  <div class="banner-row">
+
+    <!-- ZA IG SQUARE — Gold/Precious Metals angle -->
+    <div class="banner-slot">
+      <div class="banner-spec">Instagram Square · Precious Metals Angle · 1080 × 1080 px (480×480)</div>
+      <div class="bnr-ig" style="background:linear-gradient(155deg,#0E1A0A 0%,#091208 55%,#060C06 100%)">
+        <svg class="bnr-star-ghost" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/>
+        </svg>
+        <div class="bnr-ig-inner">
+          <div>
+            <div class="bnr-brand-row">
+              <svg class="bnr-brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/></svg>
+              <span class="bnr-brand-name">EBC Financial Group</span>
+            </div>
+            <div class="bnr-news-pill" style="color:#7EE0A8;background:rgba(76,175,125,0.18);border-color:rgba(76,175,125,0.45)">● South Africa · Market Signal · July 2026</div>
+            <span class="bnr-rule" style="background:#C9A07C"></span>
+            <div class="bnr-hl" style="font-size:30px">JSE Hits<br><span style="color:#F5D080">Record High.</span><br>Gold Is Why.</div>
+            <div class="bnr-sub">Gold's relentless rally is powering<br>South African assets. The ZAR reacts.</div>
+            <div class="bnr-tickers">
+              <span class="bnr-tick tick-gold">XAUUSD</span>
+              <span class="bnr-tick tick-gold">XAGUSD</span>
+              <span class="bnr-tick" style="color:#7EE0A8;border-color:rgba(76,175,125,0.55);background:rgba(76,175,125,0.1)">USDZAR</span>
+            </div>
+          </div>
+          <div class="bnr-bottom">
+            <div class="bnr-cta-text"><strong>Trade on EBC.</strong> The Better Way to Trade Globally.</div>
+            <div class="bnr-url">ebc.com</div>
+          </div>
+        </div>
+      </div>
+      <div class="banner-notes"><strong>Design note:</strong> Deep forest green-black (South Africa's landscape identity) vs Korea's burgundy and Mongolia's amber. Three tickers shown — gold, silver, and the ZAR — because SA uniquely offers all three in one story.</div>
+    </div>
+
+    <!-- ZA FB FEED — ZAR/Forex angle -->
+    <div class="banner-slot">
+      <div class="banner-spec">Facebook Feed · ZAR/Forex Angle · 1200 × 628 px (600×315)</div>
+      <div class="bnr-fb" style="background:linear-gradient(135deg,#080E06 0%,#0E1A0A 60%,#080E06 100%)">
+        <div class="bnr-fb-left">
+          <div>
+            <div class="fb-brand-row">
+              <svg class="fb-brand-mark" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/></svg>
+              <span class="fb-brand-name">EBC Financial Group</span>
+            </div>
+            <div class="fb-news-tag" style="color:#7EE0A8">South Africa · Gold + Trade War · July 2026</div>
+            <div class="fb-amount" style="color:#F5D080;font-size:34px">+43.6%</div>
+            <div class="fb-amount-sub">JSE All Share — 12-month return<br>Powered by gold's record-breaking rally</div>
+            <div class="fb-hl">Three instruments. One South Africa story.</div>
+          </div>
+          <div class="fb-cta-row">
+            <span class="fb-cta-badge" style="background:#5EC490;color:#080E06">Trade SA on EBC →</span>
+            <span class="fb-cta-url">ebc.com</span>
+          </div>
+        </div>
+        <div class="bnr-fb-right">
+          <div class="fb-right-label" style="color:#7EE0A8">On EBC Now</div>
+          <div class="fb-instr-grid" style="grid-template-columns:1fr;gap:7px">
+            <div class="fb-instr-card fb-card-gold">
+              <div class="fb-ic-code ic-gold">XAUUSD</div>
+              <div class="fb-ic-type">Gold Spot</div>
+              <div class="fb-ic-desc">JSE record = gold rally. SA holds world's largest gold reserves — direct correlation.</div>
+            </div>
+            <div class="fb-instr-card fb-card-gold">
+              <div class="fb-ic-code ic-gold">XAGUSD</div>
+              <div class="fb-ic-type">Silver Spot</div>
+              <div class="fb-ic-desc">PGM/precious metals complex reacting to SA platinum boom and tariff-exempt status.</div>
+            </div>
+            <div class="fb-instr-card" style="border-color:rgba(126,224,168,0.3);background:rgba(76,175,125,0.07)">
+              <div class="fb-ic-code" style="color:#7EE0A8">USDZAR</div>
+              <div class="fb-ic-type">Forex · USD/ZAR at 16.40</div>
+              <div class="fb-ic-desc">SARB rate hike + gold support vs US tariffs + BRICS risk. High-volatility trade.</div>
+            </div>
+          </div>
+          <div class="fb-right-footer" style="color:rgba(126,224,168,0.6)">500:1 leverage · MT4/MT5 · Tight spreads</div>
+        </div>
+      </div>
+      <div class="banner-notes"><strong>Design note:</strong> Two separate creative angles — IG targets precious metals traders; FB targets forex traders with the USDZAR narrative. Same story, different audience entry point.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ ZA-03: VIDEO SCRIPTS ══ -->
+<section class="sect">
+  <div class="sect-no">ZA-03 — Video Scripts</div>
+  <h2 class="sect-h">Motion Ad Scripts — South Africa</h2>
+  <p class="sect-sub">Two scripts: 15s leads with the JSE record + gold; 30s goes deeper into tariffs, SARB, and the three-instrument opportunity.</p>
+
+  <div class="script-wrap">
+    <div class="script-card">
+      <div class="sc-header">
+        <div class="sc-title">15-Second · IG Reels / TikTok</div>
+        <div class="sc-duration">15s</div>
+      </div>
+      <table class="sc-table">
+        <thead><tr><th>Time</th><th>VO / On-Screen Copy</th><th>🎬 Visual Direction</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>0:00–0:03</td>
+          <td>
+            <span class="sc-beat">Hook</span>
+            <span class="sc-copy">Full screen text: "South Africa's stock market is up 43% in 12 months."<br>Cut. Silence. Then: "Gold is the reason."</span>
+          </td>
+          <td>JSE All Share chart soaring upward. Stat card "JSE +43.6% YoY" in gold. Hard cut to black — one beat of silence. Then: gold bar close-up or XAUUSD chart reveals dramatically. No music until beat 2.</td>
+        </tr>
+        <tr>
+          <td>0:03–0:08</td>
+          <td>
+            <span class="sc-beat">The Angle</span>
+            <span class="sc-copy">VO: "Gold's rally is hitting South Africa — JSE at record highs, the rand strengthening, and platinum miners surging. Three instruments are reacting right now."</span>
+          </td>
+          <td>Rapid cut: JSE index chart (1s) → XAUUSD 12-month chart surging (1s) → USDZAR rate ticking lower / ZAR strengthening (1s). Each chart transitions cleanly with EBC brand overlay.</td>
+        </tr>
+        <tr>
+          <td>0:08–0:13</td>
+          <td>
+            <span class="sc-beat">The Trade</span>
+            <span class="sc-copy">VO: "Gold. Silver. The South African rand. All on EBC — one platform, tight spreads."</span>
+            <div class="sc-ticker-row">
+              <span class="sc-tick sc-tick-gold">XAUUSD</span>
+              <span class="sc-tick sc-tick-gold">XAGUSD</span>
+              <span class="sc-tick" style="color:#5EC490;border-color:#5EC490">USDZAR</span>
+            </div>
+          </td>
+          <td>Three instrument cards animate in sequence: XAUUSD (gold) → XAGUSD (gold) → USDZAR "16.40" (green). EBC platform background. All cards flagged "On EBC". Clean SA green colour identity.</td>
+        </tr>
+        <tr>
+          <td>0:13–0:15</td>
+          <td>
+            <span class="sc-beat">CTA</span>
+            <span class="sc-copy">VO + Super: "EBC. The Better Way to Trade Globally."</span>
+          </td>
+          <td>EBC star logo on deep forest green-black — matches SA banner colour. ebc.com lower-third. Clean fade to black.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="script-card">
+      <div class="sc-header">
+        <div class="sc-title">30-Second · Facebook / YouTube</div>
+        <div class="sc-duration">30s</div>
+      </div>
+      <table class="sc-table">
+        <thead><tr><th>Time</th><th>VO / On-Screen Copy</th><th>🎬 Visual Direction</th></tr></thead>
+        <tbody>
+        <tr>
+          <td>0:00–0:05</td>
+          <td>
+            <span class="sc-beat">Hook — The Paradox</span>
+            <span class="sc-copy">VO: "South Africa's stock market just hit a record high — in the same month the US hit it with 30 percent tariffs."</span>
+          </td>
+          <td>Split screen: JSE record high headline (left) / US tariff announcement headline (right). Neutral news graphic style. Dramatic visual contradiction — both real-looking, same frame, opposite stories.</td>
+        </tr>
+        <tr>
+          <td>0:05–0:13</td>
+          <td>
+            <span class="sc-beat">The Story</span>
+            <span class="sc-copy">VO: "The reason: gold. South Africa holds the world's largest gold reserves, and gold is exempt from US tariffs. As a result, South African gold and platinum miners are booming — with Impala Platinum up 5% and Sibanye Stillwater up 8% in a single session."</span>
+          </td>
+          <td>Witwatersrand gold mine aerial footage. JSE trading floor B-roll. Animated stat cards: "Impala +5%" and "Sibanye +8%" appear on screen. PGM price chart trending upward. "Tariff-Exempt: Gold ✓" badge shown.</td>
+        </tr>
+        <tr>
+          <td>0:13–0:22</td>
+          <td>
+            <span class="sc-beat">Three Instruments</span>
+            <span class="sc-copy">VO: "This gives you three ways to trade the same story on EBC. XAUUSD — gold spot, the direct commodity play. XAGUSD — silver, tracking the precious metals complex. And USDZAR — the South African rand is strengthening on gold inflows but under pressure from tariff risk. High volatility, significant opportunity."</span>
+          </td>
+          <td>Three cards appear one by one: XAUUSD ("Direct commodity play") → XAGUSD ("Precious metals complex") → USDZAR "16.40" ("High volatility"). Each stamped "Available on EBC". Final frame: all three side by side.</td>
+        </tr>
+        <tr>
+          <td>0:22–0:27</td>
+          <td>
+            <span class="sc-beat">EBC Platform</span>
+            <span class="sc-copy">VO: "EBC offers all three — spot gold, spot silver, and over 30 forex pairs including USDZAR. Up to 500 to 1 leverage. MT4 and MT5. Tight spreads."</span>
+          </td>
+          <td>EBC platform 3-panel split: XAUUSD chart / XAGUSD chart / USDZAR chart all visible simultaneously. Premium, institutional-grade UI feel. "500:1" and "MT4/MT5" badges present.</td>
+        </tr>
+        <tr>
+          <td>0:27–0:30</td>
+          <td>
+            <span class="sc-beat">CTA</span>
+            <span class="sc-copy">VO + Super: "Three instruments. One story. Trade it on EBC."</span>
+          </td>
+          <td>EBC star logo centred on forest green-black. ebc.com prominent. Risk disclaimer lower-third fades in. Fade to black — forest green tint matches SA colour identity.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ══ -->
+<footer class="pg-footer">
+  <div class="pg-footer-risk">
+    <strong style="color:var(--lime-d)">Risk Warning:</strong> CFDs are complex financial instruments and come with a high risk of losing money rapidly due to leverage. Trading CFDs may not be suitable for all investors. Losses can exceed deposits. Past performance is not indicative of future results. Please ensure you fully understand the risks involved. EBC Financial Group — www.ebc.com
+  </div>
+  <div class="pg-footer-brand">
+    <svg width="28" height="28" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="opacity:.6">
+      <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z" fill="#E6DDCF"/>
+    </svg>
+    <span class="pg-footer-url">ebc.com</span>
+  </div>
+</footer>
+
+</body>
+</html>

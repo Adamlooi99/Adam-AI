@@ -1,0 +1,21 @@
+# Sensitive financial data
+CRM/
+CRM Reports/
+Dashboard Template/
+
+# Large assets — check in separately if needed
+Brand Identity Guideline/
+Product guide/
+
+# File types with potential sensitive data
+*.xlsx
+*.xls
+*.pdf
+
+# System
+.DS_Store
+*~
+~$*
+
+# Internal memory
+MEMORY.md
