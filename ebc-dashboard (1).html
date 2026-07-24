@@ -5184,11 +5184,9 @@ async function exportSnapshot(e) {
       src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     }
     const out = src.includes('</head>') ? src.replace('</head>', injection + '\n</head>') : injection + src;
-    const d = new Date();
-    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const blob = new Blob([out], {type:'text/html;charset=utf-8'});
     const url = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement('a'), {href:url, download:`ebc-dashboard-${ds}.html`});
+    const a = Object.assign(document.createElement('a'), {href:url, download:'index.html'});
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 10000);
     btn.textContent = '✓ Downloaded';
