@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark"><head>
+<html lang="en">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>EBC Marketing Dashboard</title>
@@ -378,6 +379,74 @@ body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;backgro
 .sb-star-svg{fill:rgba(20,8,16,0.65);width:18px;height:18px;flex-shrink:0}
 /* Sidebar active nav: gold left indicator */
 .nav-btn.active{background:var(--red-dim);color:var(--red);border-left:2px solid var(--red);padding-left:8px}
+/* ── Budget Pacing ── */
+.bp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.bp-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.bp-card-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border)}
+.bp-country{font-size:13px;font-weight:700}
+.bp-tab-bar{display:flex;gap:2px;background:var(--surface3);border-radius:8px;padding:3px;margin:10px 14px 0}
+.bp-tab-btn{flex:1;padding:5px 0;border:none;border-radius:6px;background:transparent;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.bp-tab-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.12)}
+.bp-tab-content{padding:10px 14px 14px}
+.bp-divider-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-family:var(--fd);padding:8px 0 5px;display:flex;align-items:center;gap:6px}
+.bp-divider-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.bp-metric-row{display:grid;grid-template-columns:90px 1fr auto;align-items:center;gap:8px;padding:4px 0}
+.bp-metric-label{font-size:10px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bp-mini-bar-wrap{background:var(--surface2);border-radius:20px;height:5px;overflow:hidden}
+.bp-mini-bar{height:100%;border-radius:20px;transition:width .4s ease}
+.bp-metric-right{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.bp-count{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted)}
+.bp-badge{padding:1px 6px;border-radius:8px;font-size:8px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+.bp-badge.on-track{background:rgba(76,175,77,0.15);color:#4CAF50}
+.bp-badge.over{background:rgba(192,41,42,0.13);color:var(--red)}
+.bp-badge.under{background:rgba(255,160,0,0.15);color:#F59E0B}
+.bp-badge.no-target{background:var(--surface2);color:var(--muted);font-weight:400}
+.bp-spend-row{display:flex;align-items:center;gap:10px;padding:5px 0}
+.bp-spend-label{font-size:10px;color:var(--text2);width:72px;flex-shrink:0}
+.bp-spend-bar-wrap{flex:1;background:var(--surface2);border-radius:20px;height:6px;overflow:hidden}
+.bp-spend-bar{height:100%;border-radius:20px;transition:width .4s ease}
+.bp-spend-nums{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;text-align:right;width:80px;flex-shrink:0}
+.bp-set-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.bp-set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.bp-set-clabel{font-size:11px;font-weight:700;color:var(--text);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.bp-set-sec{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--red);font-family:var(--fd);margin:8px 0 4px}
+.bp-set-field{margin-bottom:5px}
+.bp-set-field label{font-size:9px;color:var(--muted);display:block;margin-bottom:2px}
+.bp-set-field input{width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:11px;font-family:'DM Mono',monospace;box-sizing:border-box;transition:border-color .15s}
+.bp-set-field input:focus{outline:none;border-color:var(--red)}
+.bp-month-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.bp-month-title{font-size:17px;font-weight:700;color:var(--text);font-family:var(--fd)}
+.bp-month-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bp-elapsed-pill{background:var(--surface2);border-radius:20px;padding:3px 10px;font-size:10px;color:var(--muted)}
+.bp-edit-btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:4px}
+.bp-edit-btn:hover{border-color:var(--red);color:var(--red)}
+@media(max-width:1100px){.bp-grid,.bp-set-grid{grid-template-columns:1fr}}
+/* ── UTM Generator ── */
+.utmg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.utmg-field{display:flex;flex-direction:column;gap:4px}
+.utmg-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-family:var(--fd)}
+.utmg-select,.utmg-input{width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:12px;font-family:inherit;box-sizing:border-box;transition:border-color .15s;appearance:none;-webkit-appearance:none}
+.utmg-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.utmg-select:focus,.utmg-input:focus{outline:none;border-color:var(--red)}
+.utmg-manual{margin-top:5px;display:none}
+.utmg-output-card{background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:12px}
+.utmg-output-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.utmg-output-label{font-size:10px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:6px}
+.utmg-output-body{padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);line-height:1.7;word-break:break-all;white-space:pre-wrap}
+.utmg-param{color:var(--muted)}
+.utmg-filled{color:var(--red);font-weight:700}
+.utmg-copy-btn{padding:4px 12px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:10px;cursor:pointer;font-family:inherit;transition:all .15s}
+.utmg-copy-btn:hover{border-color:var(--red);color:var(--red)}
+.utmg-section-head{font-size:11px;font-weight:700;color:var(--text);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.utmg-section-head::after{content:'';flex:1;height:1px;background:var(--border)}
+@media(max-width:900px){.utmg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.utmg-grid{grid-template-columns:1fr}}
+/* ── FTD Records ── */
+.ftd-sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.ftd-ltv-input{width:120px;padding:4px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:12px;font-family:'DM Mono',monospace;text-align:right;transition:border-color .15s}
+.ftd-ltv-input:focus{outline:none;border-color:var(--red)}
+.ftd-ltv-input::placeholder{color:var(--muted);font-size:11px}
+@media(max-width:900px){.ftd-sum-grid{grid-template-columns:repeat(2,1fr)}}
 .nav-btn{border-left:2px solid transparent}
 /* Panel headings */
 .panel{border-radius:10px}
@@ -464,22 +533,21 @@ body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;backgro
 body.snap-mode .snap-banner{display:block}
 [data-theme="light"] .snap-banner{background:rgba(93,35,51,0.08);border-bottom-color:rgba(93,35,51,0.2);color:var(--text2)}
 </style>
-<script id="__ebc_snap__">window.__SNAP__={"store":{"mn":{"weeks":[{"label":"W18","spend":521.54,"reg":48,"pend":34,"kyc":14,"ftd":2,"ftdamt":150},{"label":"W19","spend":524.7,"reg":48,"pend":36,"kyc":12,"ftd":3,"ftdamt":3450},{"label":"W20","spend":576.96,"reg":36,"pend":21,"kyc":15,"ftd":3,"ftdamt":700},{"label":"W21","spend":550.79,"reg":39,"pend":27,"kyc":12,"ftd":1,"ftdamt":50},{"label":"W22","spend":631.46,"reg":39,"pend":28,"kyc":11,"ftd":2,"ftdamt":150},{"label":"W23","spend":447.97,"reg":34,"pend":20,"kyc":14,"ftd":3,"ftdamt":550},{"label":"W24","spend":417.3,"reg":24,"pend":18,"kyc":6,"ftd":0,"ftdamt":0},{"label":"W25","spend":392.86,"reg":16,"pend":12,"kyc":4,"ftd":0,"ftdamt":0},{"label":"W26","spend":430.81,"reg":44,"pend":32,"kyc":12,"ftd":1,"ftdamt":100},{"label":"W27","spend":398,"reg":27,"pend":23,"kyc":4,"ftd":0,"ftdamt":0},{"label":"W28","spend":356.4,"reg":53,"pend":38,"kyc":15,"ftd":2,"ftdamt":300},{"label":"W29","spend":325.96,"reg":41,"pend":30,"kyc":11,"ftd":1,"ftdamt":50}],"activeIdx":0},"kr":{"weeks":[{"label":"W18","spend":242.15,"reg":16,"pend":16,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W19","spend":210.83,"reg":3,"pend":3,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W20","spend":215.57,"reg":3,"pend":2,"kyc":1,"ftd":0,"ftdamt":0},{"label":"W21","spend":183.14,"reg":1,"pend":1,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W22","spend":107.68,"reg":1,"pend":1,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W23","spend":265.6,"reg":3,"pend":1,"kyc":2,"ftd":0,"ftdamt":0},{"label":"W24","spend":205.79,"reg":4,"pend":2,"kyc":2,"ftd":0,"ftdamt":0},{"label":"W25","spend":209.61,"reg":4,"pend":2,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W26","spend":214.52,"reg":3,"pend":0,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W27","spend":208.69,"reg":2,"pend":0,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W28","spend":225.34,"reg":4,"pend":1,"kyc":3,"ftd":0,"ftdamt":0},{"label":"W29","spend":191.13,"reg":2,"pend":1,"kyc":1,"ftd":0,"ftdamt":0}],"activeIdx":0},"za":{"weeks":[{"label":"W18","spend":341.17,"reg":47,"pend":43,"kyc":4,"ftd":0,"ftdamt":0},{"label":"W19","spend":147.24,"reg":23,"pend":18,"kyc":5,"ftd":0,"ftdamt":0},{"label":"W20","spend":114.37,"reg":10,"pend":7,"kyc":3,"ftd":0,"ftdamt":0},{"label":"W21","spend":212.4,"reg":14,"pend":12,"kyc":2,"ftd":0,"ftdamt":0},{"label":"W22","spend":105.7,"reg":13,"pend":12,"kyc":1,"ftd":0,"ftdamt":0},{"label":"W23","spend":103,"reg":10,"pend":10,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W24","spend":99.01,"reg":3,"pend":3,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W25","spend":112.69,"reg":4,"pend":4,"kyc":0,"ftd":0,"ftdamt":0},{"label":"W26","spend":113.54,"reg":6,"pend":5,"kyc":1,"ftd":0,"ftdamt":0},{"label":"W27","spend":101.5,"reg":5,"pend":4,"kyc":1,"ftd":0,"ftdamt":0},{"label":"W28","spend":113.77,"reg":11,"pend":10,"kyc":1,"ftd":0,"ftdamt":0},{"label":"W29","spend":122.48,"reg":28,"pend":27,"kyc":1,"ftd":0,"ftdamt":0}],"activeIdx":0}},"socialStore":{"mn":{"fb":[{"label":"W18","spend":305.3,"cpf":0.16,"gained":1896,"imp":299635,"total":32349},{"label":"W19","spend":266.32,"cpf":0.16,"gained":1696,"imp":317827,"total":34071},{"label":"W20","spend":292.86,"cpf":0.15,"gained":1893,"imp":421456,"total":35908},{"label":"W21","spend":240.72,"cpf":0.16,"gained":1524,"imp":338100,"total":37378},{"label":"W22","spend":172.45,"cpf":0.16,"gained":1110,"imp":213036,"total":38412},{"label":"W23","spend":151.32,"cpf":0.18,"gained":841,"imp":165829,"total":39295},{"label":"W24","spend":151.2,"cpf":0.18,"gained":842,"imp":141031,"total":40146},{"label":"W25","spend":135.1,"cpf":0.12,"gained":1122,"imp":89891,"total":41391},{"label":"W26","spend":167.54,"cpf":0.13,"gained":1309,"imp":131982,"total":42814},{"label":"W27","spend":171.31,"cpf":0.14,"gained":1212,"imp":158589,"total":44119},{"label":"W28","spend":174.92,"cpf":0.13,"gained":1302,"imp":267332,"total":45610},{"label":"W29","spend":164.02,"cpf":0.13,"gained":1241,"imp":271971,"total":46882}],"ig":[{"label":"W18","spend":203.36,"cpf":1.3,"gained":157,"imp":478841,"total":6190},{"label":"W19","spend":204.6,"cpf":0.83,"gained":248,"imp":484498,"total":6438},{"label":"W20","spend":205,"cpf":0.66,"gained":309,"imp":421456,"total":6747},{"label":"W21","spend":163,"cpf":1.07,"gained":153,"imp":339492,"total":6900},{"label":"W22","spend":150.93,"cpf":0.71,"gained":214,"imp":318350,"total":7114},{"label":"W23","spend":172.22,"cpf":0.5,"gained":345,"imp":314235,"total":7412},{"label":"W24","spend":210.81,"cpf":0.71,"gained":299,"imp":372599,"total":7747},{"label":"W25","spend":198.18,"cpf":0.59,"gained":335,"imp":343125,"total":8204},{"label":"W26","spend":210.46,"cpf":0.91,"gained":232,"imp":405192,"total":8501},{"label":"W27","spend":203.3,"cpf":1.17,"gained":174,"imp":424773,"total":8706},{"label":"W28","spend":283.53,"cpf":1.83,"gained":155,"imp":843902,"total":8838},{"label":"W29","spend":265.74,"cpf":0.93,"gained":285,"imp":669131,"total":9130}],"activePlatform":"fb"},"kr":{"fb":[{"label":"W18","spend":305,"cpf":1.69,"gained":180,"imp":51774,"total":4347},{"label":"W19","spend":214,"cpf":1.22,"gained":175,"imp":40187,"total":4522},{"label":"W20","spend":243,"cpf":0.91,"gained":266,"imp":55567,"total":4788},{"label":"W21","spend":194,"cpf":0.6,"gained":321,"imp":73251,"total":5109},{"label":"W22","spend":196.4,"cpf":0.6,"gained":327,"imp":35411,"total":5421},{"label":"W23","spend":140.92,"cpf":0.75,"gained":187,"imp":31054,"total":5579},{"label":"W24","spend":160.77,"cpf":0.77,"gained":209,"imp":29771,"total":5763},{"label":"W25","spend":152.99,"cpf":0.62,"gained":246,"imp":28861,"total":5983},{"label":"W26","spend":141.87,"cpf":0.78,"gained":182,"imp":36233,"total":6198},{"label":"W27","spend":224.69,"cpf":0.63,"gained":357,"imp":53381,"total":6541},{"label":"W28","spend":201.97,"cpf":0.7,"gained":290,"imp":54450,"total":6829},{"label":"W29","spend":209.47,"cpf":0.42,"gained":502,"imp":48243,"total":7886}],"ig":[{"label":"W18","spend":250,"cpf":1.85,"gained":135,"imp":24795,"total":4797},{"label":"W19","spend":305,"cpf":0.66,"gained":464,"imp":41396,"total":5261},{"label":"W20","spend":371,"cpf":0.8,"gained":462,"imp":58953,"total":5723},{"label":"W21","spend":420,"cpf":0.7,"gained":601,"imp":73251,"total":6324},{"label":"W22","spend":127.5,"cpf":0.74,"gained":173,"imp":17145,"total":6497},{"label":"W23","spend":14.3,"cpf":1.59,"gained":9,"imp":1406,"total":36},{"label":"W24","spend":118.37,"cpf":0.65,"gained":182,"imp":19993,"total":247},{"label":"W25","spend":287.56,"cpf":0.51,"gained":564,"imp":38553,"total":990},{"label":"W26","spend":246.95,"cpf":0.49,"gained":506,"imp":34114,"total":1521},{"label":"W27","spend":151.12,"cpf":0.42,"gained":359,"imp":22820,"total":1905},{"label":"W28","spend":250.72,"cpf":0.52,"gained":484,"imp":41047,"total":2495},{"label":"W29","spend":211.6,"cpf":0.39,"gained":549,"imp":43261,"total":3022}],"activePlatform":"fb"},"za":{"fb":[{"label":"W18","spend":68.32,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W19","spend":68.89,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W20","spend":47,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W21","spend":48,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W22","spend":45,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W23","spend":81.91,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W24","spend":69.59,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W25","spend":68.41,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W26","spend":72.37,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W27","spend":56.45,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W28","spend":74.72,"cpf":0,"gained":0,"imp":0,"total":0},{"label":"W29","spend":34.71,"cpf":0,"gained":0,"imp":0,"total":0}],"ig":[{"label":"W18","spend":68.32,"cpf":4.02,"gained":17,"imp":66502,"total":178},{"label":"W19","spend":68.89,"cpf":2.03,"gained":34,"imp":54447,"total":212},{"label":"W20","spend":47,"cpf":3.36,"gained":14,"imp":32947,"total":226},{"label":"W21","spend":48,"cpf":3.43,"gained":14,"imp":33216,"total":240},{"label":"W22","spend":45,"cpf":22.5,"gained":2,"imp":34052,"total":242},{"label":"W23","spend":81.91,"cpf":8.19,"gained":10,"imp":62227,"total":256},{"label":"W24","spend":69.59,"cpf":11.6,"gained":6,"imp":45978,"total":267},{"label":"W25","spend":68.41,"cpf":2.28,"gained":30,"imp":38569,"total":305},{"label":"W26","spend":72.37,"cpf":6.58,"gained":11,"imp":36507,"total":321},{"label":"W27","spend":56.45,"cpf":28.2,"gained":2,"imp":34760,"total":330},{"label":"W28","spend":74.72,"cpf":24.91,"gained":3,"imp":55358,"total":334}],"activePlatform":"fb"}},"ts":1784876429244};</script>
 </head>
 <body>
-<div class="snap-banner">📊 Shared View — Read Only &nbsp;·&nbsp; Data snapshot by EBC Dashboard &nbsp;·&nbsp; For the latest data, contact your dashboard owner.</div>
+<div class="snap-banner">📊 Shared View &mdash; Read Only &nbsp;·&nbsp; Data snapshot by EBC Dashboard &nbsp;·&nbsp; For the latest data, contact your dashboard owner.</div>
 <div class="app">
 
 <!-- ══ SIDEBAR ══ -->
-<aside class="sidebar collapsed">
+<aside class="sidebar">
   <div class="sb-logo">
     <div class="sb-mark">
       <svg class="sb-star-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-        <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"></path>
+        <path d="M50,0 Q50,50 100,50 Q50,50 50,100 Q50,50 0,50 Q50,50 50,0Z"/>
       </svg>
     </div>
     <div><div class="sb-title">Marketing Dashboard</div><div class="sb-sub">Performance Analytics</div></div>
-    <button class="sb-toggle-btn" id="sb-toggle" onclick="toggleSidebar()" title="Expand sidebar">▶</button>
+    <button class="sb-toggle-btn" id="sb-toggle" onclick="toggleSidebar()" title="Collapse sidebar">◀</button>
   </div>
   <nav class="sb-nav">
     <div class="sb-section" data-i18n="nav.main">Main</div>
@@ -505,6 +573,15 @@ body.snap-mode .snap-banner{display:block}
     <button class="nav-btn" id="nav-utm" onclick="showView('utm')" title="UTM Tracker">
       <span class="nav-icon">🔗</span><span>UTM Tracker</span>
     </button>
+    <button class="nav-btn" id="nav-budget" onclick="showView('budget')" title="Budget Pacing">
+      <span class="nav-icon">💰</span><span>Budget Pacing</span>
+    </button>
+    <button class="nav-btn" id="nav-ftd" onclick="showView('ftd')" title="FTD Records">
+      <span class="nav-icon">📈</span><span>FTD Records</span>
+    </button>
+    <button class="nav-btn" id="nav-utmgen" onclick="showView('utmgen')" title="UTM Generator">
+      <span class="nav-icon">🏷</span><span>UTM Generator</span>
+    </button>
   </nav>
   <div class="lang-bar">
     <button class="lang-btn active" id="lang-en" onclick="setLanguage('en')">EN</button>
@@ -513,7 +590,7 @@ body.snap-mode .snap-banner{display:block}
     <button class="lang-btn" id="lang-mn" onclick="setLanguage('mn')">MN</button>
     <button class="theme-btn" id="theme-toggle-btn" onclick="toggleTheme()" style="margin-left:auto">☀ Light</button>
   </div>
-  <div class="sb-footer"><span class="s-dot"></span><span id="sb-storage">Auto-saved · 36 periods · 8.3 KB</span></div>
+  <div class="sb-footer"><span class="s-dot"></span><span id="sb-storage">Loading…</span></div>
 </aside>
 
 <!-- ══ MAIN ══ -->
@@ -533,8 +610,8 @@ body.snap-mode .snap-banner{display:block}
     <span class="fl" data-i18n="filter.period">Period</span>
     <div class="pgrp">
       <button class="pill" id="pill-cal-yesterday" onclick="setFilter('calendar','yesterday')" data-i18n="filter.yesterday">Yesterday</button>
-      <button class="pill" id="pill-cal-7d" onclick="setFilter('calendar','7d')" data-i18n="filter.last7d">Last 7d</button>
-      <button class="pill a-neutral" id="pill-cal-14d" onclick="setFilter('calendar','14d')" data-i18n="filter.last14d">Last 14d</button>
+      <button class="pill a-neutral" id="pill-cal-7d" onclick="setFilter('calendar','7d')" data-i18n="filter.last7d">Last 7d</button>
+      <button class="pill" id="pill-cal-14d" onclick="setFilter('calendar','14d')" data-i18n="filter.last14d">Last 14d</button>
       <button class="pill" id="pill-cal-30d" onclick="setFilter('calendar','30d')" data-i18n="filter.last30d">Last 30d</button>
       <button class="pill" id="pill-cal-all" onclick="setFilter('calendar','all')" data-i18n="filter.allweeks">All Weeks</button>
     </div>
@@ -557,26 +634,26 @@ body.snap-mode .snap-banner{display:block}
   <!-- KPIs: Lead Gen -->
   <div id="kpi-leadgen">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-      <div class="stitle" id="kpi-period-lbl" style="margin-bottom:0">Summary — All Countries · Last 14 Days</div>
+      <div class="stitle" id="kpi-period-lbl" style="margin-bottom:0">Summary — All Countries · Last 7 Days</div>
       <div style="display:flex;gap:8px" class="pdf-hide">
         <button class="btn btn-outline btn-sm" onclick="generateWeeklyReport()">📋 AI Report</button>
         <button class="btn btn-outline btn-sm" onclick="exportPDF()">⬇ PDF</button>
-        <button class="btn btn-outline btn-sm pdf-hide" id="share-snap-btn" onclick="exportSnapshot(event)" title="Download a self-contained snapshot to share with colleagues" disabled="">⏳ Generating…</button>
+        <button class="btn btn-outline btn-sm pdf-hide" id="share-snap-btn" onclick="exportSnapshot(event)" title="Download a self-contained snapshot to share with colleagues">🔗 Share</button>
       </div>
     </div>
     <div class="kpi-grid">
-      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Registrations</div><div class="kc-val" id="sum-reg">139</div><div class="kc-foot"><span class="badge up" id="sum-reg-chg">▲ 59.8%</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Pending Submission</div><div class="kc-val" id="sum-pend">107</div><div class="kc-foot"><span class="badge up" id="sum-pend-chg">▲ 67.2%</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">KYC Completed</div><div class="kc-val" id="sum-kyc">32</div><div class="kc-foot"><span class="badge up" id="sum-kyc-chg">▲ 77.8%</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">FTD Count</div><div class="kc-val" id="sum-ftd">3</div><div class="kc-foot"><span class="badge up" id="sum-ftd-chg">▲ 200%</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">FTD Amount</div><div class="kc-val sm" id="sum-ftdamt">$350</div><div class="kc-foot"><span class="badge up" id="sum-ftdamt-chg">▲ 250%</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Total Spent</div><div class="kc-val sm" id="sum-spend">$1,335.08</div><div class="kc-foot"><span class="badge dn" id="sum-spend-chg">▼ 9%</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Registrations</div><div class="kc-val" id="sum-reg">—</div><div class="kc-foot"><span class="badge neu" id="sum-reg-chg">—</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Pending Submission</div><div class="kc-val" id="sum-pend">—</div><div class="kc-foot"><span class="badge neu" id="sum-pend-chg">—</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">KYC Completed</div><div class="kc-val" id="sum-kyc">—</div><div class="kc-foot"><span class="badge neu" id="sum-kyc-chg">—</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">FTD Count</div><div class="kc-val" id="sum-ftd">—</div><div class="kc-foot"><span class="badge neu" id="sum-ftd-chg">—</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">FTD Amount</div><div class="kc-val sm" id="sum-ftdamt">—</div><div class="kc-foot"><span class="badge neu" id="sum-ftdamt-chg">—</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Total Spent</div><div class="kc-val sm" id="sum-spend">—</div><div class="kc-foot"><span class="badge neu" id="sum-spend-chg">—</span> vs prev</div></div>
     </div>
     <!-- Cost metrics row (only shown when spend data exists) -->
-    <div class="kpi-grid-cost" id="kpi-cost-row" style="">
-      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Cost Per Registration (CPR)</div><div class="kc-val sm" id="sum-cpl">$9.60</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ Registrations</span></div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">Cost Per KYC</div><div class="kc-val sm" id="sum-cpk">$41.72</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ KYC Completed</span></div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Cost Per FTD (CPA)</div><div class="kc-val sm" id="sum-cpa">$445.03</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ FTD Count</span></div></div>
+    <div class="kpi-grid-cost" id="kpi-cost-row" style="display:none">
+      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Cost Per Registration (CPR)</div><div class="kc-val sm" id="sum-cpl">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ Registrations</span></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">Cost Per KYC</div><div class="kc-val sm" id="sum-cpk">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ KYC Completed</span></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Cost Per FTD (CPA)</div><div class="kc-val sm" id="sum-cpa">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ FTD Count</span></div></div>
     </div>
   </div>
 
@@ -594,22 +671,22 @@ body.snap-mode .snap-banner{display:block}
     <div id="pg-row-fb">
       <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--kr);margin-bottom:7px;display:flex;align-items:center;gap:6px">📘 Facebook</div>
       <div class="kpi-grid" style="margin-bottom:12px">
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-fb-spend">$859.81</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-fb-gained">3,335</div><div class="kc-foot"><span class="badge up" id="pg-fb-gained-chg">▲ 9%</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-fb-cpf">$0.23</div><div class="kc-foot"><span class="badge up" id="pg-fb-cpf-chg">▼ 17.9%</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-fb-imp">641,996</div><div class="kc-foot"><span class="badge up" id="pg-fb-imp-chg">▲ 68.9%</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-fb-total">54,768</div></div>
+        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-fb-spend">$0</div></div>
+        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-fb-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-gained-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-fb-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-fb-cpf-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-fb-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-imp-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-fb-total">0</div></div>
       </div>
     </div>
     <!-- Instagram row -->
     <div id="pg-row-ig" style="margin-bottom:18px">
       <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#E8607A;margin-bottom:7px;display:flex;align-items:center;gap:6px">📸 Instagram</div>
       <div class="kpi-grid">
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-ig-spend">$1,086.31</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-ig-gained">1,476</div><div class="kc-foot"><span class="badge up" id="pg-ig-gained-chg">▲ 15%</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-ig-cpf">$5.72</div><div class="kc-foot"><span class="badge up" id="pg-ig-cpf-chg">▼ 9.2%</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-ig-imp">1,652,699</div><div class="kc-foot"><span class="badge up" id="pg-ig-imp-chg">▲ 72.5%</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-ig-total">12,486</div></div>
+        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-ig-spend">$0</div></div>
+        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-ig-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-gained-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-ig-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-ig-cpf-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-ig-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-imp-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-ig-total">0</div></div>
       </div>
     </div>
   </div>
@@ -618,83 +695,13 @@ body.snap-mode .snap-banner{display:block}
   <div class="prow p55" id="panel-row">
     <div class="panel" id="funnel-panel">
       <div class="stitle" data-i18n="section.convfunnel">Conversion Funnel</div>
-      <div id="overview-funnel"><div class="funnel-wrap">
-    <div class="fs">
-        <div class="fb" style="height:90px;background:#C0292A28;border-top:2px solid #C0292A"></div>
-        <div class="fb-lbl">Reg</div>
-        <div class="fb-val" style="color:#C0292A">139</div>
-        <div class="fb-pct">top</div>
-      </div><div class="fs">
-        <div class="fb" style="height:69px;background:#9E3EC528;border-top:2px solid #9E3EC5"></div>
-        <div class="fb-lbl">Pending</div>
-        <div class="fb-val" style="color:#9E3EC5">107</div>
-        <div class="fb-pct">77%</div>
-      </div><div class="fs">
-        <div class="fb" style="height:21px;background:#4A9EE828;border-top:2px solid #4A9EE8"></div>
-        <div class="fb-lbl">KYC</div>
-        <div class="fb-val" style="color:#4A9EE8">32</div>
-        <div class="fb-pct">30%</div>
-      </div><div class="fs">
-        <div class="fb" style="height:3px;background:#E8A83828;border-top:2px solid #E8A838"></div>
-        <div class="fb-lbl">FTD</div>
-        <div class="fb-val" style="color:#E8A838">3</div>
-        <div class="fb-pct">9%</div>
-      </div>
-  </div></div>
+      <div id="overview-funnel"></div>
     </div>
     <div class="panel">
       <!-- Single chart: shown for Lead Gen / all non-pagegrowth objectives -->
       <div id="chart-single">
         <div class="stitle" id="chart-stitle" data-i18n="section.weeklyreg">Weekly Registrations Trend</div>
-        <div id="overview-chart" style="width:100%;overflow:hidden"><svg viewBox="0 0 540 170" width="100%" style="overflow:visible">
-    <line x1="34" y1="99.0" x2="532" y2="99.0" stroke="#2C2C38" stroke-width="1"></line>
-      <text x="30" y="102.0" text-anchor="end" font-size="9" fill="#65657A">28</text><line x1="34" y1="70.0" x2="532" y2="70.0" stroke="#2C2C38" stroke-width="1"></line>
-      <text x="30" y="73.0" text-anchor="end" font-size="9" fill="#65657A">56</text><line x1="34" y1="41.0" x2="532" y2="41.0" stroke="#2C2C38" stroke-width="1"></line>
-      <text x="30" y="44.0" text-anchor="end" font-size="9" fill="#65657A">83</text><line x1="34" y1="12.0" x2="532" y2="12.0" stroke="#2C2C38" stroke-width="1"></line>
-      <text x="30" y="15.0" text-anchor="end" font-size="9" fill="#65657A">111</text>
-    <line x1="34" y1="12" x2="34" y2="128" stroke="#2C2C38" stroke-width="1"></line>
-    <rect x="37.3" y="12.0" width="35" height="116.0" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="54.8" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W18</text>
-      <text x="54.8" y="8.0" text-anchor="middle" font-size="9" fill="#A0A0B8">111</text><rect x="78.8" y="50.7" width="35" height="77.3" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="96.3" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W19</text>
-      <text x="96.3" y="46.7" text-anchor="middle" font-size="9" fill="#A0A0B8">74</text><rect x="120.3" y="76.8" width="35" height="51.2" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="137.8" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W20</text>
-      <text x="137.8" y="72.8" text-anchor="middle" font-size="9" fill="#A0A0B8">49</text><rect x="161.8" y="71.6" width="35" height="56.4" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="179.3" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W21</text>
-      <text x="179.3" y="67.6" text-anchor="middle" font-size="9" fill="#A0A0B8">54</text><rect x="203.3" y="72.6" width="35" height="55.4" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="220.8" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W22</text>
-      <text x="220.8" y="68.6" text-anchor="middle" font-size="9" fill="#A0A0B8">53</text><rect x="244.8" y="78.9" width="35" height="49.1" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="262.3" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W23</text>
-      <text x="262.3" y="74.9" text-anchor="middle" font-size="9" fill="#A0A0B8">47</text><rect x="286.3" y="95.6" width="35" height="32.4" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="303.8" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W24</text>
-      <text x="303.8" y="91.6" text-anchor="middle" font-size="9" fill="#A0A0B8">31</text><rect x="327.8" y="102.9" width="35" height="25.1" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="345.3" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W25</text>
-      <text x="345.3" y="98.9" text-anchor="middle" font-size="9" fill="#A0A0B8">24</text><rect x="369.3" y="72.6" width="35" height="55.4" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="386.8" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W26</text>
-      <text x="386.8" y="68.6" text-anchor="middle" font-size="9" fill="#A0A0B8">53</text><rect x="410.8" y="92.5" width="35" height="35.5" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="428.3" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W27</text>
-      <text x="428.3" y="88.5" text-anchor="middle" font-size="9" fill="#A0A0B8">34</text><rect x="452.3" y="56.9" width="35" height="71.1" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="469.8" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W28</text>
-      <text x="469.8" y="52.9" text-anchor="middle" font-size="9" fill="#A0A0B8">68</text><rect x="493.8" y="53.8" width="35" height="74.2" rx="3" fill="#C0292A" opacity="0.8"></rect>
-      <text x="511.3" y="142.0" text-anchor="middle" font-size="9" fill="#65657A">W29</text>
-      <text x="511.3" y="49.8" text-anchor="middle" font-size="9" fill="#A0A0B8">71</text>
-    
-      <polyline points="54.8,109.2 96.3,101.4 137.8,83.0 179.3,97.9 220.8,101.7 262.3,88.5 303.8,98.1 345.3,108.7 386.8,99.5 428.3,110.9 469.8,95.6 511.3,106.8" fill="none" stroke="#F5D080" stroke-width="2" stroke-dasharray="5,3" opacity="1"></polyline>
-      <circle cx="54.8" cy="109.2" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="54.8" y="100.2" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">16%</text><circle cx="96.3" cy="101.4" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="96.3" y="92.4" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">23%</text><circle cx="137.8" cy="83.0" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="137.8" y="74.0" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">39%</text><circle cx="179.3" cy="97.9" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="179.3" y="88.9" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">26%</text><circle cx="220.8" cy="101.7" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="220.8" y="92.7" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">23%</text><circle cx="262.3" cy="88.5" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="262.3" y="79.5" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">34%</text><circle cx="303.8" cy="98.1" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="303.8" y="89.1" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">26%</text><circle cx="345.3" cy="108.7" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="345.3" y="99.7" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">17%</text><circle cx="386.8" cy="99.5" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="386.8" y="90.5" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">25%</text><circle cx="428.3" cy="110.9" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="428.3" y="101.9" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">15%</text><circle cx="469.8" cy="95.6" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="469.8" y="86.6" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">28%</text><circle cx="511.3" cy="106.8" r="4" fill="#F5D080" opacity="1"></circle>
-        <text x="511.3" y="97.8" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">18%</text>
-      <text x="532.0" y="20" text-anchor="end" font-size="9" fill="#F5D080" font-weight="700">── KYC%</text>
-  </svg></div>
+        <div id="overview-chart" style="width:100%;overflow:hidden"></div>
       </div>
       <!-- Split chart: shown for Page Growth — one chart per platform -->
       <div id="chart-split" style="display:none">
@@ -722,45 +729,12 @@ body.snap-mode .snap-banner{display:block}
 
   <!-- COUNTRY BREAKDOWN -->
   <div class="stitle" data-i18n="section.countrybreakdown">Country Breakdown</div>
-  <div class="cc-grid" id="country-breakdown"><div class="cc">
-      <div class="cc-head">
-        <div class="cc-name" style="color:#E8A838">🇲🇳 Mongolia</div>
-        <span style="font-size:9px;color:var(--muted)">2w</span>
-      </div>
-      <div class="mbar-wrap"><div class="mbar" style="width:100%;background:#E8A838"></div></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">Registrations</span><span class="cc-stat-val">94</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">KYC Completed</span><span class="cc-stat-val">26</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">Reg → KYC Rate</span><span class="cc-stat-val" style="color:var(--amber)">28%</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">FTD Count</span><span class="cc-stat-val">3</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">FTD Amount</span><span class="cc-stat-val">$350</span></div>
-    </div><div class="cc">
-      <div class="cc-head">
-        <div class="cc-name" style="color:#4A9EE8">🇰🇷 South Korea</div>
-        <span style="font-size:9px;color:var(--muted)">2w</span>
-      </div>
-      <div class="mbar-wrap"><div class="mbar" style="width:6%;background:#4A9EE8"></div></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">Registrations</span><span class="cc-stat-val">6</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">KYC Completed</span><span class="cc-stat-val">4</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">Reg → KYC Rate</span><span class="cc-stat-val" style="color:var(--green)">67%</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">FTD Count</span><span class="cc-stat-val">0</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">FTD Amount</span><span class="cc-stat-val">$0</span></div>
-    </div><div class="cc">
-      <div class="cc-head">
-        <div class="cc-name" style="color:#4CAF7D">🇿🇦 South Africa</div>
-        <span style="font-size:9px;color:var(--muted)">2w</span>
-      </div>
-      <div class="mbar-wrap"><div class="mbar" style="width:41%;background:#4CAF7D"></div></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">Registrations</span><span class="cc-stat-val">39</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">KYC Completed</span><span class="cc-stat-val">2</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">Reg → KYC Rate</span><span class="cc-stat-val" style="color:var(--red)">5%</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">FTD Count</span><span class="cc-stat-val">0</span></div>
-      <div class="cc-stat"><span class="cc-stat-lbl">FTD Amount</span><span class="cc-stat-val">$0</span></div>
-    </div></div>
+  <div class="cc-grid" id="country-breakdown"></div>
 
   <!-- HISTORY TABLE -->
   <div class="tbl-wrap">
     <div class="tbl-head">
-      <span class="tbl-head-title" id="hist-title" data-i18n="section.weeklyhistory">Weekly Performance History</span>
+      <span class="tbl-head-title" id="hist-title" data-i18n="section.weeklyhistory">Weekly History</span>
       <div style="display:flex;gap:8px;align-items:center">
         <input class="search-inp" type="search" id="hist-search" placeholder="Search period or country…" oninput="renderHistoryTable()">
         <button class="btn btn-outline btn-sm" onclick="exportHistoryCSV()" data-i18n="btn.exportcsv">↓ Export CSV</button>
@@ -769,57 +743,9 @@ body.snap-mode .snap-banner{display:block}
     <div style="overflow-x:auto">
       <table class="tbl">
         <thead id="history-thead"><tr>
-      <th>Country</th><th>Period</th><th>Spend</th><th>Reg</th><th>Pending</th><th>KYC</th><th>FTD</th><th>FTD Amt</th><th>Reg→KYC</th><th>KYC→FTD</th>
-    </tr></thead>
-        <tbody id="history-tbody"><tr>
-        <td><span style="color:#4CAF7D">🇿🇦 South Africa</span></td>
-        <td>W29</td>
-        <td>$122.48</td>
-        <td>28</td><td>27</td><td>1</td><td>0</td>
-        <td><span style="color:var(--muted)">—</span></td>
-        <td><span class="cr-pill cr-low">4%</span></td>
-        <td><span class="cr-pill cr-low">0%</span></td>
-      </tr><tr>
-        <td><span style="color:#4CAF7D">🇿🇦 South Africa</span></td>
-        <td>W28</td>
-        <td>$113.77</td>
-        <td>11</td><td>10</td><td>1</td><td>0</td>
-        <td><span style="color:var(--muted)">—</span></td>
-        <td><span class="cr-pill cr-low">9%</span></td>
-        <td><span class="cr-pill cr-low">0%</span></td>
-      </tr><tr>
-        <td><span style="color:#4A9EE8">🇰🇷 South Korea</span></td>
-        <td>W29</td>
-        <td>$191.13</td>
-        <td>2</td><td>1</td><td>1</td><td>0</td>
-        <td><span style="color:var(--muted)">—</span></td>
-        <td><span class="cr-pill cr-good">50%</span></td>
-        <td><span class="cr-pill cr-low">0%</span></td>
-      </tr><tr>
-        <td><span style="color:#4A9EE8">🇰🇷 South Korea</span></td>
-        <td>W28</td>
-        <td>$225.34</td>
-        <td>4</td><td>1</td><td>3</td><td>0</td>
-        <td><span style="color:var(--muted)">—</span></td>
-        <td><span class="cr-pill cr-good">75%</span></td>
-        <td><span class="cr-pill cr-low">0%</span></td>
-      </tr><tr>
-        <td><span style="color:#E8A838">🇲🇳 Mongolia</span></td>
-        <td>W29</td>
-        <td>$325.96</td>
-        <td>41</td><td>30</td><td>11</td><td>1</td>
-        <td>$50</td>
-        <td><span class="cr-pill cr-mid">27%</span></td>
-        <td><span class="cr-pill cr-low">9%</span></td>
-      </tr><tr>
-        <td><span style="color:#E8A838">🇲🇳 Mongolia</span></td>
-        <td>W28</td>
-        <td>$356.4</td>
-        <td>53</td><td>38</td><td>15</td><td>2</td>
-        <td>$300</td>
-        <td><span class="cr-pill cr-mid">28%</span></td>
-        <td><span class="cr-pill cr-low">13%</span></td>
-      </tr></tbody>
+          <th>Country</th><th>Period</th><th>Spend</th><th>Reg</th><th>Pending</th><th>KYC</th><th>FTD</th><th>FTD Amt</th><th>Reg→KYC</th><th>KYC→FTD</th>
+        </tr></thead>
+        <tbody id="history-tbody"></tbody>
       </table>
     </div>
   </div>
@@ -831,8 +757,29 @@ body.snap-mode .snap-banner{display:block}
 
   <div class="status-bar">
     <span class="s-dot"></span>
-    <span id="upload-storage-text">Auto-saved · 36 periods · 8.3 KB</span>
+    <span id="upload-storage-text">Loading…</span>
     <button class="btn btn-danger btn-sm" style="margin-left:auto" onclick="clearAllData()">Reset All Data</button>
+  </div>
+
+  <!-- LIVE SYNC -->
+  <div class="up-section">
+    <div class="up-section-header open" onclick="toggleSection('sheets-sync-body','sheets-sync-chev')">
+      <div>
+        <div class="up-section-title">🔗 Live Sync from Google Sheets</div>
+        <div class="up-section-sub">Pull the latest CRM &amp; spend data directly from your published Google Sheet — replaces all performance data for MN, KR &amp; ZA</div>
+      </div>
+      <span class="chevron open" id="sheets-sync-chev">▼</span>
+    </div>
+    <div class="up-section-body open" id="sheets-sync-body">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px">
+        <button class="btn" id="sheet-sync-btn" onclick="fetchAndSyncSheet()" style="min-width:220px">🔄 Sync from Google Sheets</button>
+        <span id="sheet-sync-status" style="font-size:12px;color:var(--muted)">Not synced this session</span>
+      </div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6">
+        Syncs: <strong>Spend · Registrations · KYC · FTD · FTD Amount · FB Page Likes · IG Followers</strong><br>
+        Data is aggregated by ISO week per market. Budget targets and KPI goals are preserved.
+      </div>
+    </div>
   </div>
 
   <!-- IMPORT -->
@@ -845,7 +792,7 @@ body.snap-mode .snap-banner{display:block}
       <div class="fgrid c4" style="margin-bottom:12px">
         <div class="field"><label>Country</label><select id="import-country"><option value="mn">🇲🇳 Mongolia</option><option value="kr">🇰🇷 South Korea</option><option value="za">🇿🇦 South Africa</option></select></div>
         <div class="field"><label>Data Type</label><select id="import-type"><option value="main">Performance Data</option><option value="social">Social Growth</option></select></div>
-        <div class="field"><label>Period Type</label><select id="import-period"><option value="daily">Daily</option><option value="weekly" selected="">Weekly</option><option value="monthly">Monthly</option></select></div>
+        <div class="field"><label>Period Type</label><select id="import-period"><option value="daily">Daily</option><option value="weekly" selected>Weekly</option><option value="monthly">Monthly</option></select></div>
         <div class="field"><label>File (.xlsx / .csv)</label><input type="file" id="import-file" accept=".xlsx,.xls,.csv" class="file-input" onchange="handleImportFile()"></div>
       </div>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
@@ -873,7 +820,7 @@ body.snap-mode .snap-banner{display:block}
     <div class="up-section-body" id="entry-mn">
       <div class="wc-row">
         <span class="wc-lbl">Period</span>
-        <select class="week-sel" style="max-width:280px" id="weekSelect-mn" onchange="loadWeek('mn')"><option value="0">W18</option><option value="1">W19</option><option value="2">W20</option><option value="3">W21</option><option value="4">W22</option><option value="5">W23</option><option value="6">W24</option><option value="7">W25</option><option value="8">W26</option><option value="9">W27</option><option value="10">W28</option><option value="11">W29</option></select>
+        <select class="week-sel" style="max-width:280px" id="weekSelect-mn" onchange="loadWeek('mn')"></select>
         <button class="btn btn-secondary btn-sm" onclick="openAddWeek('mn')">+ Add</button>
         <button class="btn btn-outline btn-sm" id="rename-btn-mn" onclick="openRenameWeek('mn')">✏ Rename</button>
       </div>
@@ -918,7 +865,7 @@ body.snap-mode .snap-banner{display:block}
     <div class="up-section-body" id="entry-kr">
       <div class="wc-row">
         <span class="wc-lbl">Period</span>
-        <select class="week-sel" style="max-width:280px" id="weekSelect-kr" onchange="loadWeek('kr')"><option value="0">W18</option><option value="1">W19</option><option value="2">W20</option><option value="3">W21</option><option value="4">W22</option><option value="5">W23</option><option value="6">W24</option><option value="7">W25</option><option value="8">W26</option><option value="9">W27</option><option value="10">W28</option><option value="11">W29</option></select>
+        <select class="week-sel" style="max-width:280px" id="weekSelect-kr" onchange="loadWeek('kr')"></select>
         <button class="btn btn-secondary btn-sm" onclick="openAddWeek('kr')">+ Add</button>
         <button class="btn btn-outline btn-sm" id="rename-btn-kr" onclick="openRenameWeek('kr')">✏ Rename</button>
       </div>
@@ -962,7 +909,7 @@ body.snap-mode .snap-banner{display:block}
     <div class="up-section-body" id="entry-za">
       <div class="wc-row">
         <span class="wc-lbl">Period</span>
-        <select class="week-sel" style="max-width:280px" id="weekSelect-za" onchange="loadWeek('za')"><option value="0">W18</option><option value="1">W19</option><option value="2">W20</option><option value="3">W21</option><option value="4">W22</option><option value="5">W23</option><option value="6">W24</option><option value="7">W25</option><option value="8">W26</option><option value="9">W27</option><option value="10">W28</option><option value="11">W29</option></select>
+        <select class="week-sel" style="max-width:280px" id="weekSelect-za" onchange="loadWeek('za')"></select>
         <button class="btn btn-secondary btn-sm" onclick="openAddWeek('za')">+ Add</button>
         <button class="btn btn-outline btn-sm" id="rename-btn-za" onclick="openRenameWeek('za')">✏ Rename</button>
       </div>
@@ -1039,7 +986,7 @@ body.snap-mode .snap-banner{display:block}
       <select class="week-sel" id="meta-date-preset" onchange="toggleCustomDates()">
         <option value="today">Today</option>
         <option value="yesterday">Yesterday</option>
-        <option value="last_7d" selected="">Last 7 Days</option>
+        <option value="last_7d" selected>Last 7 Days</option>
         <option value="last_14d">Last 14 Days</option>
         <option value="last_30d">Last 30 Days</option>
         <option value="this_month">This Month</option>
@@ -1093,7 +1040,7 @@ body.snap-mode .snap-banner{display:block}
           <th onclick="sortMetaAdsTable('igFollow')">IG Follows</th>
           <th onclick="sortMetaAdsTable('results')">Results</th>
         </tr></thead>
-        <tbody id="meta-ads-table-body"><tr><td colspan="12" class="td-empty">No data. Connect Meta Ads above.</td></tr></tbody>
+        <tbody id="meta-ads-table-body"><tr><td colspan="12" class="td-empty">No data. Connect your Meta Ads account above.</td></tr></tbody>
         <tfoot id="meta-ads-table-foot"></tfoot>
       </table>
     </div>
@@ -1106,7 +1053,7 @@ body.snap-mode .snap-banner{display:block}
     <span class="stitle" style="margin-bottom:0">Creative Studio — AI Analysis &amp; Ad Copy Generator</span>
     <div class="cs-tab-row" style="flex-wrap:wrap;gap:4px">
       <button class="cs-tab active" id="cs-tab-workspace" onclick="switchCSTab('workspace')">✏ Workspace</button>
-      <button class="cs-tab" id="cs-tab-history" onclick="switchCSTab('history')">📚 History <span id="history-count-badge" class="cs-tab-badge" style="display: inline-block;">2</span></button>
+      <button class="cs-tab" id="cs-tab-history" onclick="switchCSTab('history')">📚 History <span id="history-count-badge" class="cs-tab-badge" style="display:none">0</span></button>
       <button class="cs-tab" id="cs-tab-leaderboard" onclick="switchCSTab('leaderboard')">🏆 Leaderboard</button>
       <button class="cs-tab" id="cs-tab-batch" onclick="switchCSTab('batch')">⚡ Batch</button>
       <button class="cs-tab" id="cs-tab-library" onclick="switchCSTab('library')">📝 Library <span id="library-count-badge" class="cs-tab-badge" style="display:none">0</span></button>
@@ -1119,8 +1066,8 @@ body.snap-mode .snap-banner{display:block}
   <div id="cs-workspace">
   <!-- API Key Bar -->
   <div class="status-bar" style="margin-bottom:14px">
-    <span class="s-dot" id="ai-key-dot" style="background: var(--green);"></span>
-    <span style="font-size:11px;color:var(--text2);flex:1">Gemini AI · <span id="cs-key-badge" style="color: var(--green);" onclick="toggleCreativeSettings()">Gemini AI connected</span></span>
+    <span class="s-dot" id="ai-key-dot" style="background:var(--muted)"></span>
+    <span style="font-size:11px;color:var(--text2);flex:1">Gemini AI · <span id="cs-key-badge" style="color:var(--muted);cursor:pointer;text-decoration:underline dotted" onclick="toggleCreativeSettings()">No API key — click here to set up</span></span>
     <button class="btn btn-secondary btn-sm" onclick="toggleCreativeSettings()">⚙ API Key</button>
   </div>
   <div id="creative-settings-box" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
@@ -1141,7 +1088,11 @@ body.snap-mode .snap-banner{display:block}
     <!-- LEFT: Upload & Analyze -->
     <div>
       <div class="stitle">1 — Upload Creative Material</div>
-      <div class="drop-zone" id="drop-zone" onclick="document.getElementById('cs-file-inp').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondragleave="this.classList.remove('drag')" ondrop="handleCreativeDrop(event)">
+      <div class="drop-zone" id="drop-zone"
+        onclick="document.getElementById('cs-file-inp').click()"
+        ondragover="event.preventDefault();this.classList.add('drag')"
+        ondragleave="this.classList.remove('drag')"
+        ondrop="handleCreativeDrop(event)">
         <div class="drop-zone-icon">🖼</div>
         <div class="drop-zone-text">Drop your banner or video here</div>
         <div class="drop-zone-sub">PNG · JPG · GIF · MP4 · MOV · up to 20 MB</div>
@@ -1322,7 +1273,7 @@ body.snap-mode .snap-banner{display:block}
     <div style="font-size:11px;color:var(--muted);margin-bottom:14px">Upload up to 5 images for side-by-side comparative analysis — each scored and ranked automatically.</div>
     <div class="field" style="max-width:420px;margin-bottom:14px">
       <label>Select Files (up to 5 images)</label>
-      <input type="file" id="batch-file-inp" accept="image/*" multiple="" class="file-input" onchange="handleBatchFiles(this.files)">
+      <input type="file" id="batch-file-inp" accept="image/*" multiple class="file-input" onchange="handleBatchFiles(this.files)">
     </div>
     <div id="batch-queue" style="display:none;margin-bottom:14px">
       <div style="display:flex;gap:8px;align-items:center;margin-bottom:10px">
@@ -1475,9 +1426,9 @@ body.snap-mode .snap-banner{display:block}
           </div>
           <div class="field" style="margin:0"><label>Text Position</label>
             <div style="display:flex;gap:6px;margin-top:4px">
-              <button class="tone-pill sel" id="bb-lay-left" onclick="setBBLayout('left')">◀ Left</button>
-              <button class="tone-pill" id="bb-lay-center" onclick="setBBLayout('center')">● Center</button>
-              <button class="tone-pill" id="bb-lay-right" onclick="setBBLayout('right')">Right ▶</button>
+              <button class="tone-pill sel" id="bb-lay-left"   onclick="setBBLayout('left')">◀ Left</button>
+              <button class="tone-pill"     id="bb-lay-center" onclick="setBBLayout('center')">● Center</button>
+              <button class="tone-pill"     id="bb-lay-right"  onclick="setBBLayout('right')">Right ▶</button>
             </div>
           </div>
         </div>
@@ -1529,7 +1480,9 @@ body.snap-mode .snap-banner{display:block}
   </div>
   <div class="ai-msgs" id="ai-msgs"></div>
   <div class="ai-inp-row">
-    <textarea class="ai-inp" id="ai-input" placeholder="Ask about your data…" rows="1" onkeydown="if(event.key==='Enter'&amp;&amp;!event.shiftKey){event.preventDefault();sendAIMessage()}" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
+    <textarea class="ai-inp" id="ai-input" placeholder="Ask about your data…" rows="1"
+      onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendAIMessage()}"
+      oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px'"></textarea>
     <button class="ai-send" id="ai-send-btn" onclick="sendAIMessage()">↑</button>
   </div>
 </div>
@@ -1542,8 +1495,8 @@ body.snap-mode .snap-banner{display:block}
   </div>
 
   <div class="status-bar" style="margin-bottom:14px">
-    <span class="s-dot" id="utm-key-dot" style="background: var(--green);"></span>
-    <span style="font-size:11px;color:var(--text2);flex:1">Gemini AI · <span id="utm-key-badge" style="color: var(--green);" onclick="toggleUTMSettings()">Gemini AI connected</span></span>
+    <span class="s-dot" id="utm-key-dot" style="background:var(--muted)"></span>
+    <span style="font-size:11px;color:var(--text2);flex:1">Gemini AI · <span id="utm-key-badge" style="color:var(--muted);cursor:pointer;text-decoration:underline dotted" onclick="toggleUTMSettings()">No API key — click here to set up</span></span>
     <button class="btn btn-secondary btn-sm" onclick="toggleUTMSettings()">⚙ API Key</button>
   </div>
   <div id="utm-settings-box" style="display:none;background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:16px">
@@ -1615,6 +1568,234 @@ body.snap-mode .snap-banner{display:block}
     </div>
   </div>
 </div><!-- end view-utm -->
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- BUDGET PACING VIEW                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-budget">
+  <!-- Header row -->
+  <div class="bp-month-bar">
+    <div>
+      <div class="bp-month-title" id="bp-month-title">Budget Pacing</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px" id="bp-month-sub"></div>
+    </div>
+    <div class="bp-month-meta">
+      <div class="bp-elapsed-pill" id="bp-elapsed-pill"></div>
+      <button class="bp-edit-btn" id="bp-edit-btn" onclick="toggleBPSettings()">✏ Edit Targets</button>
+    </div>
+  </div>
+
+  <!-- Settings panel (collapsed by default) -->
+  <div class="bp-set-panel" id="bp-set-panel" style="display:none">
+    <div class="bp-set-grid" id="bp-set-grid"></div>
+    <div style="margin-top:14px;display:flex;justify-content:flex-end;gap:8px">
+      <button onclick="toggleBPSettings()" style="padding:6px 14px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;cursor:pointer;font-family:inherit">Cancel</button>
+      <button onclick="saveBudgets()" style="background:var(--red);color:#fff;border:none;padding:6px 20px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">Save Targets</button>
+    </div>
+  </div>
+
+  <!-- Pacing cards -->
+  <div class="bp-grid" id="bp-cards-grid"></div>
+</div><!-- end view-budget -->
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- FTD RECORDS VIEW                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-ftd">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);font-family:var(--fd)">FTD Records</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px">FTD count &amp; amount pulled from weekly data · Enter LTV totals manually per month</div>
+    </div>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="ftd-sum-grid">
+    <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Total FTDs</div><div class="kc-val" id="ftd-sum-count">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">All countries · all time</div></div>
+    <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">Total FTD Amount</div><div class="kc-val sm" id="ftd-sum-amt">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">Sum of first deposits</div></div>
+    <div class="kc"><div class="kc-accent" style="background:var(--red)"></div><div class="kc-label">Total LTV</div><div class="kc-val sm" id="ftd-sum-ltv">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">Cumulative deposits from FTD cohorts</div></div>
+    <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Avg LTV / FTD</div><div class="kc-val sm" id="ftd-sum-avg">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">Total LTV ÷ Total FTDs</div></div>
+  </div>
+
+  <!-- Per-country tables -->
+  <div id="ftd-tables"></div>
+</div><!-- end view-ftd -->
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- UTM GENERATOR VIEW                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-utmgen">
+  <div style="margin-bottom:20px">
+    <div style="font-size:17px;font-weight:700;color:var(--text);font-family:var(--fd)">UTM Naming Generator</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:3px">Fill in the fields below — tracking templates update automatically</div>
+  </div>
+
+  <!-- Row 1: PIC / Ads Account / Bid Code -->
+  <div class="utmg-grid">
+    <div class="utmg-field">
+      <div class="utmg-label">PIC</div>
+      <select class="utmg-select" id="utmg-pic" onchange="utmgSync('pic')">
+        <option value="Adam">Adam</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-pic-m" placeholder="Enter PIC name" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Ads Account</div>
+      <select class="utmg-select" id="utmg-acc" onchange="utmgSync('acc')">
+        <option value="678748784640815">678748784640815</option>
+        <option value="467-758-8356">467-758-8356</option>
+        <option value="783989804381711">783989804381711</option>
+        <option value="985469113672661">985469113672661</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-acc-m" placeholder="Enter Ads Account ID" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Bid Code</div>
+      <select class="utmg-select" id="utmg-bid" onchange="utmgSync('bid')">
+        <option value="66083">66083</option>
+        <option value="qr3836">qr3836</option>
+        <option value="l5a8u4">l5a8u4</option>
+        <option value="6o46nx">6o46nx</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-bid-m" placeholder="Enter Bid Code" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Row 2: Campaign / Objective / Format -->
+  <div class="utmg-grid">
+    <div class="utmg-field">
+      <div class="utmg-label">Campaign</div>
+      <select class="utmg-select" id="utmg-camp" onchange="utmgSync('camp')">
+        <option value="Branding-Followers-FB">Branding-Followers-FB</option>
+        <option value="Branding-Followers-IG">Branding-Followers-IG</option>
+        <option value="General-Evergreen">General-Evergreen</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-camp-m" placeholder="Enter Campaign name" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Objective</div>
+      <select class="utmg-select" id="utmg-obj" onchange="utmgSync('obj')">
+        <option value="META-Leadgen-Web">META-Leadgen-Web</option>
+        <option value="GG-Leadgen-SEM">GG-Leadgen-SEM</option>
+        <option value="META-ENG-ProLike">META-ENG-ProLike</option>
+        <option value="META-ENG-ProVisit">META-ENG-ProVisit</option>
+        <option value="GG-AWA-Reach-YTB">GG-AWA-Reach-YTB</option>
+        <option value="META-TRC-LPV-Web">META-TRC-LPV-Web</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-obj-m" placeholder="Enter Objective" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Format</div>
+      <select class="utmg-select" id="utmg-fmt" onchange="utmgSync('fmt')">
+        <option value="Text">Text</option>
+        <option value="Video">Video</option>
+        <option value="Banner">Banner</option>
+        <option value="Carousel">Carousel</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-fmt-m" placeholder="Enter Format" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Row 3: Market (Campaign) / Market (Adgroup) / Language -->
+  <div class="utmg-grid">
+    <div class="utmg-field">
+      <div class="utmg-label">Market (Campaign)</div>
+      <select class="utmg-select" id="utmg-mktc" onchange="utmgSync('mktc')">
+        <option value="ZA">ZA</option><option value="MN">MN</option><option value="KR">KR</option>
+        <option value="TW">TW</option><option value="ID">ID</option><option value="KE">KE</option>
+        <option value="BR">BR</option><option value="NG">NG</option><option value="MX">MX</option>
+        <option value="JP">JP</option><option value="VN">VN</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-mktc-m" placeholder="Enter Market" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Market (Adgroup)</div>
+      <select class="utmg-select" id="utmg-mkta" onchange="utmgSync('mkta')">
+        <option value="ZA">ZA</option><option value="MN">MN</option><option value="KR">KR</option>
+        <option value="TW">TW</option><option value="ID">ID</option><option value="KE">KE</option>
+        <option value="BR">BR</option><option value="NG">NG</option><option value="MX">MX</option>
+        <option value="JP">JP</option><option value="VN">VN</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-mkta-m" placeholder="Enter Market" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Language</div>
+      <select class="utmg-select" id="utmg-lang" onchange="utmgSync('lang')">
+        <option value="EN">EN</option><option value="ZA">ZA</option><option value="MN">MN</option>
+        <option value="KR">KR</option><option value="TW">TW</option><option value="ID">ID</option>
+        <option value="KE">KE</option><option value="BR">BR</option><option value="NG">NG</option>
+        <option value="MX">MX</option><option value="JP">JP</option><option value="VN">VN</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-lang-m" placeholder="Enter Language" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Row 4: Targeting / Content Name (full width each) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+    <div class="utmg-field">
+      <div class="utmg-label">Targeting</div>
+      <input class="utmg-input" id="utmg-tgt" placeholder="e.g. LAL-3pct-Depositors" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Content Name</div>
+      <input class="utmg-input" id="utmg-cname" placeholder="e.g. StaticBanner-v1-RedBg" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Output: Tracking Templates -->
+  <div class="utmg-section-head">Tracking Templates</div>
+
+  <div class="utmg-output-card">
+    <div class="utmg-output-head">
+      <div class="utmg-output-label">
+        <span style="background:rgba(24,119,242,0.15);color:#1877F2;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700">META ADS</span>
+        Tracking Template
+      </div>
+      <button class="utmg-copy-btn" onclick="utmgCopy('meta')">Copy</button>
+    </div>
+    <div class="utmg-output-body" id="utmg-meta-out"></div>
+  </div>
+
+  <div class="utmg-output-card">
+    <div class="utmg-output-head">
+      <div class="utmg-output-label">
+        <span style="background:rgba(66,133,244,0.15);color:#4285F4;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700">GOOGLE SEM</span>
+        Tracking Template
+      </div>
+      <button class="utmg-copy-btn" onclick="utmgCopy('gg')">Copy</button>
+    </div>
+    <div class="utmg-output-body" id="utmg-gg-out"></div>
+  </div>
+
+  <!-- Naming Convention Reference -->
+  <div class="utmg-section-head">Naming Convention Reference</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 16px">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:8px">Constructed from your selections above — use these as your Campaign / Ad Set / Ad names in Meta or Google</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:6px 8px;color:var(--muted);width:120px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Campaign Name</td>
+        <td style="padding:6px 8px;font-family:'DM Mono',monospace;color:var(--text)" id="utmg-ref-camp">—</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:6px 8px;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Ad Set Name</td>
+        <td style="padding:6px 8px;font-family:'DM Mono',monospace;color:var(--text)" id="utmg-ref-adset">—</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 8px;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Ad Name</td>
+        <td style="padding:6px 8px;font-family:'DM Mono',monospace;color:var(--text)" id="utmg-ref-ad">—</td>
+      </tr>
+    </table>
+  </div>
+</div><!-- end view-utmgen -->
 
 </div><!-- end .main -->
 </div><!-- end .app -->
@@ -1698,9 +1879,32 @@ function seedCRMData() {
 
 // ── Persistence ──────────────────────────────────────────────────────────
 const STORAGE_KEY = 'ebc_dash_data_v3';
+const BUDGET_KEY  = 'ebc_budget_v1';
+const KPI_KEY     = 'ebc_kpi_v1';
+const LTV_KEY     = 'ebc_ltv_v1';
+
+const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr_8KBRGPkVyrDRzj2rTpegtyeYX5sS1m50DbWr1_ThkWMdQa0o1T1krPEl6Efa555rVo_XkyFUnUq/pub?gid=0&single=true&output=csv';
+const SHEET_GEO_MAP = { KR:'kr', MN:'mn', ZA:'za', 'South Africa':'za' };
+
+// budgetStore: { mn: { leadgen: 0, social: 0 }, kr: {...}, za: {...} }
+const budgetStore = {};
+COUNTRIES.forEach(c => budgetStore[c] = { leadgen: 0, social: 0 });
+
+// ltvStore: { mn: { '2026-07': 12500, ... }, kr: {...}, za: {...} }
+const ltvStore = {};
+COUNTRIES.forEach(c => ltvStore[c] = {});
+
+// kpiStore: monthly KPI targets per country
+// { mn: { reg:0, kyc:0, ftd:0, fb_fol:0, ig_fol:0 }, ... }
+const kpiStore = {};
+COUNTRIES.forEach(c => kpiStore[c] = { reg:0, kyc:0, ftd:0, fb_fol:0, ig_fol:0 });
 
 function persistData() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify({store, socialStore})); updateStorageStatus(); } catch(e){}
+}
+
+function persistBudgets() {
+  try { localStorage.setItem(BUDGET_KEY, JSON.stringify(budgetStore)); } catch(e){}
 }
 
 function loadPersistedData() {
@@ -1721,8 +1925,294 @@ function loadPersistedData() {
         socialStore[c].ig = d.socialStore[c].ig || [];
       }
     });
+    // Load budgets
+    const braw = localStorage.getItem(BUDGET_KEY);
+    if (braw) {
+      const bd = JSON.parse(braw);
+      COUNTRIES.forEach(c => {
+        if (bd[c]) {
+          budgetStore[c].leadgen = bd[c].leadgen || 0;
+          budgetStore[c].social  = bd[c].social  || 0;
+        }
+      });
+    }
+    // Load LTV records
+    const lraw = localStorage.getItem(LTV_KEY);
+    if (lraw) {
+      const ld = JSON.parse(lraw);
+      COUNTRIES.forEach(c => { if (ld[c]) ltvStore[c] = ld[c]; });
+    }
+    // Load KPI targets
+    const kraw = localStorage.getItem(KPI_KEY);
+    if (kraw) {
+      const kd = JSON.parse(kraw);
+      COUNTRIES.forEach(c => {
+        if (kd[c]) Object.assign(kpiStore[c], kd[c]);
+      });
+    }
     return any;
   } catch(e) { return false; }
+}
+
+// ── Budget Pacing helpers ─────────────────────────────────────────────────
+function isoWeekMonday(week, year) {
+  // Returns Date of Monday of the given ISO week
+  const jan4 = new Date(year, 0, 4);
+  const dow   = (jan4.getDay() + 6) % 7; // 0=Mon
+  const d     = new Date(jan4);
+  d.setDate(jan4.getDate() - dow + (week - 1) * 7);
+  return d;
+}
+
+function getISOWeekYear(date) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+  return d.getFullYear();
+}
+
+function getISOWeekNum(date) {
+  const d    = new Date(date);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+  const week1 = new Date(d.getFullYear(), 0, 4);
+  return 1 + Math.round(((d - week1) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+}
+
+function weekLabelToYearMonth(label) {
+  // Returns {year, month (0-indexed)} for the Thursday of the given ISO week
+  const week = parseInt(label.replace(/\D/g, ''), 10);
+  if (isNaN(week)) return null;
+  const now   = new Date();
+  const curW  = getISOWeekNum(now);
+  const curY  = getISOWeekYear(now);
+  // If week is much larger than current, it belongs to the previous year
+  const year  = week > curW + 26 ? curY - 1 : curY;
+  const mon   = isoWeekMonday(week, year);
+  const thu   = new Date(mon);
+  thu.setDate(mon.getDate() + 3);
+  return { year: thu.getFullYear(), month: thu.getMonth() };
+}
+
+function getMonthSpendLG(country, year, month) {
+  // Sum lead-gen spend for weeks whose Thursday falls in the given month
+  return (store[country].weeks || []).reduce((sum, w) => {
+    const ym = weekLabelToYearMonth(w.label);
+    return (ym && ym.year === year && ym.month === month) ? sum + (w.spend || 0) : sum;
+  }, 0);
+}
+
+function getMonthSpendSocial(country, year, month) {
+  // Sum FB + IG spend for weeks in the given month
+  let total = 0;
+  ['fb','ig'].forEach(p => {
+    (socialStore[country][p] || []).forEach(e => {
+      const ym = weekLabelToYearMonth(e.label);
+      if (ym && ym.year === year && ym.month === month) total += (e.spend || 0);
+    });
+  });
+  return total;
+}
+
+function monthElapsedFraction(year, month) {
+  const now      = new Date();
+  const start    = new Date(year, month, 1);
+  const end      = new Date(year, month + 1, 1);
+  const daysInM  = (end - start) / 86400000;
+  const elapsed  = Math.min(Math.max((now - start) / 86400000, 0), daysInM);
+  return elapsed / daysInM;
+}
+
+function fmtUSD(v) {
+  if (v >= 1000) return '$' + (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return '$' + Math.round(v).toLocaleString();
+}
+
+function persistKPIs() {
+  try { localStorage.setItem(KPI_KEY, JSON.stringify(kpiStore)); } catch(e) {}
+}
+
+function getMonthActualLG(country, field, year, month) {
+  return (store[country].weeks || []).reduce((sum, w) => {
+    const ym = weekLabelToYearMonth(w.label);
+    return (ym && ym.year === year && ym.month === month) ? sum + (w[field] || 0) : sum;
+  }, 0);
+}
+
+function getMonthActualSocial(country, platform, field, year, month) {
+  return ((socialStore[country][platform]) || []).reduce((sum, e) => {
+    const ym = weekLabelToYearMonth(e.label);
+    return (ym && ym.year === year && ym.month === month) ? sum + (e[field] || 0) : sum;
+  }, 0);
+}
+
+function fmtN(v) {
+  if (v >= 1000) return (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return Math.round(v).toLocaleString();
+}
+
+function toggleBPSettings() {
+  const panel = document.getElementById('bp-set-panel');
+  const btn   = document.getElementById('bp-edit-btn');
+  const open  = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : '';
+  btn.innerHTML = open ? '✏ Edit Targets' : '✕ Close';
+}
+
+function bpSetTab(country, tab) {
+  ['spend','kpi'].forEach(t => {
+    document.getElementById(`bp-tab-${t}-${country}`).classList.toggle('active', t === tab);
+    document.getElementById(`bp-content-${t}-${country}`).style.display = t === tab ? '' : 'none';
+  });
+}
+
+function saveBudgets() {
+  COUNTRIES.forEach(c => {
+    const v = f => { const n = parseFloat(document.getElementById('bp-input-'+c+'-'+f)?.value||0); return isNaN(n)?0:n; };
+    budgetStore[c].leadgen = v('lg');
+    budgetStore[c].social  = v('sc');
+    kpiStore[c].reg    = v('reg');
+    kpiStore[c].kyc    = v('kyc');
+    kpiStore[c].ftd    = v('ftd');
+    kpiStore[c].fb_fol = v('fbf');
+    kpiStore[c].ig_fol = v('igf');
+  });
+  persistBudgets();
+  persistKPIs();
+  const panel = document.getElementById('bp-set-panel');
+  if (panel.style.display !== 'none') toggleBPSettings();
+  renderBudgetPacing();
+}
+
+function renderBudgetPacing() {
+  const now         = new Date();
+  const year        = now.getFullYear();
+  const month       = now.getMonth();
+  const monthName   = now.toLocaleString('default', { month: 'long' });
+  const elapsed     = monthElapsedFraction(year, month);
+  const dayOfMonth  = now.getDate();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  document.getElementById('bp-month-title').textContent  = `Budget Pacing — ${monthName} ${year}`;
+  document.getElementById('bp-month-sub').textContent    = `Ad spend pacing & KPI progress vs monthly targets`;
+  document.getElementById('bp-elapsed-pill').textContent = `Day ${dayOfMonth} of ${daysInMonth} · ${Math.round(elapsed * 100)}% elapsed`;
+
+  // ── Settings grid ──────────────────────────────────────────────────────
+  function field(label, id, val, prefix) {
+    return `<div class="bp-set-field">
+      <label>${prefix ? prefix + ' ' : ''}${label}</label>
+      <input type="number" id="${id}" min="0" step="1" value="${val || ''}" placeholder="—">
+    </div>`;
+  }
+
+  document.getElementById('bp-set-grid').innerHTML = COUNTRIES.map(c => `
+    <div>
+      <div class="bp-set-clabel">${C_FLAG[c]} ${C_NAME[c]}</div>
+      <div class="bp-set-sec">Budget / Month</div>
+      ${field('Lead Gen Spend', `bp-input-${c}-lg`, budgetStore[c].leadgen, '$')}
+      ${field('Social Spend',   `bp-input-${c}-sc`, budgetStore[c].social,  '$')}
+      <div class="bp-set-sec">Lead Gen KPI Targets</div>
+      ${field('Registrations',  `bp-input-${c}-reg`, kpiStore[c].reg)}
+      ${field('KYC Completed',  `bp-input-${c}-kyc`, kpiStore[c].kyc)}
+      ${field('FTD Count',      `bp-input-${c}-ftd`, kpiStore[c].ftd)}
+      <div class="bp-set-sec">Page Growth Targets</div>
+      ${field('FB Followers',   `bp-input-${c}-fbf`, kpiStore[c].fb_fol)}
+      ${field('IG Followers',   `bp-input-${c}-igf`, kpiStore[c].ig_fol)}
+    </div>
+  `).join('');
+
+  // ── Cards ────────────────────────────────────────────────────────────
+  function spendRow(label, budget, spent) {
+    const pct      = budget > 0 ? Math.min(spent / budget, 1) : 0;
+    const expected = budget * elapsed;
+    const ratio    = expected > 0 ? spent / expected : (spent > 0 ? 2 : 1);
+    const barColor = budget === 0 ? 'var(--border2)' : ratio > 1.12 ? 'var(--red)' : ratio < 0.80 ? 'var(--amber)' : 'var(--green)';
+    const badge    = budget === 0 ? `<span class="bp-badge no-target">No budget</span>`
+                   : ratio > 1.12 ? `<span class="bp-badge over">⚠ Over</span>`
+                   : ratio < 0.80 ? `<span class="bp-badge under">↓ Under</span>`
+                   :                `<span class="bp-badge on-track">✓ OK</span>`;
+    const nums     = budget > 0
+      ? `<span style="color:var(--text)">${fmtUSD(spent)}</span><span style="color:var(--muted)"> / ${fmtUSD(budget)}</span>`
+      : `<span style="color:var(--muted)">${fmtUSD(spent)} spent</span>`;
+    return `<div class="bp-spend-row">
+      <div class="bp-spend-label">${label}</div>
+      <div class="bp-spend-bar-wrap"><div class="bp-spend-bar" style="width:${(Math.min(pct,1)*100).toFixed(1)}%;background:${barColor}"></div></div>
+      <div class="bp-spend-nums" style="display:flex;align-items:center;gap:5px;font-size:10px">${nums}${badge}</div>
+    </div>`;
+  }
+
+  function kpiRow(label, actual, target) {
+    if (!target) return `<div class="bp-metric-row">
+      <div class="bp-metric-label">${label}</div>
+      <div class="bp-mini-bar-wrap"><div class="bp-mini-bar" style="width:0%;background:var(--border2)"></div></div>
+      <div class="bp-metric-right"><span class="bp-badge no-target">No target</span></div>
+    </div>`;
+    const pct  = Math.min(actual / target, 1);
+    const pctN = (pct * 100).toFixed(0);
+    const clr  = pct >= 1 ? 'var(--green)' : pct >= 0.75 ? 'var(--amber)' : 'var(--red)';
+    const badge = pct >= 1   ? `<span class="bp-badge on-track">✓ Hit</span>`
+                : pct >= 0.75? `<span class="bp-badge under">${pctN}%</span>`
+                :              `<span class="bp-badge over">${pctN}%</span>`;
+    return `<div class="bp-metric-row">
+      <div class="bp-metric-label">${label}</div>
+      <div class="bp-mini-bar-wrap"><div class="bp-mini-bar" style="width:${(pct*100).toFixed(1)}%;background:${clr}"></div></div>
+      <div class="bp-metric-right">
+        <span class="bp-count">${fmtN(actual)}<span style="color:var(--border2)"> /</span> ${fmtN(target)}</span>
+        ${badge}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('bp-cards-grid').innerHTML = COUNTRIES.map(c => {
+    const lgBudget = budgetStore[c].leadgen || 0;
+    const scBudget = budgetStore[c].social  || 0;
+    const lgSpent  = getMonthSpendLG(c, year, month);
+    const scSpent  = getMonthSpendSocial(c, year, month);
+    const aReg = getMonthActualLG(c, 'reg', year, month);
+    const aKyc = getMonthActualLG(c, 'kyc', year, month);
+    const aFtd = getMonthActualLG(c, 'ftd', year, month);
+    const aFbF = getMonthActualSocial(c, 'fb', 'gained', year, month);
+    const aIgF = getMonthActualSocial(c, 'ig', 'gained', year, month);
+    const tReg = kpiStore[c].reg || 0, tKyc = kpiStore[c].kyc || 0, tFtd = kpiStore[c].ftd || 0;
+    const tFbF = kpiStore[c].fb_fol || 0, tIgF = kpiStore[c].ig_fol || 0;
+    const clr  = C_COLOR[c];
+
+    // Overall card status badge
+    const lgRatio  = lgBudget > 0 && elapsed > 0 ? lgSpent / (lgBudget * elapsed) : null;
+    const cardBadge = lgRatio === null ? `<span class="bp-badge no-target">No budget</span>`
+                    : lgRatio > 1.12   ? `<span class="bp-badge over">⚠ Overpacing</span>`
+                    : lgRatio < 0.80   ? `<span class="bp-badge under">↓ Underpacing</span>`
+                    :                    `<span class="bp-badge on-track">✓ On Track</span>`;
+
+    return `<div class="bp-card">
+      <div style="height:3px;background:${clr}"></div>
+      <div class="bp-card-head">
+        <span style="font-size:17px">${C_FLAG[c]}</span>
+        <span class="bp-country" style="color:${clr}">${C_NAME[c]}</span>
+        ${cardBadge}
+      </div>
+      <div class="bp-tab-bar">
+        <button class="bp-tab-btn active" id="bp-tab-spend-${c}" onclick="bpSetTab('${c}','spend')">💰 Spend</button>
+        <button class="bp-tab-btn"        id="bp-tab-kpi-${c}"   onclick="bpSetTab('${c}','kpi')">📊 KPIs</button>
+      </div>
+
+      <div class="bp-tab-content" id="bp-content-spend-${c}">
+        <div class="bp-divider-label">Lead Gen</div>
+        ${spendRow('Spend', lgBudget, lgSpent)}
+        <div class="bp-divider-label" style="margin-top:6px">Social</div>
+        ${spendRow('Spend', scBudget, scSpent)}
+        ${(lgBudget > 0 && elapsed > 0) ? `<div style="font-size:9px;color:var(--muted);margin-top:8px;text-align:right">Proj end-of-month: LG ${fmtUSD(elapsed>0?lgSpent/elapsed:0)} · Soc ${fmtUSD(elapsed>0?scSpent/elapsed:0)}</div>` : ''}
+      </div>
+
+      <div class="bp-tab-content" id="bp-content-kpi-${c}" style="display:none">
+        <div class="bp-divider-label">Lead Gen</div>
+        ${kpiRow('Registrations', aReg, tReg)}
+        ${kpiRow('KYC Completed', aKyc, tKyc)}
+        ${kpiRow('FTD Count',     aFtd, tFtd)}
+        <div class="bp-divider-label" style="margin-top:6px">Page Growth</div>
+        ${kpiRow('📘 FB Followers', aFbF, tFbF)}
+        ${kpiRow('📸 IG Followers', aIgF, tIgF)}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function loadSnapshotData(snap) {
@@ -1777,6 +2267,9 @@ function showView(v) {
   if (v === 'upload') { COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); }); }
   if (v === 'creative') { updateAIKeyBadge(); }
   if (v === 'utm') { /* UTM view ready */ }
+  if (v === 'budget') { renderBudgetPacing(); }
+  if (v === 'ftd')    { renderFTDRecords(); }
+  if (v === 'utmgen') { utmgUpdate(); }
 }
 
 // ── Filters ──────────────────────────────────────────────────────────────
@@ -2366,6 +2859,156 @@ function prefillInputs(c) {
     const el = document.getElementById(c+'-input-'+f);
     if (el) el.value = w[f]!==undefined ? w[f] : '';
   });
+}
+
+// ── Google Sheets Live Sync ───────────────────────────────────────────────
+function _csvSplitLine(line) {
+  const result = []; let cur = '', inQ = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  result.push(cur);
+  return result;
+}
+
+function _csvNum(v) {
+  const n = parseFloat((v || '').replace(/[^0-9.-]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+
+function _csvDate(s) {
+  s = (s || '').trim();
+  if (!s) return null;
+  const p = s.split('/');
+  if (p.length !== 3) return null;
+  let [a, b, c] = p.map(Number);
+  let day, mon, yr;
+  if (c < 100) {
+    // 2-digit year (e.g. 2/12/26) → treat as M/D/YY
+    mon = a; day = b; yr = c + 2000;
+  } else if (a > 12) {
+    // Day clearly > 12, must be DD/MM/YYYY
+    day = a; mon = b; yr = c;
+  } else if (b > 12) {
+    // Month slot > 12, must be MM/DD/YYYY
+    mon = a; day = b; yr = c;
+  } else {
+    // Ambiguous — sheet uses DD/MM/YYYY as standard
+    day = a; mon = b; yr = c;
+  }
+  const d = new Date(yr, mon - 1, day);
+  return (!isNaN(d.getTime()) && yr >= 2020 && yr <= 2035) ? d : null;
+}
+
+let sheetLastSynced = null;
+
+async function fetchAndSyncSheet() {
+  const btn    = document.getElementById('sheet-sync-btn');
+  const status = document.getElementById('sheet-sync-status');
+  if (btn) { btn.disabled = true; btn.textContent = '⏳ Syncing…'; }
+  if (status) status.innerHTML = '';
+  try {
+    const resp = await fetch(SHEET_CSV_URL);
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const text  = await resp.text();
+    const lines = text.split('\n').filter(l => l.trim());
+    if (!lines.length) throw new Error('Empty response');
+
+    const headers = _csvSplitLine(lines[0]).map(h => h.trim().replace(/^"|"$/g, ''));
+    const ci = {};
+    ['Target GEO','Date','Cost (USD)','Impression','IG Follower','FB Page Like',
+     'Registration (CRM)','KYC','FTD','FTD$$'].forEach(name => {
+      ci[name] = headers.findIndex(h => h.trim() === name.trim());
+    });
+
+    // Reset tracked-country data
+    COUNTRIES.forEach(c => {
+      store[c].weeks = [];
+      socialStore[c].fb = [];
+      socialStore[c].ig = [];
+    });
+
+    const lgMap = {}, fbMap = {}, igMap = {};
+    let parsed = 0;
+
+    for (let i = 1; i < lines.length; i++) {
+      const v   = _csvSplitLine(lines[i]);
+      const geo = ci['Target GEO'] >= 0 ? (v[ci['Target GEO']] || '').trim() : '';
+      const c   = SHEET_GEO_MAP[geo];
+      if (!c) continue;
+      const d = _csvDate(ci['Date'] >= 0 ? v[ci['Date']] : '');
+      if (!d) continue;
+      const label = 'W' + getISOWeekNum(d);
+      const key   = c + '_' + label;
+      parsed++;
+
+      // Lead gen aggregate
+      if (!lgMap[key]) lgMap[key] = { c, label, spend:0, reg:0, kyc:0, ftd:0, ftdamt:0 };
+      lgMap[key].spend  += _csvNum(v[ci['Cost (USD)']]);
+      lgMap[key].reg    += _csvNum(v[ci['Registration (CRM)']]);
+      lgMap[key].kyc    += _csvNum(v[ci['KYC']]);
+      lgMap[key].ftd    += _csvNum(v[ci['FTD']]);
+      lgMap[key].ftdamt += _csvNum(v[ci['FTD$$']]);
+
+      // FB followers
+      const fbG = _csvNum(v[ci['FB Page Like']]);
+      if (fbG > 0) {
+        if (!fbMap[key]) fbMap[key] = { c, label, gained:0, imp:0, spend:0 };
+        fbMap[key].gained += fbG;
+        fbMap[key].imp    += _csvNum(v[ci['Impression']]);
+        fbMap[key].spend  += _csvNum(v[ci['Cost (USD)']]);
+      }
+
+      // IG followers
+      const igG = _csvNum(v[ci['IG Follower']]);
+      if (igG > 0) {
+        if (!igMap[key]) igMap[key] = { c, label, gained:0, imp:0, spend:0 };
+        igMap[key].gained += igG;
+        igMap[key].imp    += _csvNum(v[ci['Impression']]);
+        igMap[key].spend  += _csvNum(v[ci['Cost (USD)']]);
+      }
+    }
+
+    const byWeek = arr => arr.sort((a, b) =>
+      (parseInt(a.label.replace(/\D/g,'')) || 0) - (parseInt(b.label.replace(/\D/g,'')) || 0));
+
+    COUNTRIES.forEach(c => {
+      byWeek(Object.values(lgMap).filter(x => x.c === c)).forEach(w => {
+        store[c].weeks.push({ label:w.label, spend:+w.spend.toFixed(2),
+          reg:Math.round(w.reg), pend:0, kyc:Math.round(w.kyc),
+          ftd:Math.round(w.ftd), ftdamt:+w.ftdamt.toFixed(2) });
+      });
+      store[c].activeIdx = Math.max(0, store[c].weeks.length - 1);
+
+      byWeek(Object.values(fbMap).filter(x => x.c === c)).forEach(e => {
+        const cpf = e.gained > 0 ? +(e.spend / e.gained).toFixed(2) : 0;
+        socialStore[c].fb.push({ label:e.label, gained:Math.round(e.gained),
+          imp:Math.round(e.imp), cpf, spend:+e.spend.toFixed(2) });
+      });
+
+      byWeek(Object.values(igMap).filter(x => x.c === c)).forEach(e => {
+        const cpf = e.gained > 0 ? +(e.spend / e.gained).toFixed(2) : 0;
+        socialStore[c].ig.push({ label:e.label, gained:Math.round(e.gained),
+          imp:Math.round(e.imp), cpf, spend:+e.spend.toFixed(2) });
+      });
+    });
+
+    persistData();
+    renderOverview();
+    COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); });
+
+    sheetLastSynced = new Date();
+    const ts = sheetLastSynced.toLocaleString();
+    if (status) status.innerHTML =
+      `<span style="color:var(--green)">&#10003; ${parsed} rows synced &mdash; ${ts}</span>`;
+    if (btn) { btn.disabled = false; btn.textContent = '🔄 Sync from Google Sheets'; }
+  } catch (e) {
+    if (status) status.innerHTML = `<span style="color:var(--red)">&#10007; ${e.message}</span>`;
+    if (btn) { btn.disabled = false; btn.textContent = '🔄 Sync from Google Sheets'; }
+  }
 }
 
 function saveData(c) {
@@ -2990,6 +3633,267 @@ function buildDashboardContext() {
   lines.push(`Objective: ${filters.objective === 'leadgen' ? 'Lead Gen' : 'Page Growth'} | Period: ${filters.calendar} | Country: ${filters.country === 'all' ? 'All Countries' : C_NAME[filters.country]}`);
   lines.push('\nWhen asked about performance, use this data to provide specific insights, comparisons, and recommendations.');
   return lines.join('\n');
+}
+
+// ── FTD Records ───────────────────────────────────────────────────────────
+function persistLTV() {
+  try { localStorage.setItem(LTV_KEY, JSON.stringify(ltvStore)); } catch(e) {}
+}
+
+function ftdMonthKey(year, month) {
+  return `${year}-${String(month + 1).padStart(2, '0')}`;
+}
+
+function ftdMonthLabel(key) {
+  const [y, m] = key.split('-').map(Number);
+  return new Date(y, m - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+}
+
+function getMonthsFTDData(country) {
+  const map = {};
+  (store[country].weeks || []).forEach(w => {
+    const ym = weekLabelToYearMonth(w.label);
+    if (!ym) return;
+    const k = ftdMonthKey(ym.year, ym.month);
+    if (!map[k]) map[k] = { key: k, ftdCount: 0, ftdAmt: 0 };
+    map[k].ftdCount += (w.ftd    || 0);
+    map[k].ftdAmt   += (w.ftdamt || 0);
+  });
+  return Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
+}
+
+function saveLTVEntry(country, key, val) {
+  ltvStore[country][key] = val;
+  persistLTV();
+}
+
+function renderFTDRecords() {
+  // Grand totals
+  let gFTD = 0, gAmt = 0, gLTV = 0;
+  COUNTRIES.forEach(c => {
+    getMonthsFTDData(c).forEach(r => {
+      gFTD += r.ftdCount;
+      gAmt += r.ftdAmt;
+      gLTV += (ltvStore[c][r.key] || 0);
+    });
+  });
+
+  const el = id => document.getElementById(id);
+  el('ftd-sum-count').textContent = gFTD > 0 ? gFTD.toLocaleString() : '—';
+  el('ftd-sum-amt').textContent   = gAmt > 0 ? fmtUSD(gAmt) : '—';
+  el('ftd-sum-ltv').textContent   = gLTV > 0 ? fmtUSD(gLTV) : '—';
+  el('ftd-sum-avg').textContent   = (gFTD > 0 && gLTV > 0) ? fmtUSD(gLTV / gFTD) : '—';
+
+  document.getElementById('ftd-tables').innerHTML = COUNTRIES.map(c => {
+    const rows = getMonthsFTDData(c);
+
+    if (!rows.length) return `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:18px">${C_FLAG[c]}</span>
+          <span style="font-weight:700;font-size:14px;color:${C_COLOR[c]}">${C_NAME[c]}</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">No lead gen data uploaded yet. Add weekly data to see FTD records here.</div>
+      </div>`;
+
+    const cFTD = rows.reduce((s, r) => s + r.ftdCount, 0);
+    const cAmt = rows.reduce((s, r) => s + r.ftdAmt, 0);
+    const cLTV = rows.reduce((s, r) => s + (ltvStore[c][r.key] || 0), 0);
+
+    const bodyRows = rows.map(r => {
+      const ltv    = ltvStore[c][r.key] || 0;
+      const avgLTV = (r.ftdCount > 0 && ltv > 0) ? fmtUSD(ltv / r.ftdCount) : '—';
+      const ratio  = (r.ftdAmt > 0 && ltv > 0) ? ((ltv / r.ftdAmt) * 100).toFixed(0) + '%' : '—';
+      const ltvColor = ltv > 0 ? 'var(--green)' : 'var(--muted)';
+      return `<tr>
+        <td style="font-weight:600">${ftdMonthLabel(r.key)}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace">${r.ftdCount > 0 ? r.ftdCount.toLocaleString() : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace">${r.ftdAmt > 0 ? fmtUSD(r.ftdAmt) : '—'}</td>
+        <td style="text-align:right">
+          <input class="ftd-ltv-input" type="number" min="0" step="100"
+            value="${ltv || ''}" placeholder="Enter amount"
+            onchange="saveLTVEntry('${c}','${r.key}',parseFloat(this.value)||0);renderFTDRecords()">
+        </td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;color:${ltvColor}">${ltv > 0 ? fmtUSD(ltv) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${avgLTV}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${ratio}</td>
+      </tr>`;
+    }).join('');
+
+    const totAvg   = (cFTD > 0 && cLTV > 0) ? fmtUSD(cLTV / cFTD) : '—';
+    const totRatio = (cAmt > 0 && cLTV > 0) ? ((cLTV / cAmt) * 100).toFixed(0) + '%' : '—';
+
+    return `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2)">
+          <span style="font-size:18px">${C_FLAG[c]}</span>
+          <span style="font-weight:700;font-size:14px;color:${C_COLOR[c]}">${C_NAME[c]}</span>
+          <div style="margin-left:auto;display:flex;gap:16px;font-size:10px;color:var(--muted)">
+            <span><span style="color:var(--text);font-weight:600">${cFTD}</span> FTDs</span>
+            <span><span style="color:var(--text);font-weight:600">${cAmt > 0 ? fmtUSD(cAmt) : '—'}</span> FTD Amt</span>
+            <span><span style="color:${cLTV > 0 ? 'var(--green)' : 'var(--muted)'};font-weight:600">${cLTV > 0 ? fmtUSD(cLTV) : 'LTV not set'}</span></span>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="tbl" style="width:100%">
+            <thead><tr>
+              <th>Month</th>
+              <th style="text-align:right">FTD Count</th>
+              <th style="text-align:right">FTD Amount</th>
+              <th style="text-align:right">Enter LTV</th>
+              <th style="text-align:right">LTV Total</th>
+              <th style="text-align:right">Avg LTV / FTD</th>
+              <th style="text-align:right">LTV : FTD Amt</th>
+            </tr></thead>
+            <tbody>
+              ${bodyRows}
+              <tr style="border-top:2px solid var(--border);background:var(--surface2)">
+                <td style="font-weight:700">Total</td>
+                <td style="text-align:right;font-weight:700;font-family:'DM Mono',monospace">${cFTD > 0 ? cFTD.toLocaleString() : '—'}</td>
+                <td style="text-align:right;font-weight:700;font-family:'DM Mono',monospace">${cAmt > 0 ? fmtUSD(cAmt) : '—'}</td>
+                <td></td>
+                <td style="text-align:right;font-weight:700;font-family:'DM Mono',monospace;color:${cLTV > 0 ? 'var(--green)' : 'var(--muted)'}">${cLTV > 0 ? fmtUSD(cLTV) : '—'}</td>
+                <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${totAvg}</td>
+                <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${totRatio}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── UTM Generator ─────────────────────────────────────────────────────────
+const UTMG_FIELDS = ['pic','acc','bid','camp','obj','fmt','mktc','mkta','lang'];
+
+function utmgVal(f) {
+  const sel = document.getElementById('utmg-' + f);
+  if (!sel) {
+    // plain text input (targeting, content name)
+    return (document.getElementById('utmg-' + f) || {}).value || '';
+  }
+  if (sel.tagName === 'SELECT') {
+    if (sel.value === '__manual__') return document.getElementById('utmg-' + f + '-m')?.value || '';
+    return sel.value;
+  }
+  return sel.value || '';
+}
+
+function utmgSync(f) {
+  const sel = document.getElementById('utmg-' + f);
+  const man = document.getElementById('utmg-' + f + '-m');
+  if (man) man.style.display = sel.value === '__manual__' ? '' : 'none';
+  if (sel.value === '__manual__' && man) man.focus();
+  utmgUpdate();
+}
+
+function utmgLast4(acc) {
+  const digits = acc.replace(/\D/g,'');
+  return digits.slice(-4) || acc.slice(-4);
+}
+
+function utmgUpdate() {
+  const bid   = utmgVal('acc') !== '' ? utmgVal('bid')  : '';
+  const acc   = utmgVal('acc');
+  const last4 = utmgLast4(acc);
+  const camp  = utmgVal('camp');
+  const obj   = utmgVal('obj');
+  const mktc  = utmgVal('mktc');
+  const mkta  = utmgVal('mkta');
+  const fmt   = utmgVal('fmt');
+  const lang  = utmgVal('lang');
+  const tgt   = utmgVal('tgt');
+  const cname = utmgVal('cname');
+  const bidV  = utmgVal('bid');
+
+  // Naming convention strings (pattern derived from platform standard)
+  // utm_campaign  → Campaign_Market(Campaign)_PIC_Objective
+  // utm_medium    → Market(Adgroup)_Targeting_BidCode
+  // utm_content   → ContentName_Language_Format
+  const pic       = utmgVal('pic');
+  const campName  = [camp, mktc, pic, obj].filter(Boolean).join('_');
+  const adsetName = [mkta, tgt, last4].filter(Boolean).join('_');
+  const adName    = [cname, lang, fmt].filter(Boolean).join('_');
+
+  document.getElementById('utmg-ref-camp').textContent  = campName  || '—';
+  document.getElementById('utmg-ref-adset').textContent = adsetName || '—';
+  document.getElementById('utmg-ref-ad').textContent    = adName    || '—';
+
+  // Highlight filled vs dynamic values
+  const h = (val, fallback) => val
+    ? `<span class="utmg-filled">${escapeHtml(val)}</span>`
+    : `<span class="utmg-param">${fallback}</span>`;
+
+  const dyn = s => `<span class="utmg-param">${s}</span>`;
+
+  // Meta template
+  const metaParts = [
+    `bid=${h(bidV,'[bid_code]')}`,
+    `utm_source=`,
+    `utm_medium=${dyn('{{adset.name}}')}_${h(last4,'[last4]')}`,
+    `utm_campaign=${dyn('{{campaign.name}}')}`,
+    `utm_content=${dyn('{{ad.name}}')}`,
+    `utm_network=${dyn('{{site_source_name}}')}_${dyn('{{placement}}')}`,
+  ];
+  document.getElementById('utmg-meta-out').innerHTML = metaParts.join('\n&amp;');
+
+  // Google SEM template
+  const ggParts = [
+    `${dyn('{lpurl}')}?bid=${h(bidV,'[bid_code]')}`,
+    `utm_source=`,
+    `utm_campaign=${dyn('{{campaign.name}}')}`,
+    `utm_medium=${dyn('{{adset.name}}')}`,
+    `utm_content=${dyn('{{ad.name}}')}`,
+    `utm_term=${dyn('{keyword}')}_{query}`,
+    `utm_matchtype=${dyn('{matchtype}')}`,
+    `utm_network=${dyn('{network}')}_{placement}_${dyn('{device}')}`,
+    `gclid=${dyn('{gclid}')}`,
+  ];
+  document.getElementById('utmg-gg-out').innerHTML = ggParts.join('\n&amp;');
+}
+
+function utmgCopy(type) {
+  const bid   = utmgVal('bid');
+  const acc   = utmgVal('acc');
+  const last4 = utmgLast4(acc);
+
+  let text;
+  if (type === 'meta') {
+    text = [
+      `bid=${bid}`,
+      `utm_source=`,
+      `utm_medium={{adset.name}}_${last4}`,
+      `utm_campaign={{campaign.name}}`,
+      `utm_content={{ad.name}}`,
+      `utm_network={{site_source_name}}_{{placement}}`,
+    ].join('&');
+  } else {
+    text = [
+      `{lpurl}?bid=${bid}`,
+      `utm_source=`,
+      `utm_campaign={{campaign.name}}`,
+      `utm_medium={{adset.name}}`,
+      `utm_content={{ad.name}}`,
+      `utm_term={keyword}_{query}`,
+      `utm_matchtype={matchtype}`,
+      `utm_network={network}_{placement}_{device}`,
+      `gclid={gclid}`,
+    ].join('&');
+  }
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e){}
+    document.body.removeChild(ta);
+  }
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied!'; btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
 }
 
 function toggleAIPanel() {
@@ -5329,11 +6233,9 @@ async function exportSnapshot(e) {
       src = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
     }
     const out = src.includes('</head>') ? src.replace('</head>', injection + '\n</head>') : injection + src;
-    const d = new Date();
-    const ds = `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
     const blob = new Blob([out], {type:'text/html;charset=utf-8'});
     const url = URL.createObjectURL(blob);
-    const a = Object.assign(document.createElement('a'), {href:url, download:`ebc-dashboard-${ds}.html`});
+    const a = Object.assign(document.createElement('a'), {href:url, download:'index.html'});
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
     setTimeout(() => URL.revokeObjectURL(url), 10000);
     btn.textContent = '✓ Downloaded';
@@ -5361,6 +6263,5 @@ applyLanguage();
 loadCreativeHistory();
 loadCopyLibrary();
 </script>
-
-
-</body></html>
+</body>
+</html>
