@@ -2533,7 +2533,15 @@ function renderSummaryKPIs() {
   // Page Growth — per-channel aggregation filtered by active period labels
   const getSocialAgg = (platform) => {
     const cs2 = activeCountries();
-    const filteredLabels = new Set(cs2.flatMap(c => getFilteredWeeks(c).map(w => w.label)));
+    // Build filteredLabels directly from the period filter — getFilteredWeeks returns
+    // daily lead-gen rows (no .label) when a specific week is selected, which would
+    // silently produce Set([undefined]) and filter out all social entries.
+    let filteredLabels;
+    if (filters.periodType === 'week' && filters.weekSel !== 'all') {
+      filteredLabels = new Set([filters.weekSel]);
+    } else {
+      filteredLabels = new Set(cs2.flatMap(c => (socialStore[c][platform]||[]).map(e => e.label)));
+    }
     const entries = cs2.flatMap(c => (socialStore[c][platform]||[]).filter(e => filteredLabels.has(e.label)));
     let spend=0, gained=0, cpf=0, imp=0, cnt=0;
     entries.forEach(e => { spend+=e.spend||0; gained+=e.gained||0; imp+=e.imp||0; cpf+=e.cpf||0; cnt++; });
@@ -3300,11 +3308,15 @@ function _processCSVRows(rows) {
       store[c].weeks.push({label:w.label,spend:+w.spend.toFixed(2),reg:Math.round(w.reg),pend:0,kyc:Math.round(w.kyc),ftd:Math.round(w.ftd),ftdamt:+w.ftdamt.toFixed(2)});
     });
     store[c].activeIdx = Math.max(0,store[c].weeks.length-1);
+    let fbRunning = 0;
     byWeek(Object.values(fbMap).filter(x=>x.c===c)).forEach(e=>{
-      socialStore[c].fb.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2)});
+      fbRunning += Math.round(e.gained);
+      socialStore[c].fb.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2),total:fbRunning});
     });
+    let igRunning = 0;
     byWeek(Object.values(igMap).filter(x=>x.c===c)).forEach(e=>{
-      socialStore[c].ig.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2)});
+      igRunning += Math.round(e.gained);
+      socialStore[c].ig.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2),total:igRunning});
     });
     store[c].days = Object.values(dayMap)
       .filter(x=>x.c===c)
