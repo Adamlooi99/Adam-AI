@@ -771,13 +771,24 @@ body.snap-mode .snap-banner{display:block}
       <span class="chevron open" id="sheets-sync-chev">▼</span>
     </div>
     <div class="up-section-body open" id="sheets-sync-body">
-      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px">
         <button class="btn" id="sheet-sync-btn" onclick="fetchAndSyncSheet()" style="min-width:220px">🔄 Sync from Google Sheets</button>
         <span id="sheet-sync-status" style="font-size:12px;color:var(--muted)">Not synced this session</span>
       </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px">
+        <div class="field" style="margin:0;min-width:140px">
+          <label style="font-size:11px;margin-bottom:3px;display:block">📅 From Month</label>
+          <input type="month" id="sheet-sync-from" style="padding:5px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);width:100%">
+        </div>
+        <div class="field" style="margin:0;min-width:140px">
+          <label style="font-size:11px;margin-bottom:3px;display:block">📅 To Month</label>
+          <input type="month" id="sheet-sync-to" style="padding:5px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);width:100%">
+        </div>
+        <div style="font-size:11px;color:var(--muted);padding-bottom:4px">Leave empty to sync all data</div>
+      </div>
       <div style="font-size:11px;color:var(--muted);line-height:1.6">
         Syncs: <strong>Spend · Registrations · KYC · FTD · FTD Amount · FB Page Likes · IG Followers</strong><br>
-        Data is aggregated by ISO week per market. Budget targets and KPI goals are preserved.
+        Weeks use your spreadsheet's own Week labels (W0, W1…). Budget targets &amp; KPI goals are preserved.
       </div>
     </div>
   </div>
@@ -2600,13 +2611,15 @@ function renderBarChart() {
 
   const weekMap = {};
   cs.forEach(c => {
-    store[c].weeks.forEach(w => {
+    getFilteredWeeks(c).forEach(w => {
       if (!weekMap[w.label]) weekMap[w.label] = 0;
       weekMap[w.label] += w.reg||0;
     });
   });
 
-  const labels = Object.keys(weekMap);
+  // Sort week labels numerically so chart sequence matches the data
+  const labels = Object.keys(weekMap).sort((a,b) =>
+    (parseInt(a.replace(/\D/g,''))||0) - (parseInt(b.replace(/\D/g,''))||0));
   const vals   = labels.map(l => weekMap[l]);
   if (!labels.length) { container.innerHTML = '<div style="color:var(--muted);font-size:11px;padding:20px 0">No data</div>'; return; }
 
@@ -2636,7 +2649,7 @@ function renderBarChart() {
   // KYC % trend line overlay
   const kycRateMap = {};
   cs.forEach(c => {
-    store[c].weeks.forEach(w => {
+    getFilteredWeeks(c).forEach(w => {
       if (!kycRateMap[w.label]) kycRateMap[w.label] = {kyc:0, reg:0};
       kycRateMap[w.label].kyc += w.kyc||0;
       kycRateMap[w.label].reg += w.reg||0;
@@ -2951,6 +2964,12 @@ async function fetchAndSyncSheet() {
       return (i !== undefined && row.c[i]) ? _gvizCellStr(row.c[i], cols[i].type) : '';
     };
 
+    // Date range filter from UI
+    const fromVal = (document.getElementById('sheet-sync-from') || {}).value || '';
+    const toVal   = (document.getElementById('sheet-sync-to')   || {}).value || '';
+    const fromDate = fromVal ? new Date(fromVal.replace(/-(\d{2})$/, (_, m) => `-${m}-01`).replace(/^(\d{4})-(\d{2})-.*/, '$1-$2-01')) : null;
+    const toDate   = toVal   ? (() => { const [y,m] = toVal.split('-').map(Number); return new Date(y, m, 0, 23, 59, 59); })() : null;
+
     // Reset tracked-country data
     COUNTRIES.forEach(c => {
       store[c].weeks = [];
@@ -2968,8 +2987,12 @@ async function fetchAndSyncSheet() {
       if (!c) return;
       const d = _sheetDate(get(row, 'Date'));
       if (!d) return;
-      const label = 'W' + getISOWeekNum(d);
-      const key   = c + '_' + label;
+      if (fromDate && d < fromDate) return;
+      if (toDate   && d > toDate)   return;
+      // Use the sheet's own Week label (W0, W1…); fall back to ISO week number
+      const weekRaw = get(row, 'Week').trim().toUpperCase();
+      const label   = /^W\d+$/.test(weekRaw) ? weekRaw : ('W' + getISOWeekNum(d));
+      const key     = c + '_' + label;
       parsed++;
 
       if (!lgMap[key]) lgMap[key] = { c, label, spend:0, reg:0, kyc:0, ftd:0, ftdamt:0 };
