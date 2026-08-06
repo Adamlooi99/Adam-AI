@@ -1946,6 +1946,13 @@ const MAPPING_DEFAULT = {
     { raw:'KR',           market:'kr' },
     { raw:'ZA',           market:'za' },
     { raw:'South Africa', market:'za' },
+  ],
+  catCol:    'Campaign Category',
+  catRules:  [
+    { raw:'Branding-Followers-FB', obj:'fb'      },
+    { raw:'Branding-Followers-IG', obj:'ig'      },
+    { raw:'General-Evergreen',     obj:'leadgen' },
+    { raw:'Market-Buzz-Campaign',  obj:'leadgen' },
   ]
 };
 let mapStore = JSON.parse(JSON.stringify(MAPPING_DEFAULT));
@@ -3060,7 +3067,9 @@ function _parseCSVToRows(text) {
     if (record.some(f => f.trim())) records.push(record);
   }
   if (!records.length) return { headers:[], rows:[] };
-  const headers = records[0].map(h => h.trim());
+  // Strip any sub-line annotation Google Sheets embeds after the first newline in header cells
+  // e.g. "Campaign Category\n (Check 'Naming database' Tab)" → "Campaign Category"
+  const headers = records[0].map(h => h.split('\n')[0].trim());
   const rows = records.slice(1).map(fields => {
     const obj = {};
     headers.forEach((h, idx) => { obj[h] = (fields[idx] || '').trim(); });
@@ -3076,6 +3085,7 @@ function loadMapStore() {
     if (s) {
       Object.assign(mapStore, s);
       if (!Array.isArray(mapStore.geoRules)) mapStore.geoRules = [...MAPPING_DEFAULT.geoRules];
+      if (!Array.isArray(mapStore.catRules)) mapStore.catRules = JSON.parse(JSON.stringify(MAPPING_DEFAULT.catRules));
     }
   } catch(e) {}
 }
@@ -3097,6 +3107,7 @@ const MAPPING_FIELDS = [
   { key:'geoCol',    label:'GEO Column',          hint:'Column identifying the market' },
   { key:'weekCol',   label:'Week Label',          hint:'Your week label column (W0, W1…)' },
   { key:'dateCol',   label:'Date Column',         hint:'Daily date column (DD/MM/YYYY)' },
+  { key:'catCol',    label:'Campaign Category',   hint:'Column that routes rows to Lead Gen / FB / IG (col M in your sheet)' },
 ];
 
 function renderMappingSection() {
@@ -3127,6 +3138,21 @@ function renderMappingSection() {
         style="background:none;border:1px solid var(--border);border-radius:5px;color:var(--muted);cursor:pointer;padding:3px 8px">✕</button>
     </div>`).join('');
 
+  const catObjLabels = {leadgen:'Lead Gen',fb:'Facebook',ig:'Instagram'};
+  const cRows = (mapStore.catRules||[]).map((r, i) => `
+    <div style="display:flex;gap:7px;align-items:center;margin-bottom:5px">
+      <input value="${(r.raw||'').replace(/"/g,'&quot;')}" placeholder="e.g. Branding-Followers-FB"
+        style="flex:1;padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--text)"
+        oninput="mapStore.catRules[${i}].raw=this.value">
+      <span style="color:var(--muted);font-size:16px;flex-shrink:0">→</span>
+      <select style="flex:0 0 110px;padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--text)"
+        onchange="mapStore.catRules[${i}].obj=this.value">
+        ${['leadgen','fb','ig'].map(o=>`<option value="${o}" ${r.obj===o?'selected':''}>${catObjLabels[o]}</option>`).join('')}
+      </select>
+      <button onclick="removeCatRule(${i})" title="Remove"
+        style="background:none;border:1px solid var(--border);border-radius:5px;color:var(--muted);cursor:pointer;padding:3px 8px">✕</button>
+    </div>`).join('');
+
   el.innerHTML = `
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px">
       <div>
@@ -3144,6 +3170,12 @@ function renderMappingSection() {
         <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Map every GEO variant in your sheet to a market. Add a row for each spelling.</div>
         ${gRows}
         <button class="btn btn-sm" onclick="addGeoRule()" style="margin-top:6px">+ Add Row</button>
+        <div style="margin-top:14px">
+          <div class="up-section-sub" style="font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.6px;margin-bottom:4px">📂 Campaign Category Rules</div>
+          <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Map each category in column M to Lead Gen, Facebook, or Instagram.</div>
+          ${cRows}
+          <button class="btn btn-sm" onclick="addCatRule()" style="margin-top:6px">+ Add Rule</button>
+        </div>
       </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center">
@@ -3159,6 +3191,15 @@ function addGeoRule() {
 }
 function removeGeoRule(i) {
   mapStore.geoRules.splice(i, 1);
+  renderMappingSection();
+}
+function addCatRule() {
+  if (!Array.isArray(mapStore.catRules)) mapStore.catRules = [];
+  mapStore.catRules.push({ raw:'', obj:'leadgen' });
+  renderMappingSection();
+}
+function removeCatRule(i) {
+  mapStore.catRules.splice(i, 1);
   renderMappingSection();
 }
 function saveMappingUI() {
@@ -3185,6 +3226,10 @@ function _processCSVRows(rows) {
   const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={};
   let parsed = 0;
 
+  // Build category → objective lookup ('fb' | 'ig' | 'leadgen')
+  const catLookup = {};
+  (mapStore.catRules||[]).forEach(r => { if((r.raw||'').trim()) catLookup[r.raw.trim()] = r.obj; });
+
   rows.forEach(row => {
     const geo = (row[mapStore.geoCol]||'').trim();
     const c   = geoLookup[geo];
@@ -3198,26 +3243,41 @@ function _processCSVRows(rows) {
     const key     = c + '_' + label;
     parsed++;
 
-    if (!lgMap[key]) lgMap[key] = {c,label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
-    lgMap[key].spend  += _csvNum(row[mapStore.spendCol]);
-    lgMap[key].reg    += _csvNum(row[mapStore.regCol]);
-    lgMap[key].kyc    += _csvNum(row[mapStore.kycCol]);
-    lgMap[key].ftd    += _csvNum(row[mapStore.ftdCol]);
-    lgMap[key].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+    // Route row to the right objective bucket based on Campaign Category column
+    const catVal  = mapStore.catCol ? ((row[mapStore.catCol]||'').trim()) : '';
+    const objType = catVal ? (catLookup[catVal] || 'leadgen') : 'leadgen';
 
-    const fbG = _csvNum(row[mapStore.fbCol]);
-    if (fbG > 0) {
+    if (objType === 'fb') {
       if (!fbMap[key]) fbMap[key]={c,label,gained:0,imp:0,spend:0};
-      fbMap[key].gained += fbG;
+      fbMap[key].gained += _csvNum(row[mapStore.fbCol]);
       fbMap[key].imp    += _csvNum(row[mapStore.impCol]);
       fbMap[key].spend  += _csvNum(row[mapStore.spendCol]);
-    }
-    const igG = _csvNum(row[mapStore.igCol]);
-    if (igG > 0) {
+    } else if (objType === 'ig') {
       if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
-      igMap[key].gained += igG;
+      igMap[key].gained += _csvNum(row[mapStore.igCol]);
       igMap[key].imp    += _csvNum(row[mapStore.impCol]);
       igMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+    } else {
+      // Lead Gen
+      if (!lgMap[key]) lgMap[key] = {c,label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
+      lgMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+      lgMap[key].reg    += _csvNum(row[mapStore.regCol]);
+      lgMap[key].kyc    += _csvNum(row[mapStore.kycCol]);
+      lgMap[key].ftd    += _csvNum(row[mapStore.ftdCol]);
+      lgMap[key].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+      if (!mapStore.catCol) {
+        // Legacy fallback when no catCol configured: check incidental follower gains
+        const fbG = _csvNum(row[mapStore.fbCol]);
+        if (fbG > 0) {
+          if (!fbMap[key]) fbMap[key]={c,label,gained:0,imp:0,spend:0};
+          fbMap[key].gained += fbG; fbMap[key].imp += _csvNum(row[mapStore.impCol]); fbMap[key].spend += _csvNum(row[mapStore.spendCol]);
+        }
+        const igG = _csvNum(row[mapStore.igCol]);
+        if (igG > 0) {
+          if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
+          igMap[key].gained += igG; igMap[key].imp += _csvNum(row[mapStore.impCol]); igMap[key].spend += _csvNum(row[mapStore.spendCol]);
+        }
+      }
     }
 
     // Daily aggregation
@@ -4096,7 +4156,7 @@ function utmgVal(f) {
 function utmgSync(f) {
   const sel = document.getElementById('utmg-' + f);
   const man = document.getElementById('utmg-' + f + '-m');
-  if (man) man.style.display = sel.value === '__manual__' ? '' : 'none';
+  if (man) man.style.display = sel.value === '__manual__' ? 'block' : 'none';
   if (sel.value === '__manual__' && man) man.focus();
   utmgUpdate();
 }
