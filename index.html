@@ -9,23 +9,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&family=Playfair+Display:wght@400;500;600;700&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  /* EBC Brand Identity — dark (burgundy) treatment */
-  --bg:#0E0610;--surface:#291422;--surface2:#381E30;--surface3:#46263D;
-  --border:rgba(175,135,100,0.22);--border2:rgba(175,135,100,0.42);
-  /* Primary accent: EBC Gold */
-  --red:#AF8764;--red-dim:rgba(175,135,100,0.15);--red-glow:rgba(175,135,100,0.32);
-  /* Semantic alert red (down metrics, errors) */
-  --alert:#E03040;--alert-dim:rgba(220,40,55,0.16);
-  /* Text: Limestone scale — brightened for readability */
-  --text:#EDE8DE;--text2:#CCBAAA;--muted:#A08878;
+  /* Dark navy base */
+  --bg:#070D18;--surface:#0F1829;--surface2:#162035;--surface3:#1D2A42;
+  --border:rgba(80,120,220,0.14);--border2:rgba(80,120,220,0.26);
+  /* Primary: EBC Gold */
+  --red:#C8923A;--red-dim:rgba(200,146,58,0.13);--red-glow:rgba(200,146,58,0.28);
+  /* Alert */
+  --alert:#F06070;--alert-dim:rgba(240,96,112,0.15);
+  /* Text */
+  --text:#E8EDF8;--text2:#7E94C8;--muted:#4A6090;
   /* Market accents */
-  --mn:#E8C040;--kr:#8BBFED;--za:#5EC490;
-  --green:#5EC490;--amber:#E8C040;--purple:#B88AC5;
-  /* Display font (Financier Display approximation) */
+  --mn:#F59E0B;--kr:#60A5FA;--za:#34D399;
+  --green:#34D399;--amber:#F59E0B;--purple:#A78BFA;
+  /* Per-metric accent colors */
+  --c-reg:#60A5FA;--c-kyc:#34D399;--c-ftd:#FBBF24;--c-spend:#C8923A;
+  --c-fb:#60A5FA;--c-ig:#F472B6;
+  /* Display font */
   --fd:'Playfair Display','Palatino Linotype',Georgia,serif;
   --sidebar-w:230px;
 }
-body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;background:radial-gradient(ellipse 70% 50% at 0% 0%,rgba(160,20,45,0.55) 0%,transparent 65%) fixed,radial-gradient(ellipse 50% 40% at 100% 100%,rgba(110,10,28,0.38) 0%,transparent 58%) fixed,var(--bg);color:var(--text);min-height:100vh;font-size:13px}
+body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;background:radial-gradient(ellipse 75% 55% at 0% 0%,rgba(20,55,160,0.28) 0%,transparent 60%) fixed,radial-gradient(ellipse 60% 45% at 100% 100%,rgba(12,40,130,0.20) 0%,transparent 55%) fixed,var(--bg);color:var(--text);min-height:100vh;font-size:13px}
 /* ── LAYOUT ── */
 .app{display:flex;min-height:100vh}
 /* ── SIDEBAR ── */
@@ -323,11 +326,11 @@ body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;backgro
 /* ── RESPONSIVE ── */
 @media(max-width:1100px){.kpi-grid{grid-template-columns:repeat(3,1fr)}.prow.p55,.prow.p73{grid-template-columns:1fr}.cc-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:800px){:root{--sidebar-w:0px}.sidebar{display:none}.main{margin-left:0}.kpi-grid{grid-template-columns:repeat(2,1fr)}.cc-grid{grid-template-columns:1fr}.fgrid.c3,.fgrid.c4{grid-template-columns:repeat(2,1fr)}.view{padding:14px 14px 40px}.filter-bar{padding:0 14px}}
-/* ── LIGHT THEME: EBC Limestone treatment ── */
+/* ── LIGHT THEME ── */
 [data-theme="light"]{
-  --bg:#EDE6DA;--surface:#F7F3ED;--surface2:#E8E0D2;--surface3:#DDD4C4;
-  --border:rgba(93,35,51,0.14);--border2:rgba(93,35,51,0.26);
-  --text:#2E1019;--text2:#5D3040;--muted:#9A7868;
+  --bg:#EEF2FC;--surface:#FFFFFF;--surface2:#E4EAFB;--surface3:#D4DCF5;
+  --border:rgba(50,90,200,0.13);--border2:rgba(50,90,200,0.24);
+  --text:#0A1535;--text2:#3050A0;--muted:#607080;
 }
 [data-theme="light"] body{color:var(--text);background:var(--bg)}
 [data-theme="light"] .ai-panel{box-shadow:0 12px 48px rgba(0,0,0,.15)}
@@ -467,7 +470,7 @@ body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;backgro
 .ai-fab:hover{box-shadow:0 8px 32px rgba(175,135,100,.55)}
 /* ── Status dot keeps green ── */
 .s-dot{background:var(--green)}
-/* ── Light mode (Limestone): burgundy text on warm cream ── */
+/* ── Light mode: navy text on slate-white ── */
 [data-theme="light"] .stitle{color:var(--muted)}
 [data-theme="light"] .tbl th{background:var(--surface2);color:var(--text2)}
 [data-theme="light"] .nav-btn.active{color:var(--red)}
@@ -483,55 +486,93 @@ body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;backgro
 [data-theme="light"] .tbl-head-title{color:var(--text2)!important}
 [data-theme="light"] .asec-body{color:var(--text2)!important}
 [data-theme="light"] .asec-body strong{color:var(--text)!important}
-[data-theme="light"] .badge.up{background:rgba(30,120,70,0.13)!important;color:#1A7A40!important}
-[data-theme="light"] .badge.dn{background:rgba(176,21,32,0.10)!important;color:#A8101C!important}
+[data-theme="light"] .badge.up{background:rgba(20,160,100,0.13)!important;color:#0E9060!important}
+[data-theme="light"] .badge.dn{background:rgba(220,50,70,0.10)!important;color:#C0203A!important}
 [data-theme="light"] .badge.neu{background:var(--surface2)!important;color:var(--muted)!important}
-[data-theme="light"] .cr-low{background:rgba(176,21,32,0.10)!important;color:#A8101C!important}
-[data-theme="light"] .kc{box-shadow:0 1px 4px rgba(0,0,0,0.08)!important}
-[data-theme="light"] .ai-panel{box-shadow:0 12px 48px rgba(46,16,25,.12)}
+[data-theme="light"] .cr-low{background:rgba(220,50,70,0.10)!important;color:#C0203A!important}
+[data-theme="light"] .kc{box-shadow:0 2px 8px rgba(20,50,150,0.10)!important}
+[data-theme="light"] .ai-panel{box-shadow:0 12px 48px rgba(10,20,80,.12)}
+[data-theme="light"] .sidebar{background:linear-gradient(175deg,#1E3A78 0%,#162E68 55%,#0F2252 100%)!important;box-shadow:2px 0 20px rgba(20,50,160,0.25)}
 /* ── READABILITY: bright metric values ── */
-.kc-val{color:#F5F0E5!important;text-shadow:0 0 28px rgba(175,135,100,0.18)}
-.kc-label{color:#C4B098!important;letter-spacing:.13em}
-.kc-foot{color:#A08878!important}
-.cc-stat-val{color:#F0EAE0!important}
-.social-kpi-val{color:#F5F0E5!important}
-.tbl td{color:#EAE0D0!important}
-.tbl th{color:#C4B098!important}
-.tbl-head-title{color:#C4B098!important}
-.asec-body{color:#CEC0B0!important}
-.asec-body strong{color:#EAE0D0!important}
-.fb-val{color:#EAE0D0!important}
-.fb-pct{color:#A08878!important}
-/* ── RED GRADIENT: sidebar glow + accent stripe ── */
+.kc-val{color:#E8EDF8!important;text-shadow:none}
+.kc-label{color:#7E94C8!important;letter-spacing:.11em}
+.kc-foot{color:#4A6090!important}
+.cc-stat-val{color:#E8EDF8!important}
+.social-kpi-val{color:#E8EDF8!important}
+.tbl td{color:#D0D8F0!important}
+.tbl th{color:#7E94C8!important}
+.tbl-head-title{color:#7E94C8!important}
+.asec-body{color:#8898C0!important}
+.asec-body strong{color:#D0D8F0!important}
+.fb-val{color:#D0D8F0!important}
+.fb-pct{color:#4A6090!important}
+/* ── NAVY GRADIENT: sidebar glow + accent stripe ── */
 .sidebar{
-  background:linear-gradient(175deg,#3C1828 0%,#231018 55%,#160A12 100%)!important;
-  box-shadow:2px 0 32px rgba(140,15,35,0.45);
+  background:linear-gradient(175deg,#152240 0%,#0C1830 55%,#070D1E 100%)!important;
+  box-shadow:2px 0 28px rgba(20,60,180,0.30);
 }
-/* Red-to-gold gradient stripe along the bottom of the filter/header bar */
+/* Gold-blue gradient stripe along the bottom of the filter/header bar */
 .filter-bar{position:relative}
 .filter-bar::after{
   content:'';position:absolute;bottom:0;left:0;right:0;height:2px;pointer-events:none;
-  background:linear-gradient(90deg,transparent 0%,#8B1020 12%,#C0292A 38%,#AF8764 55%,#8B1020 82%,transparent 100%);
+  background:linear-gradient(90deg,transparent 0%,rgba(96,165,250,0.28) 15%,rgba(200,146,58,0.65) 40%,rgba(96,165,250,0.35) 70%,transparent 100%);
 }
-/* Sidebar right edge: subtle red glow bleed into content */
+/* Sidebar right edge: subtle blue glow */
 .sidebar::after{
   content:'';position:absolute;right:-1px;top:8%;bottom:8%;width:1px;pointer-events:none;
-  background:linear-gradient(180deg,transparent,rgba(192,40,50,0.65) 30%,rgba(192,40,50,0.85) 50%,rgba(192,40,50,0.65) 70%,transparent);
+  background:linear-gradient(180deg,transparent,rgba(30,80,220,0.45) 30%,rgba(30,80,220,0.60) 50%,rgba(30,80,220,0.45) 70%,transparent);
 }
-/* KPI card accent bar — preserve semantic colors, just make it taller */
+/* KPI card accent bar */
 .kc-accent{height:3px}
-/* KPI cards: lifted surface with subtle depth */
-.kc{box-shadow:0 1px 0 rgba(175,135,100,0.08) inset,0 4px 18px rgba(0,0,0,0.35)}
-.panel{box-shadow:0 4px 18px rgba(0,0,0,0.28)}
-/* Badge up: keep green, make brighter */
-.badge.up{background:rgba(76,175,125,0.18)!important;color:#6EE0A0!important}
-/* Alert badges: brighter red for visibility */
-.badge.dn{background:rgba(220,40,55,0.18)!important;color:#FF6070!important}
-.cr-low{background:rgba(220,40,55,0.16)!important;color:#FF6070!important}
+/* KPI cards: lifted surface with depth */
+.kc{box-shadow:0 0 0 1px rgba(80,120,220,0.10) inset,0 4px 24px rgba(0,0,0,0.55)}
+.panel{box-shadow:0 4px 24px rgba(0,0,0,0.45)}
+/* Badge up: bright green */
+.badge.up{background:rgba(52,211,153,0.16)!important;color:#34D399!important}
+/* Alert badges: bright */
+.badge.dn{background:rgba(240,96,112,0.16)!important;color:#F06070!important}
+.cr-low{background:rgba(240,96,112,0.14)!important;color:#F06070!important}
 /* ── Snapshot / shared-view banner ── */
-.snap-banner{display:none;position:sticky;top:0;z-index:200;background:rgba(175,135,100,0.14);border-bottom:1px solid var(--border2);padding:7px 20px;font-size:11px;color:var(--text2);text-align:center;font-family:var(--fd);letter-spacing:.06em;backdrop-filter:blur(6px)}
+.snap-banner{display:none;position:sticky;top:0;z-index:200;background:rgba(200,146,58,0.12);border-bottom:1px solid var(--border2);padding:7px 20px;font-size:11px;color:var(--text2);text-align:center;font-family:var(--fd);letter-spacing:.06em;backdrop-filter:blur(6px)}
 body.snap-mode .snap-banner{display:block}
-[data-theme="light"] .snap-banner{background:rgba(93,35,51,0.08);border-bottom-color:rgba(93,35,51,0.2);color:var(--text2)}
+[data-theme="light"] .snap-banner{background:rgba(50,90,200,0.08);border-bottom-color:rgba(50,90,200,0.18);color:var(--text2)}
+/* ── SPARKLINE ── */
+.kc-spark{height:34px;margin:8px -14px -13px;overflow:hidden;border-radius:0 0 8px 8px;opacity:0.9}
+/* ── BP RING ROWS ── */
+.bp-kpi-ring-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
+.bp-kpi-ring-row:last-child{border-bottom:none}
+.bp-kpi-ring-label{font-size:10px;color:var(--text2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bp-kpi-ring-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0}
+.bp-kpi-ring-val{position:absolute;font-size:8.5px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);text-align:center;line-height:1;pointer-events:none}
+.bp-kpi-ring-info{display:flex;flex-direction:column;gap:2px}
+/* ── ENHANCED KPI CARDS ── */
+.kc{position:relative;overflow:hidden;border-radius:12px}
+.kc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.025) 0%,transparent 60%);pointer-events:none;z-index:0}
+.kc>*{position:relative;z-index:1}
+.kc-spark{position:relative;z-index:1}
+/* ── COUNTRY CARD ENHANCEMENTS ── */
+.cc{border-radius:12px;overflow:hidden}
+.cc::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,0.02) 0%,transparent 60%);pointer-events:none}
+/* ── PANEL HEADER TITLES ── */
+.panel-title{font-size:11px;font-weight:700;color:var(--text2);margin-bottom:14px;font-family:var(--fd);letter-spacing:.05em}
+/* ── FILTER BAR PILLS: updated glow ── */
+.pill.a-red{background:rgba(200,146,58,0.14);color:var(--red);border-color:rgba(200,146,58,0.32)}
+.pill.a-mn{background:rgba(245,158,11,0.12);color:var(--mn);border-color:rgba(245,158,11,0.28)}
+.pill.a-kr{background:rgba(96,165,250,0.12);color:var(--kr);border-color:rgba(96,165,250,0.28)}
+.pill.a-za{background:rgba(52,211,153,0.12);color:var(--za);border-color:rgba(52,211,153,0.28)}
+/* ── NAV ACTIVE: blue-gold glow ── */
+.nav-btn.active{background:rgba(200,146,58,0.12);color:var(--red);border-left:2px solid var(--red);padding-left:8px}
+/* ── KPI GRID: tighter gap on small screens ── */
+@media(max-width:1300px){.kpi-grid{grid-template-columns:repeat(4,1fr)}}
+/* ── TABLE: navy-tinted header ── */
+.tbl th{background:var(--surface3)}
+/* ── BP SPEND BAR: wider nums column ── */
+.bp-spend-nums{width:90px}
+/* ── AI FAB: gold glow ── */
+.ai-fab{box-shadow:0 6px 24px rgba(200,146,58,0.35)}
+.ai-fab:hover{box-shadow:0 8px 32px rgba(200,146,58,0.55)}
+/* ── S-DOT ── */
+.s-dot{background:var(--green)}
 </style>
 </head>
 <body>
@@ -644,18 +685,18 @@ body.snap-mode .snap-banner{display:block}
       </div>
     </div>
     <div class="kpi-grid">
-      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Registrations</div><div class="kc-val" id="sum-reg">—</div><div class="kc-foot"><span class="badge neu" id="sum-reg-chg">—</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Pending Submission</div><div class="kc-val" id="sum-pend">—</div><div class="kc-foot"><span class="badge neu" id="sum-pend-chg">—</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">KYC Completed</div><div class="kc-val" id="sum-kyc">—</div><div class="kc-foot"><span class="badge neu" id="sum-kyc-chg">—</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">FTD Count</div><div class="kc-val" id="sum-ftd">—</div><div class="kc-foot"><span class="badge neu" id="sum-ftd-chg">—</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">FTD Amount</div><div class="kc-val sm" id="sum-ftdamt">—</div><div class="kc-foot"><span class="badge neu" id="sum-ftdamt-chg">—</span> vs prev</div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Total Spent</div><div class="kc-val sm" id="sum-spend">—</div><div class="kc-foot"><span class="badge neu" id="sum-spend-chg">—</span> vs prev</div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-reg)"></div><div class="kc-label">Registrations</div><div class="kc-val" id="sum-reg">—</div><div class="kc-foot"><span class="badge neu" id="sum-reg-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-reg"></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Pending Submission</div><div class="kc-val" id="sum-pend">—</div><div class="kc-foot"><span class="badge neu" id="sum-pend-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-pend"></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-kyc)"></div><div class="kc-label">KYC Completed</div><div class="kc-val" id="sum-kyc">—</div><div class="kc-foot"><span class="badge neu" id="sum-kyc-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-kyc"></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">FTD Count</div><div class="kc-val" id="sum-ftd">—</div><div class="kc-foot"><span class="badge neu" id="sum-ftd-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ftd"></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">FTD Amount</div><div class="kc-val sm" id="sum-ftdamt">—</div><div class="kc-foot"><span class="badge neu" id="sum-ftdamt-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ftdamt"></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-spend)"></div><div class="kc-label">Total Spent</div><div class="kc-val sm" id="sum-spend">—</div><div class="kc-foot"><span class="badge neu" id="sum-spend-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-spend"></div></div>
     </div>
     <!-- Cost metrics row (only shown when spend data exists) -->
     <div class="kpi-grid-cost" id="kpi-cost-row" style="display:none">
-      <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Cost Per Registration (CPR)</div><div class="kc-val sm" id="sum-cpl">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ Registrations</span></div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">Cost Per KYC</div><div class="kc-val sm" id="sum-cpk">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ KYC Completed</span></div></div>
-      <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Cost Per FTD (CPA)</div><div class="kc-val sm" id="sum-cpa">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ FTD Count</span></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-reg)"></div><div class="kc-label">Cost Per Registration (CPR)</div><div class="kc-val sm" id="sum-cpl">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ Registrations</span></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-kyc)"></div><div class="kc-label">Cost Per KYC</div><div class="kc-val sm" id="sum-cpk">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ KYC Completed</span></div></div>
+      <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per FTD (CPA)</div><div class="kc-val sm" id="sum-cpa">—</div><div class="kc-foot"><span style="font-size:9px;color:var(--muted)">Spend ÷ FTD Count</span></div></div>
     </div>
   </div>
 
@@ -671,24 +712,24 @@ body.snap-mode .snap-banner{display:block}
     </div>
     <!-- Facebook row -->
     <div id="pg-row-fb">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--kr);margin-bottom:7px;display:flex;align-items:center;gap:6px">📘 Facebook</div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--c-fb);margin-bottom:7px;display:flex;align-items:center;gap:6px">📘 Facebook</div>
       <div class="kpi-grid" style="margin-bottom:12px">
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-fb-spend">$0</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-fb-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-gained-chg">—</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-fb-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-fb-cpf-chg">—</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-fb-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-imp-chg">—</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-kr"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-fb-total">0</div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-spend)"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-fb-spend">$0</div><div class="kc-spark" id="kc-spark-fb-spend"></div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-fb)"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-fb-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-gained-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-fb-gained"></div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-fb-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-fb-cpf-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-fb-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-imp-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-fb-imp"></div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-kyc)"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-fb-total">0</div></div>
       </div>
     </div>
     <!-- Instagram row -->
     <div id="pg-row-ig" style="margin-bottom:18px">
-      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#E8607A;margin-bottom:7px;display:flex;align-items:center;gap:6px">📸 Instagram</div>
+      <div style="font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--c-ig);margin-bottom:7px;display:flex;align-items:center;gap:6px">📸 Instagram</div>
       <div class="kpi-grid">
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-ig-spend">$0</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-ig-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-gained-chg">—</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-ig-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-ig-cpf-chg">—</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-ig-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-imp-chg">—</span> vs prev</div></div>
-        <div class="kc"><div class="kc-accent acc-ig"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-ig-total">0</div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-spend)"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-ig-spend">$0</div><div class="kc-spark" id="kc-spark-ig-spend"></div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-ig)"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-ig-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-gained-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ig-gained"></div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-ig-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-ig-cpf-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-ig-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-imp-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ig-imp"></div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-kyc)"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-ig-total">0</div></div>
       </div>
     </div>
   </div>
@@ -709,11 +750,11 @@ body.snap-mode .snap-banner{display:block}
       <div id="chart-split" style="display:none">
         <div id="chart-split-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
           <div id="chart-split-fb">
-            <div class="stitle" style="color:#4A9EE8;margin-bottom:6px;font-size:11px">📘 Facebook — Followers Gained</div>
+            <div class="stitle" style="color:#60A5FA;margin-bottom:6px;font-size:11px">📘 Facebook — Followers Gained</div>
             <div id="overview-chart-fb" style="width:100%;overflow:hidden"></div>
-            <div class="stitle" style="color:#4A9EE8;margin-top:16px;margin-bottom:6px;font-size:11px">📘 Facebook — Impressions</div>
+            <div class="stitle" style="color:#60A5FA;margin-top:16px;margin-bottom:6px;font-size:11px">📘 Facebook — Impressions</div>
             <div id="overview-chart-fb-imp" style="width:100%;overflow:hidden"></div>
-            <div class="stitle" style="color:#4A9EE8;margin-top:16px;margin-bottom:6px;font-size:11px">📘 Facebook — Cost Per Follow</div>
+            <div class="stitle" style="color:#60A5FA;margin-top:16px;margin-bottom:6px;font-size:11px">📘 Facebook — Cost Per Follow</div>
             <div id="overview-chart-fb-cpf" style="width:100%;overflow:hidden"></div>
           </div>
           <div id="chart-split-ig">
@@ -1881,7 +1922,7 @@ const escapeHtml = v => String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;
 const COUNTRIES = ['mn','kr','za'];
 const C_NAME  = {mn:'Mongolia', kr:'South Korea', za:'South Africa'};
 const C_FLAG  = {mn:'🇲🇳', kr:'🇰🇷', za:'🇿🇦'};
-const C_COLOR = {mn:'#E8A838', kr:'#4A9EE8', za:'#4CAF7D'};
+const C_COLOR = {mn:'#F59E0B', kr:'#60A5FA', za:'#34D399'};
 
 // ── State ────────────────────────────────────────────────────────────────
 let activeView = 'overview';
@@ -2249,22 +2290,22 @@ function renderBudgetPacing() {
   }
 
   function kpiRow(label, actual, target) {
-    if (!target) return `<div class="bp-metric-row">
-      <div class="bp-metric-label">${label}</div>
-      <div class="bp-mini-bar-wrap"><div class="bp-mini-bar" style="width:0%;background:var(--border2)"></div></div>
-      <div class="bp-metric-right"><span class="bp-badge no-target">No target</span></div>
+    if (!target) return `<div class="bp-kpi-ring-row">
+      <div class="bp-kpi-ring-label">${label}</div>
+      <div class="bp-kpi-ring-wrap">${ringChart(0,'rgba(255,255,255,0.12)',40)}<div class="bp-kpi-ring-val">—</div></div>
+      <div class="bp-kpi-ring-info"><span class="bp-badge no-target">No target</span></div>
     </div>`;
     const pct  = Math.min(actual / target, 1);
-    const pctN = (pct * 100).toFixed(0);
-    const clr  = pct >= 1 ? 'var(--green)' : pct >= 0.75 ? 'var(--amber)' : 'var(--red)';
+    const pctN = Math.round(pct * 100);
+    const clr  = pct >= 1 ? '#34D399' : pct >= 0.75 ? '#F59E0B' : '#F06070';
     const badge = pct >= 1   ? `<span class="bp-badge on-track">✓ Hit</span>`
                 : pct >= 0.75? `<span class="bp-badge under">${pctN}%</span>`
                 :              `<span class="bp-badge over">${pctN}%</span>`;
-    return `<div class="bp-metric-row">
-      <div class="bp-metric-label">${label}</div>
-      <div class="bp-mini-bar-wrap"><div class="bp-mini-bar" style="width:${(pct*100).toFixed(1)}%;background:${clr}"></div></div>
-      <div class="bp-metric-right">
-        <span class="bp-count">${fmtN(actual)}<span style="color:var(--border2)"> /</span> ${fmtN(target)}</span>
+    return `<div class="bp-kpi-ring-row">
+      <div class="bp-kpi-ring-label">${label}</div>
+      <div class="bp-kpi-ring-wrap">${ringChart(pct, clr, 40)}<div class="bp-kpi-ring-val" style="color:${clr}">${pctN}%</div></div>
+      <div class="bp-kpi-ring-info">
+        <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text)">${fmtN(actual)} <span style="color:var(--muted)">/ ${fmtN(target)}</span></div>
         ${badge}
       </div>
     </div>`;
@@ -2525,6 +2566,47 @@ function renderOverview() {
   renderHistoryTable();
 }
 
+// ── Sparkline SVG generator ──────────────────────────────────────────────
+function sparklineSVG(values, color, h=34) {
+  if (!values || values.length < 2) return '';
+  const w = 200;
+  const max = Math.max(...values, 1);
+  const min = Math.min(...values, 0);
+  const range = Math.max(max - min, 1);
+  const pad = 3;
+  const pts = values.map((v, i) => [
+    (i / (values.length - 1)) * w,
+    (h - pad) - ((v - min) / range) * (h - pad * 2) + pad
+  ]);
+  const path = 'M' + pts.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join('L');
+  const area = path + `L${w},${h} L0,${h} Z`;
+  const gid = 'sg' + color.replace(/[^a-f0-9]/gi, '');
+  return `<svg viewBox="0 0 ${w} ${h}" width="100%" height="${h}" preserveAspectRatio="none" style="display:block">
+    <defs><linearGradient id="${gid}" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="${color}" stop-opacity="0.28"/>
+      <stop offset="100%" stop-color="${color}" stop-opacity="0.02"/>
+    </linearGradient></defs>
+    <path d="${area}" fill="url(#${gid})"/>
+    <path d="${path}" stroke="${color}" stroke-width="1.5" fill="none"/>
+    <circle cx="${pts[pts.length-1][0].toFixed(1)}" cy="${pts[pts.length-1][1].toFixed(1)}" r="2.2" fill="${color}"/>
+  </svg>`;
+}
+
+// ── Donut ring SVG for Budget Pacing ──────────────────────────────────────
+function ringChart(pct, color, size=40) {
+  const sw = 4.5, r = (size - sw * 2) / 2;
+  const cx = size / 2, cy = size / 2;
+  const circ = 2 * Math.PI * r;
+  const filled = Math.max(0, Math.min(pct * circ, circ - 0.5));
+  const gap = circ - filled;
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block;flex-shrink:0">
+    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="${sw}"/>
+    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="${color}" stroke-width="${sw}"
+      stroke-dasharray="${filled.toFixed(1)} ${gap.toFixed(1)}" stroke-linecap="round"
+      transform="rotate(-90 ${cx.toFixed(1)} ${cy.toFixed(1)})"/>
+  </svg>`;
+}
+
 function renderSummaryKPIs() {
   const cs = activeCountries();
   const currAll = cs.flatMap(c => getFilteredWeeks(c));
@@ -2665,6 +2747,45 @@ function renderSummaryKPIs() {
   };
   setGainedChg('pg-fb-imp-chg', fbD.imp, getSocialPrevImp('fb'));
   setGainedChg('pg-ig-imp-chg', igD.imp, getSocialPrevImp('ig'));
+
+  // ── Inject sparklines ──────────────────────────────────────────────────
+  const injSpark = (id, vals, clr) => {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = sparklineSVG(vals, clr);
+  };
+  const weeklyTrend = (field) => {
+    const wMap = {};
+    cs.forEach(c => store[c].weeks.forEach(w => {
+      wMap[w.label] = (wMap[w.label]||0) + (w[field]||0);
+    }));
+    return Object.entries(wMap)
+      .sort((a,b)=>(parseInt(a[0].replace(/\D/g,''))||0)-(parseInt(b[0].replace(/\D/g,''))||0))
+      .slice(-10).map(([,v])=>v);
+  };
+  const socialTrend = (platform, field) => {
+    const wMap = {};
+    cs.forEach(c => (socialStore[c][platform]||[]).forEach(e => {
+      wMap[e.label] = (wMap[e.label]||0) + (e[field]||0);
+    }));
+    return Object.entries(wMap)
+      .sort((a,b)=>(parseInt(a[0].replace(/\D/g,''))||0)-(parseInt(b[0].replace(/\D/g,''))||0))
+      .slice(-10).map(([,v])=>v);
+  };
+  if (filters.objective !== 'pagegrowth') {
+    injSpark('kc-spark-reg',    weeklyTrend('reg'),    '#60A5FA');
+    injSpark('kc-spark-pend',   weeklyTrend('pend'),   '#A78BFA');
+    injSpark('kc-spark-kyc',    weeklyTrend('kyc'),    '#34D399');
+    injSpark('kc-spark-ftd',    weeklyTrend('ftd'),    '#FBBF24');
+    injSpark('kc-spark-ftdamt', weeklyTrend('ftdamt'), '#34D399');
+    injSpark('kc-spark-spend',  weeklyTrend('spend'),  '#C8923A');
+  } else {
+    injSpark('kc-spark-fb-spend',  socialTrend('fb','spend'),  '#C8923A');
+    injSpark('kc-spark-fb-gained', socialTrend('fb','gained'), '#60A5FA');
+    injSpark('kc-spark-fb-imp',    socialTrend('fb','imp'),    '#A78BFA');
+    injSpark('kc-spark-ig-spend',  socialTrend('ig','spend'),  '#C8923A');
+    injSpark('kc-spark-ig-gained', socialTrend('ig','gained'), '#F472B6');
+    injSpark('kc-spark-ig-imp',    socialTrend('ig','imp'),    '#A78BFA');
+  }
 }
 
 function renderOverviewFunnel() {
@@ -2681,10 +2802,10 @@ function renderOverviewFunnel() {
   const weeks = cs.flatMap(c => getFilteredWeeks(c));
   const a = aggregate(weeks);
   const stages = [
-    {lbl:'Reg',    val:a.reg,  color:'#C0292A'},
-    {lbl:'Pending',val:a.pend, color:'#9E3EC5'},
-    {lbl:'KYC',    val:a.kyc,  color:'#4A9EE8'},
-    {lbl:'FTD',    val:a.ftd,  color:'#E8A838'},
+    {lbl:'Reg',    val:a.reg,  color:'#60A5FA'},
+    {lbl:'Pending',val:a.pend, color:'#A78BFA'},
+    {lbl:'KYC',    val:a.kyc,  color:'#34D399'},
+    {lbl:'FTD',    val:a.ftd,  color:'#FBBF24'},
   ];
   const maxH = 90, maxVal = Math.max(a.reg,1);
   const container = document.getElementById('overview-funnel');
@@ -2729,19 +2850,19 @@ function renderBarChart() {
       const x  = padL + i*(cW/labels.length) + (cW/labels.length - bW)/2;
       const y  = padT + cH - bH;
       const short = lbl.match(/^W(\d+)$/i) ? lbl : lbl.slice(0,3);
-      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bW}" height="${bH.toFixed(1)}" rx="3" fill="${barColor}" opacity="0.85"/>
-        <text x="${(x+bW/2).toFixed(1)}" y="${(H-padB+14).toFixed(1)}" text-anchor="middle" font-size="9" fill="#65657A">${short}</text>
-        <text x="${(x+bW/2).toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="9" fill="#A0A0B8">${v>0?(fmtVal?fmtVal(v):v):''}</text>`;
+      return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bW}" height="${bH.toFixed(1)}" rx="3" fill="${barColor}" opacity="0.88"/>
+        <text x="${(x+bW/2).toFixed(1)}" y="${(H-padB+14).toFixed(1)}" text-anchor="middle" font-size="9" fill="#4A6090">${short}</text>
+        <text x="${(x+bW/2).toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="9" fill="#7E94C8">${v>0?(fmtVal?fmtVal(v):v):''}</text>`;
     });
     const gridLines = [.25,.5,.75,1].map(f => {
       const y = (padT + cH*(1-f)).toFixed(1);
       const v = Math.round(maxVal*f);
-      return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#2C2C38" stroke-width="1"/>
-        <text x="${padL-4}" y="${(parseFloat(y)+3).toFixed(1)}" text-anchor="end" font-size="9" fill="#65657A">${v>=1000?(v/1000).toFixed(1)+'k':v}</text>`;
+      return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="rgba(80,120,220,0.10)" stroke-width="1"/>
+        <text x="${padL-4}" y="${(parseFloat(y)+3).toFixed(1)}" text-anchor="end" font-size="9" fill="#4A6090">${v>=1000?(v/1000).toFixed(1)+'k':v}</text>`;
     });
     return `<svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible">
       ${gridLines.join('')}
-      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+cH}" stroke="#2C2C38" stroke-width="1"/>
+      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+cH}" stroke="rgba(80,120,220,0.12)" stroke-width="1"/>
       ${bars.join('')}
     </svg>`;
   };
@@ -2775,18 +2896,18 @@ function renderBarChart() {
     // Followers Gained
     const fbEl = document.getElementById('overview-chart-fb');
     const igEl = document.getElementById('overview-chart-ig');
-    if (fbEl) fbEl.innerHTML = buildBarSVG(buildWeekMap('fb','gained'), '#4A9EE8');
-    if (igEl) igEl.innerHTML = buildBarSVG(buildWeekMap('ig','gained'), '#E8607A');
+    if (fbEl) fbEl.innerHTML = buildBarSVG(buildWeekMap('fb','gained'), '#60A5FA');
+    if (igEl) igEl.innerHTML = buildBarSVG(buildWeekMap('ig','gained'), '#F472B6');
     // Impressions
     const fbImpEl = document.getElementById('overview-chart-fb-imp');
     const igImpEl = document.getElementById('overview-chart-ig-imp');
-    if (fbImpEl) fbImpEl.innerHTML = buildBarSVG(buildWeekMap('fb','imp'), '#4A9EE8');
-    if (igImpEl) igImpEl.innerHTML = buildBarSVG(buildWeekMap('ig','imp'), '#E8607A');
+    if (fbImpEl) fbImpEl.innerHTML = buildBarSVG(buildWeekMap('fb','imp'), '#60A5FA');
+    if (igImpEl) igImpEl.innerHTML = buildBarSVG(buildWeekMap('ig','imp'), '#F472B6');
     // Cost Per Follow
     const fbCpfEl = document.getElementById('overview-chart-fb-cpf');
     const igCpfEl = document.getElementById('overview-chart-ig-cpf');
-    if (fbCpfEl) fbCpfEl.innerHTML = buildBarSVG(buildCPFWeekMap('fb'), '#4A9EE8', fmtCPF);
-    if (igCpfEl) igCpfEl.innerHTML = buildBarSVG(buildCPFWeekMap('ig'), '#E8607A', fmtCPF);
+    if (fbCpfEl) fbCpfEl.innerHTML = buildBarSVG(buildCPFWeekMap('fb'), '#60A5FA', fmtCPF);
+    if (igCpfEl) igCpfEl.innerHTML = buildBarSVG(buildCPFWeekMap('ig'), '#F472B6', fmtCPF);
     return;
   }
 
@@ -2817,7 +2938,7 @@ function renderBarChart() {
   const cW=W-padL-padR, cH=H-padB-padT;
   const maxVal = Math.max(...vals, 1);
   const bW = Math.max(14, Math.floor(cW/labels.length)-6);
-  const clr = filters.country!=='all' ? C_COLOR[filters.country] : '#C0292A';
+  const clr = filters.country!=='all' ? C_COLOR[filters.country] : '#60A5FA';
 
   const bars = labels.map((lbl,i) => {
     const v  = vals[i];
@@ -2825,15 +2946,15 @@ function renderBarChart() {
     const x  = padL + i*(cW/labels.length) + (cW/labels.length - bW)/2;
     const y  = padT + cH - bH;
     const short = lbl.match(/^W(\d+)$/i) ? lbl : lbl.slice(0,3);
-    return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bW}" height="${bH.toFixed(1)}" rx="3" fill="${clr}" opacity="0.8"/>
-      <text x="${(x+bW/2).toFixed(1)}" y="${(H-padB+14).toFixed(1)}" text-anchor="middle" font-size="9" fill="#65657A">${short}</text>
-      <text x="${(x+bW/2).toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="9" fill="#A0A0B8">${v>0?v:''}</text>`;
+    return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${bW}" height="${bH.toFixed(1)}" rx="3" fill="${clr}" opacity="0.85"/>
+      <text x="${(x+bW/2).toFixed(1)}" y="${(H-padB+14).toFixed(1)}" text-anchor="middle" font-size="9" fill="#4A6090">${short}</text>
+      <text x="${(x+bW/2).toFixed(1)}" y="${(y-4).toFixed(1)}" text-anchor="middle" font-size="9" fill="#7E94C8">${v>0?v:''}</text>`;
   });
   const gridLines = [.25,.5,.75,1].map(f => {
     const y = (padT + cH*(1-f)).toFixed(1);
     const v = Math.round(maxVal*f);
-    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="#2C2C38" stroke-width="1"/>
-      <text x="${padL-4}" y="${(parseFloat(y)+3).toFixed(1)}" text-anchor="end" font-size="9" fill="#65657A">${v>=1000?(v/1000).toFixed(1)+'k':v}</text>`;
+    return `<line x1="${padL}" y1="${y}" x2="${W-padR}" y2="${y}" stroke="rgba(80,120,220,0.10)" stroke-width="1"/>
+      <text x="${padL-4}" y="${(parseFloat(y)+3).toFixed(1)}" text-anchor="end" font-size="9" fill="#4A6090">${v>=1000?(v/1000).toFixed(1)+'k':v}</text>`;
   });
 
   // KYC % trend line overlay
@@ -2857,15 +2978,15 @@ function renderBarChart() {
   if (trendPoints.length >= 2) {
     const pts = trendPoints.map(p=>`${p.x.toFixed(1)},${p.y.toFixed(1)}`).join(' ');
     trendLineSvg = `
-      <polyline points="${pts}" fill="none" stroke="#F5D080" stroke-width="2" stroke-dasharray="5,3" opacity="1"/>
-      ${trendPoints.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="#F5D080" opacity="1"/>
-        <text x="${p.x.toFixed(1)}" y="${(p.y-9).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="600" fill="#F5D080">${Math.round(p.rate*100)}%</text>`).join('')}
-      <text x="${(W-padR).toFixed(1)}" y="${padT+8}" text-anchor="end" font-size="9" fill="#F5D080" font-weight="700">── KYC%</text>`;
+      <polyline points="${pts}" fill="none" stroke="#34D399" stroke-width="2" stroke-dasharray="5,3" opacity="0.9"/>
+      ${trendPoints.map(p=>`<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="#34D399" opacity="0.9"/>
+        <text x="${p.x.toFixed(1)}" y="${(p.y-9).toFixed(1)}" text-anchor="middle" font-size="9" font-weight="600" fill="#34D399">${Math.round(p.rate*100)}%</text>`).join('')}
+      <text x="${(W-padR).toFixed(1)}" y="${padT+8}" text-anchor="end" font-size="9" fill="#34D399" font-weight="700">── KYC%</text>`;
   }
 
   container.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" style="overflow:visible">
     ${gridLines.join('')}
-    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+cH}" stroke="#2C2C38" stroke-width="1"/>
+    <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT+cH}" stroke="rgba(80,120,220,0.12)" stroke-width="1"/>
     ${bars.join('')}
     ${trendLineSvg}
   </svg>`;
@@ -2884,7 +3005,7 @@ function renderCountryBreakdown() {
     const kycRate = a.reg>0 ? Math.round(a.kyc/a.reg*100) : 0;
     const ftdRate = a.kyc>0 ? Math.round(a.ftd/a.kyc*100) : 0;
     const barPct = Math.round(a.reg/maxReg*100);
-    const kycCls = kycRate>=40?'var(--green)':kycRate>=20?'var(--amber)':'var(--red)';
+    const kycCls = kycRate>=40?'var(--green)':kycRate>=20?'var(--amber)':'var(--alert)';
     return `<div class="cc">
       <div class="cc-head">
         <div class="cc-name" style="color:${color}">${C_FLAG[c]} ${C_NAME[c]}</div>
