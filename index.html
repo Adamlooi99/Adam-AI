@@ -1893,7 +1893,7 @@ let socialChannelFilter = 'both';
 const store = {};
 COUNTRIES.forEach(c => store[c] = {weeks:[], days:[], months:[], activeIdx:0});
 const socialStore = {};
-COUNTRIES.forEach(c => socialStore[c] = {fb:[], ig:[], activePlatform:'fb'});
+COUNTRIES.forEach(c => socialStore[c] = {fb:[], ig:[], fbMonths:[], igMonths:[], activePlatform:'fb'});
 
 // ── CRM Seed Data — W18 onwards (Apr 27 – May 31) ────────────────────────
 function seedCRMData() {
@@ -2011,8 +2011,10 @@ function loadPersistedData() {
         if (store[c].weeks.length > 0) any = true;
       }
       if (d.socialStore && d.socialStore[c]) {
-        socialStore[c].fb = d.socialStore[c].fb || [];
-        socialStore[c].ig = d.socialStore[c].ig || [];
+        socialStore[c].fb       = d.socialStore[c].fb       || [];
+        socialStore[c].ig       = d.socialStore[c].ig       || [];
+        socialStore[c].fbMonths = d.socialStore[c].fbMonths || [];
+        socialStore[c].igMonths = d.socialStore[c].igMonths || [];
       }
     });
     // Load budgets
@@ -2330,8 +2332,10 @@ function loadSnapshotData(snap) {
         store[c].activeIdx = snap.store[c].activeIdx || 0;
       }
       if (snap.socialStore && snap.socialStore[c]) {
-        socialStore[c].fb = snap.socialStore[c].fb || [];
-        socialStore[c].ig = snap.socialStore[c].ig || [];
+        socialStore[c].fb       = snap.socialStore[c].fb       || [];
+        socialStore[c].ig       = snap.socialStore[c].ig       || [];
+        socialStore[c].fbMonths = snap.socialStore[c].fbMonths || [];
+        socialStore[c].igMonths = snap.socialStore[c].igMonths || [];
         socialStore[c].activePlatform = snap.socialStore[c].activePlatform || 'fb';
       }
     });
@@ -2570,19 +2574,26 @@ function renderSummaryKPIs() {
     // Build filteredLabels directly from the period filter — getFilteredWeeks returns
     // daily lead-gen rows (no .label) when a specific week is selected, which would
     // silently produce Set([undefined]) and filter out all social entries.
+    const weekNum = lbl => parseInt(String(lbl).replace(/\D/g,'')) || 0;
+
+    // Month mode: use actual-date monthly aggregation — exact match with source data date filter
+    if (filters.periodType === 'month' && filters.monthSel !== 'all') {
+      const monthEntries = cs2.flatMap(c => (socialStore[c][platform+'Months']||[]).filter(e => e.monthKey === filters.monthSel));
+      let spend=0, gained=0, imp=0;
+      monthEntries.forEach(e => { spend+=e.spend||0; gained+=e.gained||0; imp+=e.imp||0; });
+      const cpf = gained > 0 ? +(spend/gained).toFixed(2) : 0;
+      let total = 0;
+      cs2.forEach(c => {
+        const all = (socialStore[c][platform]||[]);
+        if (all.length) total += all.reduce((b,e) => weekNum(e.label)>=weekNum(b.label)?e:b).total || 0;
+      });
+      return {spend, gained, cpf, imp, total};
+    }
+
+    // Week/all modes: use weekly entries
     let filteredLabels;
     if (filters.periodType === 'week' && filters.weekSel !== 'all') {
       filteredLabels = new Set([filters.weekSel]);
-    } else if (filters.periodType === 'month' && filters.monthSel !== 'all') {
-      filteredLabels = new Set(cs2.flatMap(c =>
-        (socialStore[c][platform]||[]).filter(e => {
-          if (e.monthKey) return e.monthKey === filters.monthSel;
-          // Fallback for older entries without monthKey: derive from week label
-          const ym = weekLabelToYearMonth(e.label);
-          if (!ym) return false;
-          return (ym.year+'-'+String(ym.month+1).padStart(2,'0')) === filters.monthSel;
-        }).map(e => e.label)
-      ));
     } else {
       filteredLabels = new Set(cs2.flatMap(c => (socialStore[c][platform]||[]).map(e => e.label)));
     }
@@ -2591,7 +2602,6 @@ function renderSummaryKPIs() {
     entries.forEach(e => { spend+=e.spend||0; gained+=e.gained||0; imp+=e.imp||0; cpf+=e.cpf||0; cnt++; });
 
     // Total Followers = snapshot metric: use each country's latest week entry, then sum across countries
-    const weekNum = lbl => parseInt(String(lbl).replace(/\D/g,'')) || 0;
     let total = 0;
     cs2.forEach(c => {
       const countryEntries = (socialStore[c][platform]||[]).filter(e => filteredLabels.has(e.label));
@@ -3283,13 +3293,19 @@ function _processCSVRows(rows) {
     });
   });
 
-  COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; });
-  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={}, weekMonthMap={};
+  COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; socialStore[c].fbMonths=[]; socialStore[c].igMonths=[]; });
+  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={}, weekMonthMap={}, fbMonMap={}, igMonMap={};
   let parsed = 0, lgCount = 0, fbCount = 0, igCount = 0;
+  const unmatchedCats = {}; // catValue → count, for diagnostic
 
   // Build category → objective lookup ('fb' | 'ig' | 'leadgen')
-  const catLookup = {};
-  (mapStore.catRules||[]).forEach(r => { if((r.raw||'').trim()) catLookup[r.raw.trim()] = r.obj; });
+  const catLookup = {}, catLookupLC = {};
+  (mapStore.catRules||[]).forEach(r => {
+    if ((r.raw||'').trim()) {
+      catLookup[r.raw.trim()] = r.obj;
+      catLookupLC[r.raw.trim().toLowerCase()] = r.obj;
+    }
+  });
   // Fall back to default column name if catCol was accidentally cleared
   const effectiveCatCol = (mapStore.catCol||'').trim() || MAPPING_DEFAULT.catCol;
 
@@ -3309,7 +3325,16 @@ function _processCSVRows(rows) {
 
     // Route row to the right objective bucket based on Campaign Category column
     const catVal  = (row[effectiveCatCol]||'').trim();
-    const objType = catVal ? (catLookup[catVal] || 'leadgen') : 'leadgen';
+    let objType = 'leadgen';
+    if (catVal) {
+      if (catLookup[catVal]) {
+        objType = catLookup[catVal];                          // exact match
+      } else if (catLookupLC[catVal.toLowerCase()]) {
+        objType = catLookupLC[catVal.toLowerCase()];         // case-insensitive match
+      } else {
+        unmatchedCats[catVal] = (unmatchedCats[catVal]||0) + 1; // track for diagnostic
+      }
+    }
 
     if (objType === 'fb') {
       fbCount++;
@@ -3317,12 +3342,23 @@ function _processCSVRows(rows) {
       fbMap[key].gained += _csvNum(row[mapStore.fbCol]);
       fbMap[key].imp    += _csvNum(row[mapStore.impCol]);
       fbMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+      // Per-actual-date monthly aggregation (exact match for month filter)
+      const fbMK = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+      if (!fbMonMap[fbMK]) fbMonMap[fbMK]={c,monthKey:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),gained:0,imp:0,spend:0};
+      fbMonMap[fbMK].gained += _csvNum(row[mapStore.fbCol]);
+      fbMonMap[fbMK].imp    += _csvNum(row[mapStore.impCol]);
+      fbMonMap[fbMK].spend  += _csvNum(row[mapStore.spendCol]);
     } else if (objType === 'ig') {
       igCount++;
       if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
       igMap[key].gained += _csvNum(row[mapStore.igCol]);
       igMap[key].imp    += _csvNum(row[mapStore.impCol]);
       igMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+      const igMK = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+      if (!igMonMap[igMK]) igMonMap[igMK]={c,monthKey:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),gained:0,imp:0,spend:0};
+      igMonMap[igMK].gained += _csvNum(row[mapStore.igCol]);
+      igMonMap[igMK].imp    += _csvNum(row[mapStore.impCol]);
+      igMonMap[igMK].spend  += _csvNum(row[mapStore.spendCol]);
     } else {
       lgCount++;
       if (!lgMap[key]) lgMap[key] = {c,label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
@@ -3387,11 +3423,14 @@ function _processCSVRows(rows) {
       .filter(x=>x.c===c)
       .sort((a,b)=>a.key.localeCompare(b.key))
       .map(x=>({label:x.label,key:x.key,spend:+x.spend.toFixed(2),reg:Math.round(x.reg),pend:0,kyc:Math.round(x.kyc),ftd:Math.round(x.ftd),ftdamt:+x.ftdamt.toFixed(2)}));
+    // Social monthly — per-actual-date aggregation for exact month alignment
+    socialStore[c].fbMonths = Object.values(fbMonMap).filter(x=>x.c===c).sort((a,b)=>a.monthKey.localeCompare(b.monthKey)).map(x=>({monthKey:x.monthKey,gained:Math.round(x.gained),imp:Math.round(x.imp),spend:+x.spend.toFixed(2),cpf:x.gained>0?+(x.spend/x.gained).toFixed(2):0}));
+    socialStore[c].igMonths = Object.values(igMonMap).filter(x=>x.c===c).sort((a,b)=>a.monthKey.localeCompare(b.monthKey)).map(x=>({monthKey:x.monthKey,gained:Math.round(x.gained),imp:Math.round(x.imp),spend:+x.spend.toFixed(2),cpf:x.gained>0?+(x.spend/x.gained).toFixed(2):0}));
   });
-  return {parsed, lgCount, fbCount, igCount};
+  return {parsed, lgCount, fbCount, igCount, unmatchedCats};
 }
 
-function _applySyncResult({parsed, lgCount, fbCount, igCount}) {
+function _applySyncResult({parsed, lgCount, fbCount, igCount, unmatchedCats}) {
   persistData();
   populatePeriodDropdowns();
   renderOverview();
@@ -3404,8 +3443,12 @@ function _applySyncResult({parsed, lgCount, fbCount, igCount}) {
   const routing = lgCount+fbCount+igCount > 0
     ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">Routed → Lead Gen: ${lgCount} rows &nbsp;|&nbsp; Facebook: ${fbCount} rows &nbsp;|&nbsp; Instagram: ${igCount} rows</div>`
     : '';
+  const unmatchedKeys = Object.keys(unmatchedCats||{});
+  const unmatchedWarn = unmatchedKeys.length
+    ? `<div style="font-size:11px;color:var(--amber);margin-top:4px">⚠ ${unmatchedKeys.reduce((s,k)=>s+(unmatchedCats[k]||0),0)} rows had unrecognised category → defaulted to Lead Gen:<br>${unmatchedKeys.map(k=>`&nbsp;&nbsp;"${k}" (${unmatchedCats[k]} rows)`).join('<br>')}</div>`
+    : '';
   return `<span style="color:var(--green)">&#10003; ${parsed.toLocaleString()} rows synced</span>
-    ${routing}
+    ${routing}${unmatchedWarn}
     <div style="font-size:11px;color:var(--muted);margin-top:3px">${summary}</div>`;
 }
 
