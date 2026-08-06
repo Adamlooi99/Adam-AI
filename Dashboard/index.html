@@ -4271,16 +4271,11 @@ function ftdMonthLabel(key) {
 }
 
 function getMonthsFTDData(country) {
-  const map = {};
-  (store[country].weeks || []).forEach(w => {
-    const ym = weekLabelToYearMonth(w.label);
-    if (!ym) return;
-    const k = ftdMonthKey(ym.year, ym.month);
-    if (!map[k]) map[k] = { key: k, ftdCount: 0, ftdAmt: 0 };
-    map[k].ftdCount += (w.ftd    || 0);
-    map[k].ftdAmt   += (w.ftdamt || 0);
-  });
-  return Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
+  return (store[country].months || []).map(m => ({
+    key:      m.key,
+    ftdCount: m.ftd    || 0,
+    ftdAmt:   m.ftdamt || 0,
+  }));
 }
 
 function saveLTVEntry(country, key, val) {
