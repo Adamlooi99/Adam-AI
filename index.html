@@ -3224,11 +3224,13 @@ function _processCSVRows(rows) {
 
   COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; });
   const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={};
-  let parsed = 0;
+  let parsed = 0, lgCount = 0, fbCount = 0, igCount = 0;
 
   // Build category → objective lookup ('fb' | 'ig' | 'leadgen')
   const catLookup = {};
   (mapStore.catRules||[]).forEach(r => { if((r.raw||'').trim()) catLookup[r.raw.trim()] = r.obj; });
+  // Fall back to default column name if catCol was accidentally cleared
+  const effectiveCatCol = (mapStore.catCol||'').trim() || MAPPING_DEFAULT.catCol;
 
   rows.forEach(row => {
     const geo = (row[mapStore.geoCol]||'').trim();
@@ -3244,64 +3246,52 @@ function _processCSVRows(rows) {
     parsed++;
 
     // Route row to the right objective bucket based on Campaign Category column
-    const catVal  = mapStore.catCol ? ((row[mapStore.catCol]||'').trim()) : '';
+    const catVal  = (row[effectiveCatCol]||'').trim();
     const objType = catVal ? (catLookup[catVal] || 'leadgen') : 'leadgen';
 
     if (objType === 'fb') {
+      fbCount++;
       if (!fbMap[key]) fbMap[key]={c,label,gained:0,imp:0,spend:0};
       fbMap[key].gained += _csvNum(row[mapStore.fbCol]);
       fbMap[key].imp    += _csvNum(row[mapStore.impCol]);
       fbMap[key].spend  += _csvNum(row[mapStore.spendCol]);
     } else if (objType === 'ig') {
+      igCount++;
       if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
       igMap[key].gained += _csvNum(row[mapStore.igCol]);
       igMap[key].imp    += _csvNum(row[mapStore.impCol]);
       igMap[key].spend  += _csvNum(row[mapStore.spendCol]);
     } else {
-      // Lead Gen
+      lgCount++;
       if (!lgMap[key]) lgMap[key] = {c,label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
       lgMap[key].spend  += _csvNum(row[mapStore.spendCol]);
       lgMap[key].reg    += _csvNum(row[mapStore.regCol]);
       lgMap[key].kyc    += _csvNum(row[mapStore.kycCol]);
       lgMap[key].ftd    += _csvNum(row[mapStore.ftdCol]);
       lgMap[key].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
-      if (!mapStore.catCol) {
-        // Legacy fallback when no catCol configured: check incidental follower gains
-        const fbG = _csvNum(row[mapStore.fbCol]);
-        if (fbG > 0) {
-          if (!fbMap[key]) fbMap[key]={c,label,gained:0,imp:0,spend:0};
-          fbMap[key].gained += fbG; fbMap[key].imp += _csvNum(row[mapStore.impCol]); fbMap[key].spend += _csvNum(row[mapStore.spendCol]);
-        }
-        const igG = _csvNum(row[mapStore.igCol]);
-        if (igG > 0) {
-          if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
-          igMap[key].gained += igG; igMap[key].imp += _csvNum(row[mapStore.impCol]); igMap[key].spend += _csvNum(row[mapStore.spendCol]);
-        }
-      }
+
+      // Daily/monthly aggregation — leadgen rows only so Days/Month views stay clean
+      const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const dateStr = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+      const dayKey = c+'_'+dateStr;
+      const dayLabel = MM[d.getMonth()]+' '+String(d.getDate()).padStart(2,'0');
+      if (!dayMap[dayKey]) dayMap[dayKey]={c,date:dateStr,label:dayLabel,weekLabel:label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
+      dayMap[dayKey].spend  += _csvNum(row[mapStore.spendCol]);
+      dayMap[dayKey].reg    += _csvNum(row[mapStore.regCol]);
+      dayMap[dayKey].kyc    += _csvNum(row[mapStore.kycCol]);
+      dayMap[dayKey].ftd    += _csvNum(row[mapStore.ftdCol]);
+      dayMap[dayKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+
+      const monKey = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+      const monLabel = MM[d.getMonth()]+' '+d.getFullYear();
+      const monSortKey = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+      if (!monMap[monKey]) monMap[monKey]={c,key:monSortKey,label:monLabel,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
+      monMap[monKey].spend  += _csvNum(row[mapStore.spendCol]);
+      monMap[monKey].reg    += _csvNum(row[mapStore.regCol]);
+      monMap[monKey].kyc    += _csvNum(row[mapStore.kycCol]);
+      monMap[monKey].ftd    += _csvNum(row[mapStore.ftdCol]);
+      monMap[monKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
     }
-
-    // Daily aggregation
-    const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-    const dateStr = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
-    const dayKey = c+'_'+dateStr;
-    const dayLabel = MM[d.getMonth()]+' '+String(d.getDate()).padStart(2,'0');
-    if (!dayMap[dayKey]) dayMap[dayKey]={c,date:dateStr,label:dayLabel,weekLabel:label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
-    dayMap[dayKey].spend  += _csvNum(row[mapStore.spendCol]);
-    dayMap[dayKey].reg    += _csvNum(row[mapStore.regCol]);
-    dayMap[dayKey].kyc    += _csvNum(row[mapStore.kycCol]);
-    dayMap[dayKey].ftd    += _csvNum(row[mapStore.ftdCol]);
-    dayMap[dayKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
-
-    // Monthly aggregation
-    const monKey = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
-    const monLabel = MM[d.getMonth()]+' '+d.getFullYear();
-    const monSortKey = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
-    if (!monMap[monKey]) monMap[monKey]={c,key:monSortKey,label:monLabel,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
-    monMap[monKey].spend  += _csvNum(row[mapStore.spendCol]);
-    monMap[monKey].reg    += _csvNum(row[mapStore.regCol]);
-    monMap[monKey].kyc    += _csvNum(row[mapStore.kycCol]);
-    monMap[monKey].ftd    += _csvNum(row[mapStore.ftdCol]);
-    monMap[monKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
   });
 
   const byWeek = a => a.sort((x,y)=>(parseInt(x.label.replace(/\D/g,''))||0)-(parseInt(y.label.replace(/\D/g,''))||0));
@@ -3325,10 +3315,10 @@ function _processCSVRows(rows) {
       .sort((a,b)=>a.key.localeCompare(b.key))
       .map(x=>({label:x.label,key:x.key,spend:+x.spend.toFixed(2),reg:Math.round(x.reg),pend:0,kyc:Math.round(x.kyc),ftd:Math.round(x.ftd),ftdamt:+x.ftdamt.toFixed(2)}));
   });
-  return parsed;
+  return {parsed, lgCount, fbCount, igCount};
 }
 
-function _applySyncResult(parsed) {
+function _applySyncResult({parsed, lgCount, fbCount, igCount}) {
   persistData();
   populatePeriodDropdowns();
   renderOverview();
@@ -3338,7 +3328,11 @@ function _applySyncResult(parsed) {
     const last = wks[wks.length-1];
     return `${C_FLAG[c]} ${C_NAME[c]}: ${last.label} · Reg ${last.reg} · KYC ${last.kyc} · FTD ${last.ftd}`;
   }).filter(Boolean).join(' &nbsp;|&nbsp; ');
+  const routing = lgCount+fbCount+igCount > 0
+    ? `<div style="font-size:11px;color:var(--muted);margin-top:2px">Routed → Lead Gen: ${lgCount} rows &nbsp;|&nbsp; Facebook: ${fbCount} rows &nbsp;|&nbsp; Instagram: ${igCount} rows</div>`
+    : '';
   return `<span style="color:var(--green)">&#10003; ${parsed.toLocaleString()} rows synced</span>
+    ${routing}
     <div style="font-size:11px;color:var(--muted);margin-top:3px">${summary}</div>`;
 }
 
