@@ -379,6 +379,74 @@ body{font-family:'Inter','Gill Sans','Gill Sans MT',system-ui,sans-serif;backgro
 .sb-star-svg{fill:rgba(20,8,16,0.65);width:18px;height:18px;flex-shrink:0}
 /* Sidebar active nav: gold left indicator */
 .nav-btn.active{background:var(--red-dim);color:var(--red);border-left:2px solid var(--red);padding-left:8px}
+/* ── Budget Pacing ── */
+.bp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:24px}
+.bp-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.bp-card-head{display:flex;align-items:center;justify-content:space-between;padding:11px 14px;border-bottom:1px solid var(--border)}
+.bp-country{font-size:13px;font-weight:700}
+.bp-tab-bar{display:flex;gap:2px;background:var(--surface3);border-radius:8px;padding:3px;margin:10px 14px 0}
+.bp-tab-btn{flex:1;padding:5px 0;border:none;border-radius:6px;background:transparent;color:var(--muted);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.bp-tab-btn.active{background:var(--surface);color:var(--text);box-shadow:0 1px 3px rgba(0,0,0,0.12)}
+.bp-tab-content{padding:10px 14px 14px}
+.bp-divider-label{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);font-family:var(--fd);padding:8px 0 5px;display:flex;align-items:center;gap:6px}
+.bp-divider-label::after{content:'';flex:1;height:1px;background:var(--border)}
+.bp-metric-row{display:grid;grid-template-columns:90px 1fr auto;align-items:center;gap:8px;padding:4px 0}
+.bp-metric-label{font-size:10px;color:var(--text2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bp-mini-bar-wrap{background:var(--surface2);border-radius:20px;height:5px;overflow:hidden}
+.bp-mini-bar{height:100%;border-radius:20px;transition:width .4s ease}
+.bp-metric-right{display:flex;align-items:center;gap:4px;white-space:nowrap}
+.bp-count{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted)}
+.bp-badge{padding:1px 6px;border-radius:8px;font-size:8px;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+.bp-badge.on-track{background:rgba(76,175,77,0.15);color:#4CAF50}
+.bp-badge.over{background:rgba(192,41,42,0.13);color:var(--red)}
+.bp-badge.under{background:rgba(255,160,0,0.15);color:#F59E0B}
+.bp-badge.no-target{background:var(--surface2);color:var(--muted);font-weight:400}
+.bp-spend-row{display:flex;align-items:center;gap:10px;padding:5px 0}
+.bp-spend-label{font-size:10px;color:var(--text2);width:72px;flex-shrink:0}
+.bp-spend-bar-wrap{flex:1;background:var(--surface2);border-radius:20px;height:6px;overflow:hidden}
+.bp-spend-bar{height:100%;border-radius:20px;transition:width .4s ease}
+.bp-spend-nums{font-size:10px;font-family:'DM Mono',monospace;color:var(--muted);white-space:nowrap;text-align:right;width:80px;flex-shrink:0}
+.bp-set-panel{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.bp-set-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.bp-set-clabel{font-size:11px;font-weight:700;color:var(--text);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:6px}
+.bp-set-sec{font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:var(--red);font-family:var(--fd);margin:8px 0 4px}
+.bp-set-field{margin-bottom:5px}
+.bp-set-field label{font-size:9px;color:var(--muted);display:block;margin-bottom:2px}
+.bp-set-field input{width:100%;padding:5px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:11px;font-family:'DM Mono',monospace;box-sizing:border-box;transition:border-color .15s}
+.bp-set-field input:focus{outline:none;border-color:var(--red)}
+.bp-month-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.bp-month-title{font-size:17px;font-weight:700;color:var(--text);font-family:var(--fd)}
+.bp-month-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.bp-elapsed-pill{background:var(--surface2);border-radius:20px;padding:3px 10px;font-size:10px;color:var(--muted)}
+.bp-edit-btn{padding:5px 12px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:10px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;display:flex;align-items:center;gap:4px}
+.bp-edit-btn:hover{border-color:var(--red);color:var(--red)}
+@media(max-width:1100px){.bp-grid,.bp-set-grid{grid-template-columns:1fr}}
+/* ── UTM Generator ── */
+.utmg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.utmg-field{display:flex;flex-direction:column;gap:4px}
+.utmg-label{font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);font-family:var(--fd)}
+.utmg-select,.utmg-input{width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:12px;font-family:inherit;box-sizing:border-box;transition:border-color .15s;appearance:none;-webkit-appearance:none}
+.utmg-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23888'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:28px}
+.utmg-select:focus,.utmg-input:focus{outline:none;border-color:var(--red)}
+.utmg-manual{margin-top:5px;display:none}
+.utmg-output-card{background:var(--surface);border:1px solid var(--border);border-radius:11px;overflow:hidden;margin-bottom:12px}
+.utmg-output-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--border);background:var(--surface2)}
+.utmg-output-label{font-size:10px;font-weight:700;color:var(--text2);display:flex;align-items:center;gap:6px}
+.utmg-output-body{padding:12px 14px;font-family:'DM Mono',monospace;font-size:11px;color:var(--text);line-height:1.7;word-break:break-all;white-space:pre-wrap}
+.utmg-param{color:var(--muted)}
+.utmg-filled{color:var(--red);font-weight:700}
+.utmg-copy-btn{padding:4px 12px;border-radius:6px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:10px;cursor:pointer;font-family:inherit;transition:all .15s}
+.utmg-copy-btn:hover{border-color:var(--red);color:var(--red)}
+.utmg-section-head{font-size:11px;font-weight:700;color:var(--text);margin:20px 0 10px;display:flex;align-items:center;gap:8px}
+.utmg-section-head::after{content:'';flex:1;height:1px;background:var(--border)}
+@media(max-width:900px){.utmg-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.utmg-grid{grid-template-columns:1fr}}
+/* ── FTD Records ── */
+.ftd-sum-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.ftd-ltv-input{width:120px;padding:4px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--surface2);color:var(--text);font-size:12px;font-family:'DM Mono',monospace;text-align:right;transition:border-color .15s}
+.ftd-ltv-input:focus{outline:none;border-color:var(--red)}
+.ftd-ltv-input::placeholder{color:var(--muted);font-size:11px}
+@media(max-width:900px){.ftd-sum-grid{grid-template-columns:repeat(2,1fr)}}
 .nav-btn{border-left:2px solid transparent}
 /* Panel headings */
 .panel{border-radius:10px}
@@ -504,6 +572,15 @@ body.snap-mode .snap-banner{display:block}
     <div class="sb-section" style="margin-top:6px">Insights</div>
     <button class="nav-btn" id="nav-utm" onclick="showView('utm')" title="UTM Tracker">
       <span class="nav-icon">🔗</span><span>UTM Tracker</span>
+    </button>
+    <button class="nav-btn" id="nav-budget" onclick="showView('budget')" title="Budget Pacing">
+      <span class="nav-icon">💰</span><span>Budget Pacing</span>
+    </button>
+    <button class="nav-btn" id="nav-ftd" onclick="showView('ftd')" title="FTD Records">
+      <span class="nav-icon">📈</span><span>FTD Records</span>
+    </button>
+    <button class="nav-btn" id="nav-utmgen" onclick="showView('utmgen')" title="UTM Generator">
+      <span class="nav-icon">🏷</span><span>UTM Generator</span>
     </button>
   </nav>
   <div class="lang-bar">
@@ -682,6 +759,68 @@ body.snap-mode .snap-banner{display:block}
     <span class="s-dot"></span>
     <span id="upload-storage-text">Loading…</span>
     <button class="btn btn-danger btn-sm" style="margin-left:auto" onclick="clearAllData()">Reset All Data</button>
+  </div>
+
+  <!-- LIVE SYNC -->
+  <div class="up-section">
+    <div class="up-section-header open" onclick="toggleSection('sheets-sync-body','sheets-sync-chev')">
+      <div>
+        <div class="up-section-title">🔗 Live Sync from Google Sheets</div>
+        <div class="up-section-sub">Pull the latest CRM &amp; spend data directly from your published Google Sheet — replaces all performance data for MN, KR &amp; ZA</div>
+      </div>
+      <span class="chevron open" id="sheets-sync-chev">▼</span>
+    </div>
+    <div class="up-section-body open" id="sheets-sync-body">
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:10px">
+        <button class="btn" id="sheet-sync-btn" onclick="fetchAndSyncSheet()" style="min-width:220px">🔄 Sync from Google Sheets</button>
+        <span id="sheet-sync-status" style="font-size:12px;color:var(--muted)">Not synced this session</span>
+      </div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;align-items:flex-end;margin-bottom:10px">
+        <div class="field" style="margin:0;min-width:140px">
+          <label style="font-size:11px;margin-bottom:3px;display:block">📅 From Month</label>
+          <input type="month" id="sheet-sync-from" style="padding:5px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);width:100%">
+        </div>
+        <div class="field" style="margin:0;min-width:140px">
+          <label style="font-size:11px;margin-bottom:3px;display:block">📅 To Month</label>
+          <input type="month" id="sheet-sync-to" style="padding:5px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);width:100%">
+        </div>
+        <div style="font-size:11px;color:var(--muted);padding-bottom:4px">Leave empty to sync all data</div>
+      </div>
+      <div style="font-size:11px;color:var(--muted);line-height:1.6;margin-bottom:14px">
+        Syncs: <strong>Spend · Registrations · KYC · FTD · FTD Amount · FB Page Likes · IG Followers</strong><br>
+        Weeks use your spreadsheet's own Week labels (W0, W1…). Budget targets &amp; KPI goals are preserved.
+      </div>
+      <!-- Paste CSV fallback -->
+      <details style="margin-top:4px">
+        <summary style="cursor:pointer;font-size:12px;font-weight:600;color:var(--muted);user-select:none">
+          📋 Paste CSV manually (for local file / offline use)
+        </summary>
+        <div style="margin-top:10px">
+          <div style="font-size:11px;color:var(--muted);margin-bottom:6px">
+            In Google Sheets → File → Download → CSV. Open the file, select all, copy and paste below.
+          </div>
+          <textarea id="paste-csv-input" rows="5"
+            placeholder="Paste your CSV content here…"
+            style="width:100%;padding:8px;font-size:11px;font-family:monospace;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);resize:vertical;box-sizing:border-box"></textarea>
+          <button class="btn" onclick="processPastedCSV()" style="margin-top:6px">📥 Process Pasted CSV</button>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <!-- MAPPING SECTION -->
+  <div class="up-section">
+    <div class="up-section-header" onclick="toggleSection('mapping-body','mapping-chev')">
+      <div>
+        <div class="up-section-title">🗺️ Column Mapping</div>
+        <div class="up-section-sub">Configure which spreadsheet columns map to dashboard fields and how GEO values resolve to markets</div>
+      </div>
+      <span class="chevron" id="mapping-chev">▼</span>
+    </div>
+    <div class="up-section-body" id="mapping-body">
+      <!-- rendered by renderMappingSection() -->
+      <div style="color:var(--muted);font-size:12px">Loading…</div>
+    </div>
   </div>
 
   <!-- IMPORT -->
@@ -1471,6 +1610,234 @@ body.snap-mode .snap-banner{display:block}
   </div>
 </div><!-- end view-utm -->
 
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- BUDGET PACING VIEW                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-budget">
+  <!-- Header row -->
+  <div class="bp-month-bar">
+    <div>
+      <div class="bp-month-title" id="bp-month-title">Budget Pacing</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:2px" id="bp-month-sub"></div>
+    </div>
+    <div class="bp-month-meta">
+      <div class="bp-elapsed-pill" id="bp-elapsed-pill"></div>
+      <button class="bp-edit-btn" id="bp-edit-btn" onclick="toggleBPSettings()">✏ Edit Targets</button>
+    </div>
+  </div>
+
+  <!-- Settings panel (collapsed by default) -->
+  <div class="bp-set-panel" id="bp-set-panel" style="display:none">
+    <div class="bp-set-grid" id="bp-set-grid"></div>
+    <div style="margin-top:14px;display:flex;justify-content:flex-end;gap:8px">
+      <button onclick="toggleBPSettings()" style="padding:6px 14px;border-radius:7px;border:1px solid var(--border2);background:transparent;color:var(--muted);font-size:11px;cursor:pointer;font-family:inherit">Cancel</button>
+      <button onclick="saveBudgets()" style="background:var(--red);color:#fff;border:none;padding:6px 20px;border-radius:7px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit">Save Targets</button>
+    </div>
+  </div>
+
+  <!-- Pacing cards -->
+  <div class="bp-grid" id="bp-cards-grid"></div>
+</div><!-- end view-budget -->
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- FTD RECORDS VIEW                                                      -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-ftd">
+  <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px">
+    <div>
+      <div style="font-size:18px;font-weight:700;color:var(--text);font-family:var(--fd)">FTD Records</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px">FTD count &amp; amount pulled from weekly data · Enter LTV totals manually per month</div>
+    </div>
+  </div>
+
+  <!-- Summary cards -->
+  <div class="ftd-sum-grid">
+    <div class="kc"><div class="kc-accent" style="background:var(--amber)"></div><div class="kc-label">Total FTDs</div><div class="kc-val" id="ftd-sum-count">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">All countries · all time</div></div>
+    <div class="kc"><div class="kc-accent" style="background:var(--green)"></div><div class="kc-label">Total FTD Amount</div><div class="kc-val sm" id="ftd-sum-amt">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">Sum of first deposits</div></div>
+    <div class="kc"><div class="kc-accent" style="background:var(--red)"></div><div class="kc-label">Total LTV</div><div class="kc-val sm" id="ftd-sum-ltv">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">Cumulative deposits from FTD cohorts</div></div>
+    <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Avg LTV / FTD</div><div class="kc-val sm" id="ftd-sum-avg">—</div><div class="kc-foot" style="font-size:9px;color:var(--muted)">Total LTV ÷ Total FTDs</div></div>
+  </div>
+
+  <!-- Per-country tables -->
+  <div id="ftd-tables"></div>
+</div><!-- end view-ftd -->
+
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<!-- UTM GENERATOR VIEW                                                    -->
+<!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-utmgen">
+  <div style="margin-bottom:20px">
+    <div style="font-size:17px;font-weight:700;color:var(--text);font-family:var(--fd)">UTM Naming Generator</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:3px">Fill in the fields below — tracking templates update automatically</div>
+  </div>
+
+  <!-- Row 1: PIC / Ads Account / Bid Code -->
+  <div class="utmg-grid">
+    <div class="utmg-field">
+      <div class="utmg-label">PIC</div>
+      <select class="utmg-select" id="utmg-pic" onchange="utmgSync('pic')">
+        <option value="Adam">Adam</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-pic-m" placeholder="Enter PIC name" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Ads Account</div>
+      <select class="utmg-select" id="utmg-acc" onchange="utmgSync('acc')">
+        <option value="678748784640815">678748784640815</option>
+        <option value="467-758-8356">467-758-8356</option>
+        <option value="783989804381711">783989804381711</option>
+        <option value="985469113672661">985469113672661</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-acc-m" placeholder="Enter Ads Account ID" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Bid Code</div>
+      <select class="utmg-select" id="utmg-bid" onchange="utmgSync('bid')">
+        <option value="66083">66083</option>
+        <option value="qr3836">qr3836</option>
+        <option value="l5a8u4">l5a8u4</option>
+        <option value="6o46nx">6o46nx</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-bid-m" placeholder="Enter Bid Code" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Row 2: Campaign / Objective / Format -->
+  <div class="utmg-grid">
+    <div class="utmg-field">
+      <div class="utmg-label">Campaign</div>
+      <select class="utmg-select" id="utmg-camp" onchange="utmgSync('camp')">
+        <option value="Branding-Followers-FB">Branding-Followers-FB</option>
+        <option value="Branding-Followers-IG">Branding-Followers-IG</option>
+        <option value="General-Evergreen">General-Evergreen</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-camp-m" placeholder="Enter Campaign name" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Objective</div>
+      <select class="utmg-select" id="utmg-obj" onchange="utmgSync('obj')">
+        <option value="META-Leadgen-Web">META-Leadgen-Web</option>
+        <option value="GG-Leadgen-SEM">GG-Leadgen-SEM</option>
+        <option value="META-ENG-ProLike">META-ENG-ProLike</option>
+        <option value="META-ENG-ProVisit">META-ENG-ProVisit</option>
+        <option value="GG-AWA-Reach-YTB">GG-AWA-Reach-YTB</option>
+        <option value="META-TRC-LPV-Web">META-TRC-LPV-Web</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-obj-m" placeholder="Enter Objective" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Format</div>
+      <select class="utmg-select" id="utmg-fmt" onchange="utmgSync('fmt')">
+        <option value="Text">Text</option>
+        <option value="Video">Video</option>
+        <option value="Banner">Banner</option>
+        <option value="Carousel">Carousel</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-fmt-m" placeholder="Enter Format" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Row 3: Market (Campaign) / Market (Adgroup) / Language -->
+  <div class="utmg-grid">
+    <div class="utmg-field">
+      <div class="utmg-label">Market (Campaign)</div>
+      <select class="utmg-select" id="utmg-mktc" onchange="utmgSync('mktc')">
+        <option value="ZA">ZA</option><option value="MN">MN</option><option value="KR">KR</option>
+        <option value="TW">TW</option><option value="ID">ID</option><option value="KE">KE</option>
+        <option value="BR">BR</option><option value="NG">NG</option><option value="MX">MX</option>
+        <option value="JP">JP</option><option value="VN">VN</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-mktc-m" placeholder="Enter Market" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Market (Adgroup)</div>
+      <select class="utmg-select" id="utmg-mkta" onchange="utmgSync('mkta')">
+        <option value="ZA">ZA</option><option value="MN">MN</option><option value="KR">KR</option>
+        <option value="TW">TW</option><option value="ID">ID</option><option value="KE">KE</option>
+        <option value="BR">BR</option><option value="NG">NG</option><option value="MX">MX</option>
+        <option value="JP">JP</option><option value="VN">VN</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-mkta-m" placeholder="Enter Market" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Language</div>
+      <select class="utmg-select" id="utmg-lang" onchange="utmgSync('lang')">
+        <option value="EN">EN</option><option value="ZA">ZA</option><option value="MN">MN</option>
+        <option value="KR">KR</option><option value="TW">TW</option><option value="ID">ID</option>
+        <option value="KE">KE</option><option value="BR">BR</option><option value="NG">NG</option>
+        <option value="MX">MX</option><option value="JP">JP</option><option value="VN">VN</option>
+        <option value="__manual__">✏ Type manually…</option>
+      </select>
+      <input class="utmg-input utmg-manual" id="utmg-lang-m" placeholder="Enter Language" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Row 4: Targeting / Content Name (full width each) -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px">
+    <div class="utmg-field">
+      <div class="utmg-label">Targeting</div>
+      <input class="utmg-input" id="utmg-tgt" placeholder="e.g. LAL-3pct-Depositors" oninput="utmgUpdate()">
+    </div>
+    <div class="utmg-field">
+      <div class="utmg-label">Content Name</div>
+      <input class="utmg-input" id="utmg-cname" placeholder="e.g. StaticBanner-v1-RedBg" oninput="utmgUpdate()">
+    </div>
+  </div>
+
+  <!-- Output: Tracking Templates -->
+  <div class="utmg-section-head">Tracking Templates</div>
+
+  <div class="utmg-output-card">
+    <div class="utmg-output-head">
+      <div class="utmg-output-label">
+        <span style="background:rgba(24,119,242,0.15);color:#1877F2;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700">META ADS</span>
+        Tracking Template
+      </div>
+      <button class="utmg-copy-btn" onclick="utmgCopy('meta')">Copy</button>
+    </div>
+    <div class="utmg-output-body" id="utmg-meta-out"></div>
+  </div>
+
+  <div class="utmg-output-card">
+    <div class="utmg-output-head">
+      <div class="utmg-output-label">
+        <span style="background:rgba(66,133,244,0.15);color:#4285F4;padding:2px 8px;border-radius:5px;font-size:9px;font-weight:700">GOOGLE SEM</span>
+        Tracking Template
+      </div>
+      <button class="utmg-copy-btn" onclick="utmgCopy('gg')">Copy</button>
+    </div>
+    <div class="utmg-output-body" id="utmg-gg-out"></div>
+  </div>
+
+  <!-- Naming Convention Reference -->
+  <div class="utmg-section-head">Naming Convention Reference</div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:14px 16px">
+    <div style="font-size:10px;color:var(--muted);margin-bottom:8px">Constructed from your selections above — use these as your Campaign / Ad Set / Ad names in Meta or Google</div>
+    <table style="width:100%;border-collapse:collapse;font-size:11px">
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:6px 8px;color:var(--muted);width:120px;font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Campaign Name</td>
+        <td style="padding:6px 8px;font-family:'DM Mono',monospace;color:var(--text)" id="utmg-ref-camp">—</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:6px 8px;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Ad Set Name</td>
+        <td style="padding:6px 8px;font-family:'DM Mono',monospace;color:var(--text)" id="utmg-ref-adset">—</td>
+      </tr>
+      <tr>
+        <td style="padding:6px 8px;color:var(--muted);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.5px">Ad Name</td>
+        <td style="padding:6px 8px;font-family:'DM Mono',monospace;color:var(--text)" id="utmg-ref-ad">—</td>
+      </tr>
+    </table>
+  </div>
+</div><!-- end view-utmgen -->
+
 </div><!-- end .main -->
 </div><!-- end .app -->
 
@@ -1553,9 +1920,53 @@ function seedCRMData() {
 
 // ── Persistence ──────────────────────────────────────────────────────────
 const STORAGE_KEY = 'ebc_dash_data_v3';
+const BUDGET_KEY  = 'ebc_budget_v1';
+const KPI_KEY     = 'ebc_kpi_v1';
+const LTV_KEY     = 'ebc_ltv_v1';
+const MAPPING_KEY = 'ebc_mapping_v1';
+
+// ── Column Mapping Store (user-configurable) ──────────────────────────────
+const MAPPING_DEFAULT = {
+  csvUrl:    'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr_8KBRGPkVyrDRzj2rTpegtyeYX5sS1m50DbWr1_ThkWMdQa0o1T1krPEl6Efa555rVo_XkyFUnUq/pub?gid=0&single=true&output=csv',
+  geoCol:    'Target GEO',
+  dateCol:   'Date',
+  weekCol:   'Week',
+  spendCol:  'Cost (USD)',
+  regCol:    'Registration (CRM)',
+  kycCol:    'KYC',
+  ftdCol:    'FTD',
+  ftdAmtCol: 'FTD$$',
+  fbCol:     'FB Page Like',
+  igCol:     'IG Follower',
+  impCol:    'Impression',
+  geoRules:  [
+    { raw:'MN',           market:'mn' },
+    { raw:'KR',           market:'kr' },
+    { raw:'ZA',           market:'za' },
+    { raw:'South Africa', market:'za' },
+  ]
+};
+let mapStore = JSON.parse(JSON.stringify(MAPPING_DEFAULT));
+
+// budgetStore: { mn: { leadgen: 0, social: 0 }, kr: {...}, za: {...} }
+const budgetStore = {};
+COUNTRIES.forEach(c => budgetStore[c] = { leadgen: 0, social: 0 });
+
+// ltvStore: { mn: { '2026-07': 12500, ... }, kr: {...}, za: {...} }
+const ltvStore = {};
+COUNTRIES.forEach(c => ltvStore[c] = {});
+
+// kpiStore: monthly KPI targets per country
+// { mn: { reg:0, kyc:0, ftd:0, fb_fol:0, ig_fol:0 }, ... }
+const kpiStore = {};
+COUNTRIES.forEach(c => kpiStore[c] = { reg:0, kyc:0, ftd:0, fb_fol:0, ig_fol:0 });
 
 function persistData() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify({store, socialStore})); updateStorageStatus(); } catch(e){}
+}
+
+function persistBudgets() {
+  try { localStorage.setItem(BUDGET_KEY, JSON.stringify(budgetStore)); } catch(e){}
 }
 
 function loadPersistedData() {
@@ -1576,8 +1987,294 @@ function loadPersistedData() {
         socialStore[c].ig = d.socialStore[c].ig || [];
       }
     });
+    // Load budgets
+    const braw = localStorage.getItem(BUDGET_KEY);
+    if (braw) {
+      const bd = JSON.parse(braw);
+      COUNTRIES.forEach(c => {
+        if (bd[c]) {
+          budgetStore[c].leadgen = bd[c].leadgen || 0;
+          budgetStore[c].social  = bd[c].social  || 0;
+        }
+      });
+    }
+    // Load LTV records
+    const lraw = localStorage.getItem(LTV_KEY);
+    if (lraw) {
+      const ld = JSON.parse(lraw);
+      COUNTRIES.forEach(c => { if (ld[c]) ltvStore[c] = ld[c]; });
+    }
+    // Load KPI targets
+    const kraw = localStorage.getItem(KPI_KEY);
+    if (kraw) {
+      const kd = JSON.parse(kraw);
+      COUNTRIES.forEach(c => {
+        if (kd[c]) Object.assign(kpiStore[c], kd[c]);
+      });
+    }
     return any;
   } catch(e) { return false; }
+}
+
+// ── Budget Pacing helpers ─────────────────────────────────────────────────
+function isoWeekMonday(week, year) {
+  // Returns Date of Monday of the given ISO week
+  const jan4 = new Date(year, 0, 4);
+  const dow   = (jan4.getDay() + 6) % 7; // 0=Mon
+  const d     = new Date(jan4);
+  d.setDate(jan4.getDate() - dow + (week - 1) * 7);
+  return d;
+}
+
+function getISOWeekYear(date) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+  return d.getFullYear();
+}
+
+function getISOWeekNum(date) {
+  const d    = new Date(date);
+  d.setDate(d.getDate() + 3 - ((d.getDay() + 6) % 7));
+  const week1 = new Date(d.getFullYear(), 0, 4);
+  return 1 + Math.round(((d - week1) / 86400000 - 3 + ((week1.getDay() + 6) % 7)) / 7);
+}
+
+function weekLabelToYearMonth(label) {
+  // Returns {year, month (0-indexed)} for the Thursday of the given ISO week
+  const week = parseInt(label.replace(/\D/g, ''), 10);
+  if (isNaN(week)) return null;
+  const now   = new Date();
+  const curW  = getISOWeekNum(now);
+  const curY  = getISOWeekYear(now);
+  // If week is much larger than current, it belongs to the previous year
+  const year  = week > curW + 26 ? curY - 1 : curY;
+  const mon   = isoWeekMonday(week, year);
+  const thu   = new Date(mon);
+  thu.setDate(mon.getDate() + 3);
+  return { year: thu.getFullYear(), month: thu.getMonth() };
+}
+
+function getMonthSpendLG(country, year, month) {
+  // Sum lead-gen spend for weeks whose Thursday falls in the given month
+  return (store[country].weeks || []).reduce((sum, w) => {
+    const ym = weekLabelToYearMonth(w.label);
+    return (ym && ym.year === year && ym.month === month) ? sum + (w.spend || 0) : sum;
+  }, 0);
+}
+
+function getMonthSpendSocial(country, year, month) {
+  // Sum FB + IG spend for weeks in the given month
+  let total = 0;
+  ['fb','ig'].forEach(p => {
+    (socialStore[country][p] || []).forEach(e => {
+      const ym = weekLabelToYearMonth(e.label);
+      if (ym && ym.year === year && ym.month === month) total += (e.spend || 0);
+    });
+  });
+  return total;
+}
+
+function monthElapsedFraction(year, month) {
+  const now      = new Date();
+  const start    = new Date(year, month, 1);
+  const end      = new Date(year, month + 1, 1);
+  const daysInM  = (end - start) / 86400000;
+  const elapsed  = Math.min(Math.max((now - start) / 86400000, 0), daysInM);
+  return elapsed / daysInM;
+}
+
+function fmtUSD(v) {
+  if (v >= 1000) return '$' + (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return '$' + Math.round(v).toLocaleString();
+}
+
+function persistKPIs() {
+  try { localStorage.setItem(KPI_KEY, JSON.stringify(kpiStore)); } catch(e) {}
+}
+
+function getMonthActualLG(country, field, year, month) {
+  return (store[country].weeks || []).reduce((sum, w) => {
+    const ym = weekLabelToYearMonth(w.label);
+    return (ym && ym.year === year && ym.month === month) ? sum + (w[field] || 0) : sum;
+  }, 0);
+}
+
+function getMonthActualSocial(country, platform, field, year, month) {
+  return ((socialStore[country][platform]) || []).reduce((sum, e) => {
+    const ym = weekLabelToYearMonth(e.label);
+    return (ym && ym.year === year && ym.month === month) ? sum + (e[field] || 0) : sum;
+  }, 0);
+}
+
+function fmtN(v) {
+  if (v >= 1000) return (v / 1000).toFixed(1).replace(/\.0$/, '') + 'k';
+  return Math.round(v).toLocaleString();
+}
+
+function toggleBPSettings() {
+  const panel = document.getElementById('bp-set-panel');
+  const btn   = document.getElementById('bp-edit-btn');
+  const open  = panel.style.display !== 'none';
+  panel.style.display = open ? 'none' : '';
+  btn.innerHTML = open ? '✏ Edit Targets' : '✕ Close';
+}
+
+function bpSetTab(country, tab) {
+  ['spend','kpi'].forEach(t => {
+    document.getElementById(`bp-tab-${t}-${country}`).classList.toggle('active', t === tab);
+    document.getElementById(`bp-content-${t}-${country}`).style.display = t === tab ? '' : 'none';
+  });
+}
+
+function saveBudgets() {
+  COUNTRIES.forEach(c => {
+    const v = f => { const n = parseFloat(document.getElementById('bp-input-'+c+'-'+f)?.value||0); return isNaN(n)?0:n; };
+    budgetStore[c].leadgen = v('lg');
+    budgetStore[c].social  = v('sc');
+    kpiStore[c].reg    = v('reg');
+    kpiStore[c].kyc    = v('kyc');
+    kpiStore[c].ftd    = v('ftd');
+    kpiStore[c].fb_fol = v('fbf');
+    kpiStore[c].ig_fol = v('igf');
+  });
+  persistBudgets();
+  persistKPIs();
+  const panel = document.getElementById('bp-set-panel');
+  if (panel.style.display !== 'none') toggleBPSettings();
+  renderBudgetPacing();
+}
+
+function renderBudgetPacing() {
+  const now         = new Date();
+  const year        = now.getFullYear();
+  const month       = now.getMonth();
+  const monthName   = now.toLocaleString('default', { month: 'long' });
+  const elapsed     = monthElapsedFraction(year, month);
+  const dayOfMonth  = now.getDate();
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+  document.getElementById('bp-month-title').textContent  = `Budget Pacing — ${monthName} ${year}`;
+  document.getElementById('bp-month-sub').textContent    = `Ad spend pacing & KPI progress vs monthly targets`;
+  document.getElementById('bp-elapsed-pill').textContent = `Day ${dayOfMonth} of ${daysInMonth} · ${Math.round(elapsed * 100)}% elapsed`;
+
+  // ── Settings grid ──────────────────────────────────────────────────────
+  function field(label, id, val, prefix) {
+    return `<div class="bp-set-field">
+      <label>${prefix ? prefix + ' ' : ''}${label}</label>
+      <input type="number" id="${id}" min="0" step="1" value="${val || ''}" placeholder="—">
+    </div>`;
+  }
+
+  document.getElementById('bp-set-grid').innerHTML = COUNTRIES.map(c => `
+    <div>
+      <div class="bp-set-clabel">${C_FLAG[c]} ${C_NAME[c]}</div>
+      <div class="bp-set-sec">Budget / Month</div>
+      ${field('Lead Gen Spend', `bp-input-${c}-lg`, budgetStore[c].leadgen, '$')}
+      ${field('Social Spend',   `bp-input-${c}-sc`, budgetStore[c].social,  '$')}
+      <div class="bp-set-sec">Lead Gen KPI Targets</div>
+      ${field('Registrations',  `bp-input-${c}-reg`, kpiStore[c].reg)}
+      ${field('KYC Completed',  `bp-input-${c}-kyc`, kpiStore[c].kyc)}
+      ${field('FTD Count',      `bp-input-${c}-ftd`, kpiStore[c].ftd)}
+      <div class="bp-set-sec">Page Growth Targets</div>
+      ${field('FB Followers',   `bp-input-${c}-fbf`, kpiStore[c].fb_fol)}
+      ${field('IG Followers',   `bp-input-${c}-igf`, kpiStore[c].ig_fol)}
+    </div>
+  `).join('');
+
+  // ── Cards ────────────────────────────────────────────────────────────
+  function spendRow(label, budget, spent) {
+    const pct      = budget > 0 ? Math.min(spent / budget, 1) : 0;
+    const expected = budget * elapsed;
+    const ratio    = expected > 0 ? spent / expected : (spent > 0 ? 2 : 1);
+    const barColor = budget === 0 ? 'var(--border2)' : ratio > 1.12 ? 'var(--red)' : ratio < 0.80 ? 'var(--amber)' : 'var(--green)';
+    const badge    = budget === 0 ? `<span class="bp-badge no-target">No budget</span>`
+                   : ratio > 1.12 ? `<span class="bp-badge over">⚠ Over</span>`
+                   : ratio < 0.80 ? `<span class="bp-badge under">↓ Under</span>`
+                   :                `<span class="bp-badge on-track">✓ OK</span>`;
+    const nums     = budget > 0
+      ? `<span style="color:var(--text)">${fmtUSD(spent)}</span><span style="color:var(--muted)"> / ${fmtUSD(budget)}</span>`
+      : `<span style="color:var(--muted)">${fmtUSD(spent)} spent</span>`;
+    return `<div class="bp-spend-row">
+      <div class="bp-spend-label">${label}</div>
+      <div class="bp-spend-bar-wrap"><div class="bp-spend-bar" style="width:${(Math.min(pct,1)*100).toFixed(1)}%;background:${barColor}"></div></div>
+      <div class="bp-spend-nums" style="display:flex;align-items:center;gap:5px;font-size:10px">${nums}${badge}</div>
+    </div>`;
+  }
+
+  function kpiRow(label, actual, target) {
+    if (!target) return `<div class="bp-metric-row">
+      <div class="bp-metric-label">${label}</div>
+      <div class="bp-mini-bar-wrap"><div class="bp-mini-bar" style="width:0%;background:var(--border2)"></div></div>
+      <div class="bp-metric-right"><span class="bp-badge no-target">No target</span></div>
+    </div>`;
+    const pct  = Math.min(actual / target, 1);
+    const pctN = (pct * 100).toFixed(0);
+    const clr  = pct >= 1 ? 'var(--green)' : pct >= 0.75 ? 'var(--amber)' : 'var(--red)';
+    const badge = pct >= 1   ? `<span class="bp-badge on-track">✓ Hit</span>`
+                : pct >= 0.75? `<span class="bp-badge under">${pctN}%</span>`
+                :              `<span class="bp-badge over">${pctN}%</span>`;
+    return `<div class="bp-metric-row">
+      <div class="bp-metric-label">${label}</div>
+      <div class="bp-mini-bar-wrap"><div class="bp-mini-bar" style="width:${(pct*100).toFixed(1)}%;background:${clr}"></div></div>
+      <div class="bp-metric-right">
+        <span class="bp-count">${fmtN(actual)}<span style="color:var(--border2)"> /</span> ${fmtN(target)}</span>
+        ${badge}
+      </div>
+    </div>`;
+  }
+
+  document.getElementById('bp-cards-grid').innerHTML = COUNTRIES.map(c => {
+    const lgBudget = budgetStore[c].leadgen || 0;
+    const scBudget = budgetStore[c].social  || 0;
+    const lgSpent  = getMonthSpendLG(c, year, month);
+    const scSpent  = getMonthSpendSocial(c, year, month);
+    const aReg = getMonthActualLG(c, 'reg', year, month);
+    const aKyc = getMonthActualLG(c, 'kyc', year, month);
+    const aFtd = getMonthActualLG(c, 'ftd', year, month);
+    const aFbF = getMonthActualSocial(c, 'fb', 'gained', year, month);
+    const aIgF = getMonthActualSocial(c, 'ig', 'gained', year, month);
+    const tReg = kpiStore[c].reg || 0, tKyc = kpiStore[c].kyc || 0, tFtd = kpiStore[c].ftd || 0;
+    const tFbF = kpiStore[c].fb_fol || 0, tIgF = kpiStore[c].ig_fol || 0;
+    const clr  = C_COLOR[c];
+
+    // Overall card status badge
+    const lgRatio  = lgBudget > 0 && elapsed > 0 ? lgSpent / (lgBudget * elapsed) : null;
+    const cardBadge = lgRatio === null ? `<span class="bp-badge no-target">No budget</span>`
+                    : lgRatio > 1.12   ? `<span class="bp-badge over">⚠ Overpacing</span>`
+                    : lgRatio < 0.80   ? `<span class="bp-badge under">↓ Underpacing</span>`
+                    :                    `<span class="bp-badge on-track">✓ On Track</span>`;
+
+    return `<div class="bp-card">
+      <div style="height:3px;background:${clr}"></div>
+      <div class="bp-card-head">
+        <span style="font-size:17px">${C_FLAG[c]}</span>
+        <span class="bp-country" style="color:${clr}">${C_NAME[c]}</span>
+        ${cardBadge}
+      </div>
+      <div class="bp-tab-bar">
+        <button class="bp-tab-btn active" id="bp-tab-spend-${c}" onclick="bpSetTab('${c}','spend')">💰 Spend</button>
+        <button class="bp-tab-btn"        id="bp-tab-kpi-${c}"   onclick="bpSetTab('${c}','kpi')">📊 KPIs</button>
+      </div>
+
+      <div class="bp-tab-content" id="bp-content-spend-${c}">
+        <div class="bp-divider-label">Lead Gen</div>
+        ${spendRow('Spend', lgBudget, lgSpent)}
+        <div class="bp-divider-label" style="margin-top:6px">Social</div>
+        ${spendRow('Spend', scBudget, scSpent)}
+        ${(lgBudget > 0 && elapsed > 0) ? `<div style="font-size:9px;color:var(--muted);margin-top:8px;text-align:right">Proj end-of-month: LG ${fmtUSD(elapsed>0?lgSpent/elapsed:0)} · Soc ${fmtUSD(elapsed>0?scSpent/elapsed:0)}</div>` : ''}
+      </div>
+
+      <div class="bp-tab-content" id="bp-content-kpi-${c}" style="display:none">
+        <div class="bp-divider-label">Lead Gen</div>
+        ${kpiRow('Registrations', aReg, tReg)}
+        ${kpiRow('KYC Completed', aKyc, tKyc)}
+        ${kpiRow('FTD Count',     aFtd, tFtd)}
+        <div class="bp-divider-label" style="margin-top:6px">Page Growth</div>
+        ${kpiRow('📘 FB Followers', aFbF, tFbF)}
+        ${kpiRow('📸 IG Followers', aIgF, tIgF)}
+      </div>
+    </div>`;
+  }).join('');
 }
 
 function loadSnapshotData(snap) {
@@ -1632,6 +2329,9 @@ function showView(v) {
   if (v === 'upload') { COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); }); }
   if (v === 'creative') { updateAIKeyBadge(); }
   if (v === 'utm') { /* UTM view ready */ }
+  if (v === 'budget') { renderBudgetPacing(); }
+  if (v === 'ftd')    { renderFTDRecords(); }
+  if (v === 'utmgen') { utmgUpdate(); }
 }
 
 // ── Filters ──────────────────────────────────────────────────────────────
@@ -1963,13 +2663,15 @@ function renderBarChart() {
 
   const weekMap = {};
   cs.forEach(c => {
-    store[c].weeks.forEach(w => {
+    getFilteredWeeks(c).forEach(w => {
       if (!weekMap[w.label]) weekMap[w.label] = 0;
       weekMap[w.label] += w.reg||0;
     });
   });
 
-  const labels = Object.keys(weekMap);
+  // Sort week labels numerically so chart sequence matches the data
+  const labels = Object.keys(weekMap).sort((a,b) =>
+    (parseInt(a.replace(/\D/g,''))||0) - (parseInt(b.replace(/\D/g,''))||0));
   const vals   = labels.map(l => weekMap[l]);
   if (!labels.length) { container.innerHTML = '<div style="color:var(--muted);font-size:11px;padding:20px 0">No data</div>'; return; }
 
@@ -1999,7 +2701,7 @@ function renderBarChart() {
   // KYC % trend line overlay
   const kycRateMap = {};
   cs.forEach(c => {
-    store[c].weeks.forEach(w => {
+    getFilteredWeeks(c).forEach(w => {
       if (!kycRateMap[w.label]) kycRateMap[w.label] = {kyc:0, reg:0};
       kycRateMap[w.label].kyc += w.kyc||0;
       kycRateMap[w.label].reg += w.reg||0;
@@ -2221,6 +2923,278 @@ function prefillInputs(c) {
     const el = document.getElementById(c+'-input-'+f);
     if (el) el.value = w[f]!==undefined ? w[f] : '';
   });
+}
+
+// ── Google Sheets Live Sync ───────────────────────────────────────────────
+// Uses the published CSV URL (returns all rows, correct CORS headers).
+// Works from HTTPS (GitHub Pages). Paste-CSV fallback for local file access.
+
+function _csvNum(v) {
+  const n = parseFloat((v || '').replace(/[^0-9.-]/g, ''));
+  return isNaN(n) ? 0 : n;
+}
+
+function _csvDate(s) {
+  s = (s || '').trim();
+  if (!s) return null;
+  const p = s.split('/');
+  if (p.length !== 3) return null;
+  let [a, b, c] = p.map(Number);
+  let day, mon, yr;
+  if (c < 100) { mon = a; day = b; yr = c + 2000; }
+  else if (a > 12) { day = a; mon = b; yr = c; }
+  else if (b > 12) { mon = a; day = b; yr = c; }
+  else { day = a; mon = b; yr = c; }
+  const d = new Date(yr, mon - 1, day);
+  return (!isNaN(d.getTime()) && yr >= 2020 && yr <= 2035) ? d : null;
+}
+
+function _csvSplit(line) {
+  const result = []; let cur = '', inQ = false;
+  for (const ch of line) {
+    if (ch === '"') { inQ = !inQ; }
+    else if (ch === ',' && !inQ) { result.push(cur); cur = ''; }
+    else { cur += ch; }
+  }
+  result.push(cur);
+  return result;
+}
+
+function _parseCSVToRows(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  if (!lines.length) return { headers:[], rows:[] };
+  const headers = _csvSplit(lines[0]).map(h => h.trim().replace(/^"|"$/g, ''));
+  const rows = lines.slice(1).map(line => {
+    const vals = _csvSplit(line);
+    const obj = {};
+    headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, ''); });
+    return obj;
+  });
+  return { headers, rows };
+}
+
+// ── Mapping Store ─────────────────────────────────────────────────────────
+function loadMapStore() {
+  try {
+    const s = JSON.parse(localStorage.getItem(MAPPING_KEY) || 'null');
+    if (s) {
+      Object.assign(mapStore, s);
+      if (!Array.isArray(mapStore.geoRules)) mapStore.geoRules = [...MAPPING_DEFAULT.geoRules];
+    }
+  } catch(e) {}
+}
+
+function saveMapStore() {
+  localStorage.setItem(MAPPING_KEY, JSON.stringify(mapStore));
+}
+
+// ── Mapping Section UI ────────────────────────────────────────────────────
+const MAPPING_FIELDS = [
+  { key:'spendCol',  label:'Spend (USD)',        hint:'Ad spend column' },
+  { key:'regCol',    label:'Registration',        hint:'CRM registrations column' },
+  { key:'kycCol',    label:'KYC',                 hint:'KYC completions column' },
+  { key:'ftdCol',    label:'FTD Count',           hint:'First-time deposits (count)' },
+  { key:'ftdAmtCol', label:'FTD Amount',          hint:'FTD amount column' },
+  { key:'fbCol',     label:'FB Followers',        hint:'Facebook likes / followers gained' },
+  { key:'igCol',     label:'IG Followers',        hint:'Instagram followers gained' },
+  { key:'impCol',    label:'Impressions',         hint:'Ad impressions column' },
+  { key:'geoCol',    label:'GEO Column',          hint:'Column identifying the market' },
+  { key:'weekCol',   label:'Week Label',          hint:'Your week label column (W0, W1…)' },
+  { key:'dateCol',   label:'Date Column',         hint:'Daily date column (DD/MM/YYYY)' },
+];
+
+function renderMappingSection() {
+  const el = document.getElementById('mapping-body');
+  if (!el) return;
+  const fRows = MAPPING_FIELDS.map(f => `
+    <div style="display:grid;grid-template-columns:130px 1fr;gap:8px;align-items:center;margin-bottom:5px">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--text)">${f.label}</div>
+        <div style="font-size:10px;color:var(--muted)">${f.hint}</div>
+      </div>
+      <input value="${(mapStore[f.key]||'').replace(/"/g,'&quot;')}"
+        style="padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--text);width:100%"
+        oninput="mapStore['${f.key}']=this.value">
+    </div>`).join('');
+
+  const gRows = mapStore.geoRules.map((r, i) => `
+    <div style="display:flex;gap:7px;align-items:center;margin-bottom:5px">
+      <input value="${(r.raw||'').replace(/"/g,'&quot;')}" placeholder="Sheet value (e.g. ZA)"
+        style="flex:1;padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--text)"
+        oninput="mapStore.geoRules[${i}].raw=this.value">
+      <span style="color:var(--muted);font-size:16px;flex-shrink:0">→</span>
+      <select style="flex:0 0 148px;padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--text)"
+        onchange="mapStore.geoRules[${i}].market=this.value">
+        ${COUNTRIES.map(m=>`<option value="${m}" ${r.market===m?'selected':''}>${C_FLAG[m]} ${C_NAME[m]}</option>`).join('')}
+      </select>
+      <button onclick="removeGeoRule(${i})" title="Remove"
+        style="background:none;border:1px solid var(--border);border-radius:5px;color:var(--muted);cursor:pointer;padding:3px 8px">✕</button>
+    </div>`).join('');
+
+  el.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:14px">
+      <div>
+        <div class="up-section-sub" style="font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.6px;margin-bottom:8px">📋 Column Headers</div>
+        ${fRows}
+        <div style="margin-top:10px">
+          <div class="up-section-sub" style="font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.6px;margin-bottom:4px">🔗 Published CSV URL</div>
+          <input value="${(mapStore.csvUrl||'').replace(/"/g,'&quot;')}"
+            style="width:100%;padding:4px 8px;font-size:10px;background:var(--card);border:1px solid var(--border);border-radius:5px;color:var(--muted)"
+            oninput="mapStore.csvUrl=this.value">
+        </div>
+      </div>
+      <div>
+        <div class="up-section-sub" style="font-weight:700;text-transform:uppercase;font-size:10px;letter-spacing:.6px;margin-bottom:6px">🗺️ GEO Value Mapping</div>
+        <div style="font-size:11px;color:var(--muted);margin-bottom:8px">Map every GEO variant in your sheet to a market. Add a row for each spelling.</div>
+        ${gRows}
+        <button class="btn btn-sm" onclick="addGeoRule()" style="margin-top:6px">+ Add Row</button>
+      </div>
+    </div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn" onclick="saveMappingUI()">💾 Save Mapping</button>
+      <button class="btn" onclick="resetMappingUI()" style="background:var(--card)">↺ Reset Defaults</button>
+      <span id="mapping-status" style="font-size:12px"></span>
+    </div>`;
+}
+
+function addGeoRule() {
+  mapStore.geoRules.push({ raw:'', market:'za' });
+  renderMappingSection();
+}
+function removeGeoRule(i) {
+  mapStore.geoRules.splice(i, 1);
+  renderMappingSection();
+}
+function saveMappingUI() {
+  saveMapStore();
+  const el = document.getElementById('mapping-status');
+  if (el) { el.textContent = '✓ Saved'; el.style.color = 'var(--green)'; setTimeout(() => { el.textContent=''; }, 2500); }
+}
+function resetMappingUI() {
+  mapStore = JSON.parse(JSON.stringify(MAPPING_DEFAULT));
+  renderMappingSection();
+}
+
+// ── Core row processing (shared by live fetch + paste) ────────────────────
+function _processCSVRows(rows) {
+  const geoLookup = {};
+  mapStore.geoRules.forEach(r => { if (r.raw.trim()) geoLookup[r.raw.trim()] = r.market; });
+
+  const fromVal  = (document.getElementById('sheet-sync-from') || {}).value || '';
+  const toVal    = (document.getElementById('sheet-sync-to')   || {}).value || '';
+  const fromDate = fromVal ? new Date(fromVal + '-01') : null;
+  const toDate   = toVal   ? (() => { const [y,m]=toVal.split('-').map(Number); return new Date(y,m,0,23,59,59); })() : null;
+
+  COUNTRIES.forEach(c => { store[c].weeks=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; });
+  const lgMap={}, fbMap={}, igMap={};
+  let parsed = 0;
+
+  rows.forEach(row => {
+    const geo = (row[mapStore.geoCol]||'').trim();
+    const c   = geoLookup[geo];
+    if (!c) return;
+    const d = _csvDate((row[mapStore.dateCol]||'').trim());
+    if (!d) return;
+    if (fromDate && d < fromDate) return;
+    if (toDate   && d > toDate)   return;
+    const weekRaw = (row[mapStore.weekCol]||'').trim().toUpperCase();
+    const label   = /^W\d+$/.test(weekRaw) ? weekRaw : ('W' + getISOWeekNum(d));
+    const key     = c + '_' + label;
+    parsed++;
+
+    if (!lgMap[key]) lgMap[key] = {c,label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
+    lgMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+    lgMap[key].reg    += _csvNum(row[mapStore.regCol]);
+    lgMap[key].kyc    += _csvNum(row[mapStore.kycCol]);
+    lgMap[key].ftd    += _csvNum(row[mapStore.ftdCol]);
+    lgMap[key].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+
+    const fbG = _csvNum(row[mapStore.fbCol]);
+    if (fbG > 0) {
+      if (!fbMap[key]) fbMap[key]={c,label,gained:0,imp:0,spend:0};
+      fbMap[key].gained += fbG;
+      fbMap[key].imp    += _csvNum(row[mapStore.impCol]);
+      fbMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+    }
+    const igG = _csvNum(row[mapStore.igCol]);
+    if (igG > 0) {
+      if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
+      igMap[key].gained += igG;
+      igMap[key].imp    += _csvNum(row[mapStore.impCol]);
+      igMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+    }
+  });
+
+  const byWeek = a => a.sort((x,y)=>(parseInt(x.label.replace(/\D/g,''))||0)-(parseInt(y.label.replace(/\D/g,''))||0));
+  COUNTRIES.forEach(c => {
+    byWeek(Object.values(lgMap).filter(x=>x.c===c)).forEach(w => {
+      store[c].weeks.push({label:w.label,spend:+w.spend.toFixed(2),reg:Math.round(w.reg),pend:0,kyc:Math.round(w.kyc),ftd:Math.round(w.ftd),ftdamt:+w.ftdamt.toFixed(2)});
+    });
+    store[c].activeIdx = Math.max(0,store[c].weeks.length-1);
+    byWeek(Object.values(fbMap).filter(x=>x.c===c)).forEach(e=>{
+      socialStore[c].fb.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2)});
+    });
+    byWeek(Object.values(igMap).filter(x=>x.c===c)).forEach(e=>{
+      socialStore[c].ig.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2)});
+    });
+  });
+  return parsed;
+}
+
+function _applySyncResult(parsed) {
+  persistData();
+  renderOverview();
+  COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); });
+  const summary = COUNTRIES.map(c => {
+    const wks = store[c].weeks; if (!wks.length) return '';
+    const last = wks[wks.length-1];
+    return `${C_FLAG[c]} ${C_NAME[c]}: ${last.label} · Reg ${last.reg} · KYC ${last.kyc} · FTD ${last.ftd}`;
+  }).filter(Boolean).join(' &nbsp;|&nbsp; ');
+  return `<span style="color:var(--green)">&#10003; ${parsed.toLocaleString()} rows synced</span>
+    <div style="font-size:11px;color:var(--muted);margin-top:3px">${summary}</div>`;
+}
+
+let sheetLastSynced = null;
+
+async function fetchAndSyncSheet() {
+  const btn    = document.getElementById('sheet-sync-btn');
+  const status = document.getElementById('sheet-sync-status');
+  if (btn) { btn.disabled=true; btn.textContent='⏳ Syncing…'; }
+  if (status) status.innerHTML = '';
+  try {
+    const url  = mapStore.csvUrl || MAPPING_DEFAULT.csvUrl;
+    const resp = await fetch(url, {mode:'cors',credentials:'omit',cache:'no-store'});
+    if (!resp.ok) throw new Error('HTTP ' + resp.status);
+    const text = await resp.text();
+    const {rows} = _parseCSVToRows(text);
+    if (!rows.length) throw new Error('No data in response');
+    const parsed = _processCSVRows(rows);
+    sheetLastSynced = new Date();
+    if (status) status.innerHTML = _applySyncResult(parsed);
+  } catch(e) {
+    if (status) status.innerHTML = `<span style="color:var(--red)">&#10007; ${e.message}</span>
+      <div style="font-size:11px;color:var(--muted);margin-top:4px">
+        Open via <a href="https://adamlooi99.github.io/Adam-AI/" target="_blank" style="color:var(--gold)">GitHub Pages</a> for live sync — or paste CSV content below.
+      </div>`;
+  }
+  if (btn) { btn.disabled=false; btn.textContent='🔄 Sync from Google Sheets'; }
+}
+
+function processPastedCSV() {
+  const status   = document.getElementById('sheet-sync-status');
+  const textarea = document.getElementById('paste-csv-input');
+  const text = (textarea && textarea.value) || '';
+  if (!text.trim()) { if (status) status.innerHTML='<span style="color:var(--red)">Paste CSV content first</span>'; return; }
+  try {
+    const {rows} = _parseCSVToRows(text);
+    if (!rows.length) throw new Error('Could not parse CSV');
+    const parsed = _processCSVRows(rows);
+    sheetLastSynced = new Date();
+    if (textarea) textarea.value = '';
+    if (status) status.innerHTML = _applySyncResult(parsed);
+  } catch(e) {
+    if (status) status.innerHTML = `<span style="color:var(--red)">&#10007; ${e.message}</span>`;
+  }
 }
 
 function saveData(c) {
@@ -2845,6 +3819,267 @@ function buildDashboardContext() {
   lines.push(`Objective: ${filters.objective === 'leadgen' ? 'Lead Gen' : 'Page Growth'} | Period: ${filters.calendar} | Country: ${filters.country === 'all' ? 'All Countries' : C_NAME[filters.country]}`);
   lines.push('\nWhen asked about performance, use this data to provide specific insights, comparisons, and recommendations.');
   return lines.join('\n');
+}
+
+// ── FTD Records ───────────────────────────────────────────────────────────
+function persistLTV() {
+  try { localStorage.setItem(LTV_KEY, JSON.stringify(ltvStore)); } catch(e) {}
+}
+
+function ftdMonthKey(year, month) {
+  return `${year}-${String(month + 1).padStart(2, '0')}`;
+}
+
+function ftdMonthLabel(key) {
+  const [y, m] = key.split('-').map(Number);
+  return new Date(y, m - 1).toLocaleString('default', { month: 'long', year: 'numeric' });
+}
+
+function getMonthsFTDData(country) {
+  const map = {};
+  (store[country].weeks || []).forEach(w => {
+    const ym = weekLabelToYearMonth(w.label);
+    if (!ym) return;
+    const k = ftdMonthKey(ym.year, ym.month);
+    if (!map[k]) map[k] = { key: k, ftdCount: 0, ftdAmt: 0 };
+    map[k].ftdCount += (w.ftd    || 0);
+    map[k].ftdAmt   += (w.ftdamt || 0);
+  });
+  return Object.values(map).sort((a, b) => a.key.localeCompare(b.key));
+}
+
+function saveLTVEntry(country, key, val) {
+  ltvStore[country][key] = val;
+  persistLTV();
+}
+
+function renderFTDRecords() {
+  // Grand totals
+  let gFTD = 0, gAmt = 0, gLTV = 0;
+  COUNTRIES.forEach(c => {
+    getMonthsFTDData(c).forEach(r => {
+      gFTD += r.ftdCount;
+      gAmt += r.ftdAmt;
+      gLTV += (ltvStore[c][r.key] || 0);
+    });
+  });
+
+  const el = id => document.getElementById(id);
+  el('ftd-sum-count').textContent = gFTD > 0 ? gFTD.toLocaleString() : '—';
+  el('ftd-sum-amt').textContent   = gAmt > 0 ? fmtUSD(gAmt) : '—';
+  el('ftd-sum-ltv').textContent   = gLTV > 0 ? fmtUSD(gLTV) : '—';
+  el('ftd-sum-avg').textContent   = (gFTD > 0 && gLTV > 0) ? fmtUSD(gLTV / gFTD) : '—';
+
+  document.getElementById('ftd-tables').innerHTML = COUNTRIES.map(c => {
+    const rows = getMonthsFTDData(c);
+
+    if (!rows.length) return `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <span style="font-size:18px">${C_FLAG[c]}</span>
+          <span style="font-weight:700;font-size:14px;color:${C_COLOR[c]}">${C_NAME[c]}</span>
+        </div>
+        <div style="font-size:11px;color:var(--muted)">No lead gen data uploaded yet. Add weekly data to see FTD records here.</div>
+      </div>`;
+
+    const cFTD = rows.reduce((s, r) => s + r.ftdCount, 0);
+    const cAmt = rows.reduce((s, r) => s + r.ftdAmt, 0);
+    const cLTV = rows.reduce((s, r) => s + (ltvStore[c][r.key] || 0), 0);
+
+    const bodyRows = rows.map(r => {
+      const ltv    = ltvStore[c][r.key] || 0;
+      const avgLTV = (r.ftdCount > 0 && ltv > 0) ? fmtUSD(ltv / r.ftdCount) : '—';
+      const ratio  = (r.ftdAmt > 0 && ltv > 0) ? ((ltv / r.ftdAmt) * 100).toFixed(0) + '%' : '—';
+      const ltvColor = ltv > 0 ? 'var(--green)' : 'var(--muted)';
+      return `<tr>
+        <td style="font-weight:600">${ftdMonthLabel(r.key)}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace">${r.ftdCount > 0 ? r.ftdCount.toLocaleString() : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace">${r.ftdAmt > 0 ? fmtUSD(r.ftdAmt) : '—'}</td>
+        <td style="text-align:right">
+          <input class="ftd-ltv-input" type="number" min="0" step="100"
+            value="${ltv || ''}" placeholder="Enter amount"
+            onchange="saveLTVEntry('${c}','${r.key}',parseFloat(this.value)||0);renderFTDRecords()">
+        </td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;color:${ltvColor}">${ltv > 0 ? fmtUSD(ltv) : '—'}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${avgLTV}</td>
+        <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${ratio}</td>
+      </tr>`;
+    }).join('');
+
+    const totAvg   = (cFTD > 0 && cLTV > 0) ? fmtUSD(cLTV / cFTD) : '—';
+    const totRatio = (cAmt > 0 && cLTV > 0) ? ((cLTV / cAmt) * 100).toFixed(0) + '%' : '—';
+
+    return `
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:14px">
+        <div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border);background:var(--surface2)">
+          <span style="font-size:18px">${C_FLAG[c]}</span>
+          <span style="font-weight:700;font-size:14px;color:${C_COLOR[c]}">${C_NAME[c]}</span>
+          <div style="margin-left:auto;display:flex;gap:16px;font-size:10px;color:var(--muted)">
+            <span><span style="color:var(--text);font-weight:600">${cFTD}</span> FTDs</span>
+            <span><span style="color:var(--text);font-weight:600">${cAmt > 0 ? fmtUSD(cAmt) : '—'}</span> FTD Amt</span>
+            <span><span style="color:${cLTV > 0 ? 'var(--green)' : 'var(--muted)'};font-weight:600">${cLTV > 0 ? fmtUSD(cLTV) : 'LTV not set'}</span></span>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table class="tbl" style="width:100%">
+            <thead><tr>
+              <th>Month</th>
+              <th style="text-align:right">FTD Count</th>
+              <th style="text-align:right">FTD Amount</th>
+              <th style="text-align:right">Enter LTV</th>
+              <th style="text-align:right">LTV Total</th>
+              <th style="text-align:right">Avg LTV / FTD</th>
+              <th style="text-align:right">LTV : FTD Amt</th>
+            </tr></thead>
+            <tbody>
+              ${bodyRows}
+              <tr style="border-top:2px solid var(--border);background:var(--surface2)">
+                <td style="font-weight:700">Total</td>
+                <td style="text-align:right;font-weight:700;font-family:'DM Mono',monospace">${cFTD > 0 ? cFTD.toLocaleString() : '—'}</td>
+                <td style="text-align:right;font-weight:700;font-family:'DM Mono',monospace">${cAmt > 0 ? fmtUSD(cAmt) : '—'}</td>
+                <td></td>
+                <td style="text-align:right;font-weight:700;font-family:'DM Mono',monospace;color:${cLTV > 0 ? 'var(--green)' : 'var(--muted)'}">${cLTV > 0 ? fmtUSD(cLTV) : '—'}</td>
+                <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${totAvg}</td>
+                <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${totRatio}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── UTM Generator ─────────────────────────────────────────────────────────
+const UTMG_FIELDS = ['pic','acc','bid','camp','obj','fmt','mktc','mkta','lang'];
+
+function utmgVal(f) {
+  const sel = document.getElementById('utmg-' + f);
+  if (!sel) {
+    // plain text input (targeting, content name)
+    return (document.getElementById('utmg-' + f) || {}).value || '';
+  }
+  if (sel.tagName === 'SELECT') {
+    if (sel.value === '__manual__') return document.getElementById('utmg-' + f + '-m')?.value || '';
+    return sel.value;
+  }
+  return sel.value || '';
+}
+
+function utmgSync(f) {
+  const sel = document.getElementById('utmg-' + f);
+  const man = document.getElementById('utmg-' + f + '-m');
+  if (man) man.style.display = sel.value === '__manual__' ? '' : 'none';
+  if (sel.value === '__manual__' && man) man.focus();
+  utmgUpdate();
+}
+
+function utmgLast4(acc) {
+  const digits = acc.replace(/\D/g,'');
+  return digits.slice(-4) || acc.slice(-4);
+}
+
+function utmgUpdate() {
+  const bid   = utmgVal('acc') !== '' ? utmgVal('bid')  : '';
+  const acc   = utmgVal('acc');
+  const last4 = utmgLast4(acc);
+  const camp  = utmgVal('camp');
+  const obj   = utmgVal('obj');
+  const mktc  = utmgVal('mktc');
+  const mkta  = utmgVal('mkta');
+  const fmt   = utmgVal('fmt');
+  const lang  = utmgVal('lang');
+  const tgt   = utmgVal('tgt');
+  const cname = utmgVal('cname');
+  const bidV  = utmgVal('bid');
+
+  // Naming convention strings (pattern derived from platform standard)
+  // utm_campaign  → Campaign_Market(Campaign)_PIC_Objective
+  // utm_medium    → Market(Adgroup)_Targeting_BidCode
+  // utm_content   → ContentName_Language_Format
+  const pic       = utmgVal('pic');
+  const campName  = [camp, mktc, pic, obj].filter(Boolean).join('_');
+  const adsetName = [mkta, tgt, last4].filter(Boolean).join('_');
+  const adName    = [cname, lang, fmt].filter(Boolean).join('_');
+
+  document.getElementById('utmg-ref-camp').textContent  = campName  || '—';
+  document.getElementById('utmg-ref-adset').textContent = adsetName || '—';
+  document.getElementById('utmg-ref-ad').textContent    = adName    || '—';
+
+  // Highlight filled vs dynamic values
+  const h = (val, fallback) => val
+    ? `<span class="utmg-filled">${escapeHtml(val)}</span>`
+    : `<span class="utmg-param">${fallback}</span>`;
+
+  const dyn = s => `<span class="utmg-param">${s}</span>`;
+
+  // Meta template
+  const metaParts = [
+    `bid=${h(bidV,'[bid_code]')}`,
+    `utm_source=`,
+    `utm_medium=${dyn('{{adset.name}}')}_${h(last4,'[last4]')}`,
+    `utm_campaign=${dyn('{{campaign.name}}')}`,
+    `utm_content=${dyn('{{ad.name}}')}`,
+    `utm_network=${dyn('{{site_source_name}}')}_${dyn('{{placement}}')}`,
+  ];
+  document.getElementById('utmg-meta-out').innerHTML = metaParts.join('\n&amp;');
+
+  // Google SEM template
+  const ggParts = [
+    `${dyn('{lpurl}')}?bid=${h(bidV,'[bid_code]')}`,
+    `utm_source=`,
+    `utm_campaign=${dyn('{{campaign.name}}')}`,
+    `utm_medium=${dyn('{{adset.name}}')}`,
+    `utm_content=${dyn('{{ad.name}}')}`,
+    `utm_term=${dyn('{keyword}')}_{query}`,
+    `utm_matchtype=${dyn('{matchtype}')}`,
+    `utm_network=${dyn('{network}')}_{placement}_${dyn('{device}')}`,
+    `gclid=${dyn('{gclid}')}`,
+  ];
+  document.getElementById('utmg-gg-out').innerHTML = ggParts.join('\n&amp;');
+}
+
+function utmgCopy(type) {
+  const bid   = utmgVal('bid');
+  const acc   = utmgVal('acc');
+  const last4 = utmgLast4(acc);
+
+  let text;
+  if (type === 'meta') {
+    text = [
+      `bid=${bid}`,
+      `utm_source=`,
+      `utm_medium={{adset.name}}_${last4}`,
+      `utm_campaign={{campaign.name}}`,
+      `utm_content={{ad.name}}`,
+      `utm_network={{site_source_name}}_{{placement}}`,
+    ].join('&');
+  } else {
+    text = [
+      `{lpurl}?bid=${bid}`,
+      `utm_source=`,
+      `utm_campaign={{campaign.name}}`,
+      `utm_medium={{adset.name}}`,
+      `utm_content={{ad.name}}`,
+      `utm_term={keyword}_{query}`,
+      `utm_matchtype={matchtype}`,
+      `utm_network={network}_{placement}_{device}`,
+      `gclid={gclid}`,
+    ].join('&');
+  }
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).catch(() => {});
+  } else {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch(e){}
+    document.body.removeChild(ta);
+  }
+  const btn = event.target;
+  const orig = btn.textContent;
+  btn.textContent = '✓ Copied!'; btn.style.color = 'var(--green)';
+  setTimeout(() => { btn.textContent = orig; btn.style.color = ''; }, 2000);
 }
 
 function toggleAIPanel() {
@@ -5213,6 +6448,8 @@ updateAIKeyBadge();
 applyLanguage();
 loadCreativeHistory();
 loadCopyLibrary();
+loadMapStore();
+renderMappingSection();
 </script>
 </body>
 </html>
