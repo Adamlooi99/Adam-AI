@@ -2481,10 +2481,19 @@ function getFilteredWeeks(c) {
   return getFilteredPeriodData(c);
 }
 function getPrevWeeks(c) {
-  // Trend comparison only makes sense in week/all mode
-  if (filters.periodType !== 'week' || filters.weekSel !== 'all') return [];
+  if (filters.periodType === 'month') {
+    const months = store[c].months || [];
+    if (!months.length) return [];
+    if (filters.monthSel === 'all') return months.length >= 2 ? [months[months.length - 2]] : [];
+    const idx = months.findIndex(m => m.key === filters.monthSel);
+    return idx > 0 ? [months[idx - 1]] : [];
+  }
+  if (filters.periodType === 'day') return [];
   const wks = store[c].weeks || [];
-  return wks.length >= 2 ? [wks[wks.length - 2]] : [];
+  if (!wks.length) return [];
+  if (filters.weekSel === 'all') return wks.length >= 2 ? [wks[wks.length - 2]] : [];
+  const idx = wks.findIndex(w => w.label === filters.weekSel);
+  return idx > 0 ? [wks[idx - 1]] : [];
 }
 function activeCountries() {
   return filters.country === 'all' ? COUNTRIES : [filters.country];
@@ -2559,7 +2568,8 @@ function populatePeriodDropdowns() {
 // ── Aggregate ──────────────────────────────────────────────────────────
 function aggregate(weeksArr) {
   const r = {reg:0,pend:0,kyc:0,ftd:0,ftdamt:0,spend:0};
-  weeksArr.forEach(w => { r.reg+=w.reg||0; r.pend+=w.pend||0; r.kyc+=w.kyc||0; r.ftd+=w.ftd||0; r.ftdamt+=w.ftdamt||0; r.spend+=w.spend||0; });
+  weeksArr.forEach(w => { r.reg+=w.reg||0; r.kyc+=w.kyc||0; r.ftd+=w.ftd||0; r.ftdamt+=w.ftdamt||0; r.spend+=w.spend||0; });
+  r.pend = Math.max(0, r.reg - r.kyc);
   return r;
 }
 
@@ -3085,7 +3095,7 @@ function renderHistoryTable() {
     </tr>`;
 
     const rows = [];
-    cs.forEach(c => { getFilteredWeeks(c).forEach(w => rows.push({c, ...w})); });
+    cs.forEach(c => { getFilteredWeeks(c).forEach(w => rows.push({c, ...w, pend: Math.max(0, (w.reg||0) - (w.kyc||0))})); });
     rows.reverse();
     const filtered = rows.filter(r =>
       C_NAME[r.c].toLowerCase().includes(search) || r.label.toLowerCase().includes(search)
@@ -3134,7 +3144,7 @@ function exportHistoryCSV() {
       getFilteredWeeks(c).forEach(w => {
         const r2k = w.reg>0 ? Math.round(w.kyc/w.reg*100) : 0;
         const k2f = w.kyc>0 ? Math.round(w.ftd/w.kyc*100) : 0;
-        rows.push([C_NAME[c], w.label, w.spend, w.reg, w.pend, w.kyc, w.ftd, w.ftdamt, r2k+'%', k2f+'%']);
+        rows.push([C_NAME[c], w.label, w.spend, w.reg, Math.max(0,(w.reg||0)-(w.kyc||0)), w.kyc, w.ftd, w.ftdamt, r2k+'%', k2f+'%']);
       });
     });
     filename = 'ebc_leadgen_export.csv';
