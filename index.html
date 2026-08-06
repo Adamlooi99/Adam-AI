@@ -1883,7 +1883,6 @@ const BUDGET_KEY  = 'ebc_budget_v1';
 const KPI_KEY     = 'ebc_kpi_v1';
 const LTV_KEY     = 'ebc_ltv_v1';
 
-const SHEET_CSV_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSr_8KBRGPkVyrDRzj2rTpegtyeYX5sS1m50DbWr1_ThkWMdQa0o1T1krPEl6Efa555rVo_XkyFUnUq/pub?gid=0&single=true&output=csv';
 const SHEET_GEO_MAP = { KR:'kr', MN:'mn', ZA:'za', 'South Africa':'za' };
 
 // budgetStore: { mn: { leadgen: 0, social: 0 }, kr: {...}, za: {...} }
@@ -2862,63 +2861,78 @@ function prefillInputs(c) {
 }
 
 // ── Google Sheets Live Sync ───────────────────────────────────────────────
-function _csvSplitLine(line) {
-  const result = []; let cur = '', inQ = false;
-  for (let i = 0; i < line.length; i++) {
-    const ch = line[i];
-    if (ch === '"') { inQ = !inQ; }
-    else if (ch === ',' && !inQ) { result.push(cur); cur = ''; }
-    else { cur += ch; }
-  }
-  result.push(cur);
-  return result;
-}
+// Uses Google Visualization API (JSONP via <script> tag) — no CORS issues,
+// works whether dashboard is opened as a local file or via GitHub Pages.
 
-function _csvNum(v) {
+const SHEET_ID = '1125p9Sfku7uc6tOg0i8LZ2RCDLtIX3Qp_vbbVtt7SlU';
+
+function _sheetNum(v) {
   const n = parseFloat((v || '').replace(/[^0-9.-]/g, ''));
   return isNaN(n) ? 0 : n;
 }
 
-function _csvDate(s) {
+function _sheetDate(s) {
+  // Handles gviz "Date(yr,mo,day)" (mo is 0-indexed) and plain DD/MM/YYYY text
   s = (s || '').trim();
   if (!s) return null;
+  const gviz = s.match(/Date\((\d+),(\d+),(\d+)/);
+  if (gviz) {
+    const d = new Date(+gviz[1], +gviz[2], +gviz[3]);
+    return (!isNaN(d.getTime()) && d.getFullYear() >= 2020) ? d : null;
+  }
   const p = s.split('/');
   if (p.length !== 3) return null;
   let [a, b, c] = p.map(Number);
   let day, mon, yr;
-  if (c < 100) {
-    // 2-digit year (e.g. 2/12/26) → treat as M/D/YY
-    mon = a; day = b; yr = c + 2000;
-  } else if (a > 12) {
-    // Day clearly > 12, must be DD/MM/YYYY
-    day = a; mon = b; yr = c;
-  } else if (b > 12) {
-    // Month slot > 12, must be MM/DD/YYYY
-    mon = a; day = b; yr = c;
-  } else {
-    // Ambiguous — sheet uses DD/MM/YYYY as standard
-    day = a; mon = b; yr = c;
-  }
+  if (c < 100) { mon = a; day = b; yr = c + 2000; }        // M/D/YY
+  else if (a > 12) { day = a; mon = b; yr = c; }           // DD/MM/YYYY
+  else if (b > 12) { mon = a; day = b; yr = c; }           // MM/DD/YYYY
+  else { day = a; mon = b; yr = c; }                       // ambiguous → DD/MM
   const d = new Date(yr, mon - 1, day);
   return (!isNaN(d.getTime()) && yr >= 2020 && yr <= 2035) ? d : null;
 }
 
-let sheetLastSynced = null;
-
-async function _fetchCSVText(url) {
-  // Try direct fetch first; fall back to CORS proxy for file:// or restricted contexts
-  const attempt = async (u) => {
-    const r = await fetch(u);
-    if (!r.ok) throw new Error('HTTP ' + r.status);
-    return r.text();
-  };
-  try {
-    return await attempt(url);
-  } catch (e) {
-    const proxy = 'https://corsproxy.io/?' + encodeURIComponent(url);
-    return await attempt(proxy);
+function _gvizCellStr(cell, colType) {
+  if (!cell || cell.v === null || cell.v === undefined) return '';
+  if (colType === 'date' || colType === 'datetime') {
+    // Return as "Date(yr,mo,day)" so _sheetDate can parse it
+    return String(cell.v);
   }
+  // For numbers use raw value; for strings prefer formatted value
+  return (cell.f !== null && cell.f !== undefined) ? String(cell.f) : String(cell.v);
 }
+
+function _gvizLoadTable() {
+  return new Promise((resolve, reject) => {
+    const cbName = '__gviz' + Date.now();
+    const script = document.createElement('script');
+    const timeout = setTimeout(() => {
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      reject(new Error('Timed out — ensure the sheet is "Published to web"'));
+    }, 20000);
+    window[cbName] = function(resp) {
+      clearTimeout(timeout);
+      delete window[cbName];
+      if (script.parentNode) script.parentNode.removeChild(script);
+      if (!resp || resp.status !== 'ok') {
+        const msg = (resp && resp.errors && resp.errors[0]) ? resp.errors[0].message : 'Sheet access error';
+        reject(new Error(msg));
+      } else {
+        resolve(resp.table);
+      }
+    };
+    script.onerror = () => {
+      clearTimeout(timeout);
+      delete window[cbName];
+      reject(new Error('Could not reach Google Sheets'));
+    };
+    script.src = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json;responseHandler:${cbName}&gid=0`;
+    document.head.appendChild(script);
+  });
+}
+
+let sheetLastSynced = null;
 
 async function fetchAndSyncSheet() {
   const btn    = document.getElementById('sheet-sync-btn');
@@ -2926,16 +2940,16 @@ async function fetchAndSyncSheet() {
   if (btn) { btn.disabled = true; btn.textContent = '⏳ Syncing…'; }
   if (status) status.innerHTML = '';
   try {
-    const text  = await _fetchCSVText(SHEET_CSV_URL);
-    const lines = text.split('\n').filter(l => l.trim());
-    if (!lines.length) throw new Error('Empty response');
+    // Load via Google Visualization API (JSONP — no CORS restrictions)
+    const table = await _gvizLoadTable();
+    const cols   = table.cols;
+    const colIdx = {};
+    cols.forEach((col, i) => { colIdx[col.label.trim()] = i; });
 
-    const headers = _csvSplitLine(lines[0]).map(h => h.trim().replace(/^"|"$/g, ''));
-    const ci = {};
-    ['Target GEO','Date','Cost (USD)','Impression','IG Follower','FB Page Like',
-     'Registration (CRM)','KYC','FTD','FTD$$'].forEach(name => {
-      ci[name] = headers.findIndex(h => h.trim() === name.trim());
-    });
+    const get = (row, name) => {
+      const i = colIdx[name];
+      return (i !== undefined && row.c[i]) ? _gvizCellStr(row.c[i], cols[i].type) : '';
+    };
 
     // Reset tracked-country data
     COUNTRIES.forEach(c => {
@@ -2947,46 +2961,43 @@ async function fetchAndSyncSheet() {
     const lgMap = {}, fbMap = {}, igMap = {};
     let parsed = 0;
 
-    for (let i = 1; i < lines.length; i++) {
-      const v   = _csvSplitLine(lines[i]);
-      const geo = ci['Target GEO'] >= 0 ? (v[ci['Target GEO']] || '').trim() : '';
+    table.rows.forEach(row => {
+      if (!row || !row.c) return;
+      const geo = get(row, 'Target GEO').trim();
       const c   = SHEET_GEO_MAP[geo];
-      if (!c) continue;
-      const d = _csvDate(ci['Date'] >= 0 ? v[ci['Date']] : '');
-      if (!d) continue;
+      if (!c) return;
+      const d = _sheetDate(get(row, 'Date'));
+      if (!d) return;
       const label = 'W' + getISOWeekNum(d);
       const key   = c + '_' + label;
       parsed++;
 
-      // Lead gen aggregate
       if (!lgMap[key]) lgMap[key] = { c, label, spend:0, reg:0, kyc:0, ftd:0, ftdamt:0 };
-      lgMap[key].spend  += _csvNum(v[ci['Cost (USD)']]);
-      lgMap[key].reg    += _csvNum(v[ci['Registration (CRM)']]);
-      lgMap[key].kyc    += _csvNum(v[ci['KYC']]);
-      lgMap[key].ftd    += _csvNum(v[ci['FTD']]);
-      lgMap[key].ftdamt += _csvNum(v[ci['FTD$$']]);
+      lgMap[key].spend  += _sheetNum(get(row, 'Cost (USD)'));
+      lgMap[key].reg    += _sheetNum(get(row, 'Registration (CRM)'));
+      lgMap[key].kyc    += _sheetNum(get(row, 'KYC'));
+      lgMap[key].ftd    += _sheetNum(get(row, 'FTD'));
+      lgMap[key].ftdamt += _sheetNum(get(row, 'FTD$$'));
 
-      // FB followers
-      const fbG = _csvNum(v[ci['FB Page Like']]);
+      const fbG = _sheetNum(get(row, 'FB Page Like'));
       if (fbG > 0) {
         if (!fbMap[key]) fbMap[key] = { c, label, gained:0, imp:0, spend:0 };
         fbMap[key].gained += fbG;
-        fbMap[key].imp    += _csvNum(v[ci['Impression']]);
-        fbMap[key].spend  += _csvNum(v[ci['Cost (USD)']]);
+        fbMap[key].imp    += _sheetNum(get(row, 'Impression'));
+        fbMap[key].spend  += _sheetNum(get(row, 'Cost (USD)'));
       }
 
-      // IG followers
-      const igG = _csvNum(v[ci['IG Follower']]);
+      const igG = _sheetNum(get(row, 'IG Follower'));
       if (igG > 0) {
         if (!igMap[key]) igMap[key] = { c, label, gained:0, imp:0, spend:0 };
         igMap[key].gained += igG;
-        igMap[key].imp    += _csvNum(v[ci['Impression']]);
-        igMap[key].spend  += _csvNum(v[ci['Cost (USD)']]);
+        igMap[key].imp    += _sheetNum(get(row, 'Impression'));
+        igMap[key].spend  += _sheetNum(get(row, 'Cost (USD)'));
       }
-    }
+    });
 
     const byWeek = arr => arr.sort((a, b) =>
-      (parseInt(a.label.replace(/\D/g,'')) || 0) - (parseInt(b.label.replace(/\D/g,'')) || 0));
+      (parseInt(a.label.replace(/\D/g,''))||0) - (parseInt(b.label.replace(/\D/g,''))||0));
 
     COUNTRIES.forEach(c => {
       byWeek(Object.values(lgMap).filter(x => x.c === c)).forEach(w => {
@@ -3014,9 +3025,8 @@ async function fetchAndSyncSheet() {
     COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); });
 
     sheetLastSynced = new Date();
-    const ts = sheetLastSynced.toLocaleString();
     if (status) status.innerHTML =
-      `<span style="color:var(--green)">&#10003; ${parsed} rows synced &mdash; ${ts}</span>`;
+      `<span style="color:var(--green)">&#10003; ${parsed} rows synced &mdash; ${sheetLastSynced.toLocaleString()}</span>`;
     if (btn) { btn.disabled = false; btn.textContent = '🔄 Sync from Google Sheets'; }
   } catch (e) {
     if (status) status.innerHTML = `<span style="color:var(--red)">&#10007; ${e.message}</span>`;
