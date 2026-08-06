@@ -607,14 +607,16 @@ body.snap-mode .snap-banner{display:block}
   </div>
   <div class="fdiv"></div>
   <div class="fg">
-    <span class="fl" data-i18n="filter.period">Period</span>
-    <div class="pgrp">
-      <button class="pill" id="pill-cal-yesterday" onclick="setFilter('calendar','yesterday')" data-i18n="filter.yesterday">Yesterday</button>
-      <button class="pill a-neutral" id="pill-cal-7d" onclick="setFilter('calendar','7d')" data-i18n="filter.last7d">Last 7d</button>
-      <button class="pill" id="pill-cal-14d" onclick="setFilter('calendar','14d')" data-i18n="filter.last14d">Last 14d</button>
-      <button class="pill" id="pill-cal-30d" onclick="setFilter('calendar','30d')" data-i18n="filter.last30d">Last 30d</button>
-      <button class="pill" id="pill-cal-all" onclick="setFilter('calendar','all')" data-i18n="filter.allweeks">All Weeks</button>
+    <span class="fl">Period</span>
+    <div class="pgrp" id="period-type-grp">
+      <button class="pill" id="pill-pt-day" onclick="setPeriodType('day')">Days</button>
+      <button class="pill a-neutral" id="pill-pt-week" onclick="setPeriodType('week')">Week</button>
+      <button class="pill" id="pill-pt-month" onclick="setPeriodType('month')">Month</button>
     </div>
+    <select id="week-sel-filter" onchange="setPeriodSel(this.value)"
+      style="margin-top:6px;display:none;padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);min-width:96px"></select>
+    <select id="month-sel-filter" onchange="setPeriodSel(this.value)"
+      style="margin-top:6px;display:none;padding:4px 8px;font-size:12px;background:var(--card);border:1px solid var(--border);border-radius:6px;color:var(--text);min-width:108px"></select>
   </div>
   <div class="fdiv"></div>
   <div class="fg">
@@ -1881,11 +1883,11 @@ const C_COLOR = {mn:'#E8A838', kr:'#4A9EE8', za:'#4CAF7D'};
 let activeView = 'overview';
 let modalCountry = null;
 let modalMode = 'add';
-const filters = {objective:'leadgen', calendar:'7d', country:'all'};
+const filters = {objective:'leadgen', calendar:'all', country:'all', periodType:'week', weekSel:'all', monthSel:'all'};
 let socialChannelFilter = 'both';
 
 const store = {};
-COUNTRIES.forEach(c => store[c] = {weeks:[], activeIdx:0});
+COUNTRIES.forEach(c => store[c] = {weeks:[], days:[], months:[], activeIdx:0});
 const socialStore = {};
 COUNTRIES.forEach(c => socialStore[c] = {fb:[], ig:[], activePlatform:'fb'});
 
@@ -1978,7 +1980,9 @@ function loadPersistedData() {
     let any = false;
     COUNTRIES.forEach(c => {
       if (d.store[c]) {
-        store[c].weeks = d.store[c].weeks || [];
+        store[c].weeks  = d.store[c].weeks  || [];
+        store[c].days   = d.store[c].days   || [];
+        store[c].months = d.store[c].months || [];
         store[c].activeIdx = Math.min(d.store[c].activeIdx||0, Math.max(0,store[c].weeks.length-1));
         if (store[c].weeks.length > 0) any = true;
       }
@@ -2343,7 +2347,7 @@ function setFilter(type, val) {
     document.getElementById('kpi-pagegrowth').style.display = val==='pagegrowth' ? '' : 'none';
   }
   if (type === 'calendar') {
-    ['yesterday','7d','14d','30d','all'].forEach(v => document.getElementById('pill-cal-'+v).className = 'pill' + (v===val?' a-neutral':''));
+    ['yesterday','7d','14d','30d','all'].forEach(v => { const el=document.getElementById('pill-cal-'+v); if(el) el.className='pill'+(v===val?' a-neutral':''); });
   }
   if (type === 'country') {
     ['all','mn','kr','za'].forEach(v => {
@@ -2382,21 +2386,82 @@ function calWeekCount() {
   return {yesterday:1,'7d':1,'14d':2,'30d':4}[filters.calendar] || 1;
 }
 function getFilteredWeeks(c) {
-  const wks = store[c].weeks;
-  if (!wks.length) return [];
-  const n = calWeekCount();
-  return n === Infinity ? [...wks] : wks.slice(-n);
+  return getFilteredPeriodData(c);
 }
 function getPrevWeeks(c) {
-  const wks = store[c].weeks;
-  const n = calWeekCount();
-  if (n === Infinity) return [];
-  const start = wks.length - n;
-  if (start <= 0) return [];
-  return wks.slice(Math.max(0, start-n), start);
+  // Trend comparison only makes sense in week/all mode
+  if (filters.periodType !== 'week' || filters.weekSel !== 'all') return [];
+  const wks = store[c].weeks || [];
+  return wks.length >= 2 ? [wks[wks.length - 2]] : [];
 }
 function activeCountries() {
   return filters.country === 'all' ? COUNTRIES : [filters.country];
+}
+
+// ── Period filter (Day / Week / Month) ────────────────────────────────────
+function getFilteredPeriodData(c) {
+  if (filters.periodType === 'month') {
+    const months = store[c].months || [];
+    if (!months.length) return [];
+    if (filters.monthSel === 'all') return [...months];
+    return months.filter(m => m.key === filters.monthSel);
+  }
+  if (filters.periodType === 'day') {
+    const days = store[c].days || [];
+    if (!days.length) return [];
+    if (filters.monthSel !== 'all') return days.filter(d => d.date.substring(0,7) === filters.monthSel);
+    return [...days];
+  }
+  // Week mode
+  const wks = store[c].weeks || [];
+  if (!wks.length) return [];
+  if (filters.weekSel === 'all') return [...wks];
+  // Specific week selected → return daily breakdown within that week
+  const days = store[c].days || [];
+  const dayRows = days.filter(d => d.weekLabel === filters.weekSel);
+  return dayRows.length ? dayRows : wks.filter(w => w.label === filters.weekSel);
+}
+
+function setPeriodType(type) {
+  filters.periodType = type;
+  filters.weekSel   = 'all';
+  filters.monthSel  = 'all';
+  ['day','week','month'].forEach(t => {
+    const el = document.getElementById('pill-pt-'+t);
+    if (el) el.className = 'pill' + (t===type ? ' a-neutral' : '');
+  });
+  const wDrop = document.getElementById('week-sel-filter');
+  const mDrop = document.getElementById('month-sel-filter');
+  if (wDrop) { wDrop.style.display = type==='week'  ? '' : 'none'; wDrop.value='all'; }
+  if (mDrop) { mDrop.style.display = type==='month' ? '' : 'none'; mDrop.value='all'; }
+  renderOverview();
+}
+
+function setPeriodSel(val) {
+  if (filters.periodType === 'week')  filters.weekSel  = val;
+  if (filters.periodType === 'month') filters.monthSel = val;
+  renderOverview();
+}
+
+function populatePeriodDropdowns() {
+  const allWeeks  = new Set();
+  const allMonths = new Map(); // key → label
+  COUNTRIES.forEach(c => {
+    (store[c].weeks  || []).forEach(w => allWeeks.add(w.label));
+    (store[c].months || []).forEach(m => allMonths.set(m.key, m.label));
+  });
+  const wDrop = document.getElementById('week-sel-filter');
+  if (wDrop) {
+    const sorted = [...allWeeks].sort((a,b) => (parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0));
+    wDrop.innerHTML = '<option value="all">All Weeks</option>' +
+      sorted.map(w => `<option value="${w}"${filters.weekSel===w?' selected':''}>${w}</option>`).join('');
+  }
+  const mDrop = document.getElementById('month-sel-filter');
+  if (mDrop) {
+    const sorted = [...allMonths.entries()].sort((a,b) => a[0].localeCompare(b[0]));
+    mDrop.innerHTML = '<option value="all">All Months</option>' +
+      sorted.map(([k,lbl]) => `<option value="${k}"${filters.monthSel===k?' selected':''}>${lbl}</option>`).join('');
+  }
 }
 
 // ── Aggregate ──────────────────────────────────────────────────────────
@@ -2659,7 +2724,11 @@ function renderBarChart() {
   // Lead Gen / default: single Registrations chart with KYC trend overlay
   const container  = document.getElementById('overview-chart');
   const chartTitle = document.getElementById('chart-stitle');
-  if (chartTitle) chartTitle.textContent = 'Weekly Registrations Trend';
+  if (chartTitle) {
+    const ptLabel = {week:'Weekly', month:'Monthly', day:'Daily'}[filters.periodType] || 'Weekly';
+    const selLabel = filters.periodType==='week' && filters.weekSel!=='all' ? filters.weekSel+' — Daily' : ptLabel;
+    chartTitle.textContent = selLabel + ' Registrations Trend';
+  }
 
   const weekMap = {};
   cs.forEach(c => {
@@ -2961,15 +3030,42 @@ function _csvSplit(line) {
 }
 
 function _parseCSVToRows(text) {
-  const lines = text.split('\n').filter(l => l.trim());
-  if (!lines.length) return { headers:[], rows:[] };
-  const headers = _csvSplit(lines[0]).map(h => h.trim().replace(/^"|"$/g, ''));
-  const rows = lines.slice(1).map(line => {
-    const vals = _csvSplit(line);
+  // RFC 4180-compliant parser — handles quoted fields that contain commas, quotes, and newlines.
+  // Google Sheets CSV exports can embed literal newlines inside quoted header cells.
+  text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  if (!text.trim()) return { headers:[], rows:[] };
+  const records = [];
+  let i = 0, len = text.length;
+  while (i < len) {
+    const record = [];
+    while (i < len) {
+      let field = '';
+      if (text[i] === '"') {
+        i++; // skip opening quote
+        while (i < len) {
+          if (text[i] === '"') {
+            if (i+1 < len && text[i+1] === '"') { field += '"'; i += 2; } // escaped ""
+            else { i++; break; } // closing quote
+          } else { field += text[i++]; }
+        }
+      } else {
+        while (i < len && text[i] !== ',' && text[i] !== '\n') field += text[i++];
+        field = field.trim();
+      }
+      record.push(field);
+      if (i < len && text[i] === ',') { i++; continue; }
+      break;
+    }
+    if (i < len && text[i] === '\n') i++;
+    if (record.some(f => f.trim())) records.push(record);
+  }
+  if (!records.length) return { headers:[], rows:[] };
+  const headers = records[0].map(h => h.trim());
+  const rows = records.slice(1).map(fields => {
     const obj = {};
-    headers.forEach((h, i) => { obj[h] = (vals[i] || '').trim().replace(/^"|"$/g, ''); });
+    headers.forEach((h, idx) => { obj[h] = (fields[idx] || '').trim(); });
     return obj;
-  });
+  }).filter(row => Object.values(row).some(v => v));
   return { headers, rows };
 }
 
@@ -3085,8 +3181,8 @@ function _processCSVRows(rows) {
   const fromDate = fromVal ? new Date(fromVal + '-01') : null;
   const toDate   = toVal   ? (() => { const [y,m]=toVal.split('-').map(Number); return new Date(y,m,0,23,59,59); })() : null;
 
-  COUNTRIES.forEach(c => { store[c].weeks=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; });
-  const lgMap={}, fbMap={}, igMap={};
+  COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; });
+  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={};
   let parsed = 0;
 
   rows.forEach(row => {
@@ -3123,6 +3219,29 @@ function _processCSVRows(rows) {
       igMap[key].imp    += _csvNum(row[mapStore.impCol]);
       igMap[key].spend  += _csvNum(row[mapStore.spendCol]);
     }
+
+    // Daily aggregation
+    const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const dateStr = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+    const dayKey = c+'_'+dateStr;
+    const dayLabel = MM[d.getMonth()]+' '+String(d.getDate()).padStart(2,'0');
+    if (!dayMap[dayKey]) dayMap[dayKey]={c,date:dateStr,label:dayLabel,weekLabel:label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
+    dayMap[dayKey].spend  += _csvNum(row[mapStore.spendCol]);
+    dayMap[dayKey].reg    += _csvNum(row[mapStore.regCol]);
+    dayMap[dayKey].kyc    += _csvNum(row[mapStore.kycCol]);
+    dayMap[dayKey].ftd    += _csvNum(row[mapStore.ftdCol]);
+    dayMap[dayKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+
+    // Monthly aggregation
+    const monKey = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    const monLabel = MM[d.getMonth()]+' '+d.getFullYear();
+    const monSortKey = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    if (!monMap[monKey]) monMap[monKey]={c,key:monSortKey,label:monLabel,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
+    monMap[monKey].spend  += _csvNum(row[mapStore.spendCol]);
+    monMap[monKey].reg    += _csvNum(row[mapStore.regCol]);
+    monMap[monKey].kyc    += _csvNum(row[mapStore.kycCol]);
+    monMap[monKey].ftd    += _csvNum(row[mapStore.ftdCol]);
+    monMap[monKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
   });
 
   const byWeek = a => a.sort((x,y)=>(parseInt(x.label.replace(/\D/g,''))||0)-(parseInt(y.label.replace(/\D/g,''))||0));
@@ -3137,12 +3256,21 @@ function _processCSVRows(rows) {
     byWeek(Object.values(igMap).filter(x=>x.c===c)).forEach(e=>{
       socialStore[c].ig.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2)});
     });
+    store[c].days = Object.values(dayMap)
+      .filter(x=>x.c===c)
+      .sort((a,b)=>a.date.localeCompare(b.date))
+      .map(x=>({date:x.date,label:x.label,weekLabel:x.weekLabel,spend:+x.spend.toFixed(2),reg:Math.round(x.reg),pend:0,kyc:Math.round(x.kyc),ftd:Math.round(x.ftd),ftdamt:+x.ftdamt.toFixed(2)}));
+    store[c].months = Object.values(monMap)
+      .filter(x=>x.c===c)
+      .sort((a,b)=>a.key.localeCompare(b.key))
+      .map(x=>({label:x.label,key:x.key,spend:+x.spend.toFixed(2),reg:Math.round(x.reg),pend:0,kyc:Math.round(x.kyc),ftd:Math.round(x.ftd),ftdamt:+x.ftdamt.toFixed(2)}));
   });
   return parsed;
 }
 
 function _applySyncResult(parsed) {
   persistData();
+  populatePeriodDropdowns();
   renderOverview();
   COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); });
   const summary = COUNTRIES.map(c => {
@@ -6450,6 +6578,7 @@ loadCreativeHistory();
 loadCopyLibrary();
 loadMapStore();
 renderMappingSection();
+populatePeriodDropdowns();
 </script>
 </body>
 </html>
