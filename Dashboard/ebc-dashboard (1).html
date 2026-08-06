@@ -1618,9 +1618,13 @@ body.snap-mode .snap-banner{display:block}
 <div class="view" id="view-budget">
   <!-- Header row -->
   <div class="bp-month-bar">
-    <div>
-      <div class="bp-month-title" id="bp-month-title">Budget Pacing</div>
-      <div style="font-size:11px;color:var(--muted);margin-top:2px" id="bp-month-sub"></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button onclick="bpNavMonth(-1)" title="Previous month" style="background:transparent;border:1px solid var(--border2);color:var(--muted);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:14px;line-height:1">‹</button>
+      <div>
+        <div class="bp-month-title" id="bp-month-title">Budget Pacing</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px" id="bp-month-sub"></div>
+      </div>
+      <button onclick="bpNavMonth(1)" title="Next month" style="background:transparent;border:1px solid var(--border2);color:var(--muted);border-radius:6px;padding:3px 9px;cursor:pointer;font-size:14px;line-height:1">›</button>
     </div>
     <div class="bp-month-meta">
       <div class="bp-elapsed-pill" id="bp-elapsed-pill"></div>
@@ -1970,6 +1974,19 @@ COUNTRIES.forEach(c => ltvStore[c] = {});
 const kpiStore = {};
 COUNTRIES.forEach(c => kpiStore[c] = { reg:0, kyc:0, ftd:0, fb_fol:0, ig_fol:0 });
 
+// Budget Pacing month navigation state (null = current month)
+let bpViewYear = null, bpViewMonth = null;
+function bpNavMonth(delta) {
+  const now = new Date();
+  let y = bpViewYear  !== null ? bpViewYear  : now.getFullYear();
+  let m = bpViewMonth !== null ? bpViewMonth : now.getMonth();
+  m += delta;
+  if (m < 0)  { m = 11; y--; }
+  if (m > 11) { m = 0;  y++; }
+  bpViewYear = y; bpViewMonth = m;
+  renderBudgetPacing();
+}
+
 function persistData() {
   try { localStorage.setItem(STORAGE_KEY, JSON.stringify({store, socialStore})); updateStorageStatus(); } catch(e){}
 }
@@ -2138,8 +2155,17 @@ function bpSetTab(country, tab) {
 }
 
 function saveBudgets() {
+  const now = new Date();
+  const year  = bpViewYear  !== null ? bpViewYear  : now.getFullYear();
+  const month = bpViewMonth !== null ? bpViewMonth : now.getMonth();
+  const mk = year + '-' + String(month + 1).padStart(2, '0');
   COUNTRIES.forEach(c => {
     const v = f => { const n = parseFloat(document.getElementById('bp-input-'+c+'-'+f)?.value||0); return isNaN(n)?0:n; };
+    if (!budgetStore[c].months) budgetStore[c].months = {};
+    budgetStore[c].months[mk] = { leadgen: v('lg'), social: v('sc') };
+    if (!kpiStore[c].months) kpiStore[c].months = {};
+    kpiStore[c].months[mk] = { reg: v('reg'), kyc: v('kyc'), ftd: v('ftd'), fb_fol: v('fbf'), ig_fol: v('igf') };
+    // Also keep global as fallback for any month without per-month targets
     budgetStore[c].leadgen = v('lg');
     budgetStore[c].social  = v('sc');
     kpiStore[c].reg    = v('reg');
@@ -2157,16 +2183,24 @@ function saveBudgets() {
 
 function renderBudgetPacing() {
   const now         = new Date();
-  const year        = now.getFullYear();
-  const month       = now.getMonth();
-  const monthName   = now.toLocaleString('default', { month: 'long' });
-  const elapsed     = monthElapsedFraction(year, month);
-  const dayOfMonth  = now.getDate();
+  const year        = bpViewYear  !== null ? bpViewYear  : now.getFullYear();
+  const month       = bpViewMonth !== null ? bpViewMonth : now.getMonth();
+  const isCurrentM  = year === now.getFullYear() && month === now.getMonth();
+  const monthName   = new Date(year, month, 1).toLocaleString('default', { month: 'long' });
+  const elapsed     = isCurrentM ? monthElapsedFraction(year, month) : 1;
+  const dayOfMonth  = isCurrentM ? now.getDate() : new Date(year, month + 1, 0).getDate();
   const daysInMonth = new Date(year, month + 1, 0).getDate();
+  const monthKey    = year + '-' + String(month + 1).padStart(2, '0');
+
+  // Read per-month targets (fall back to global target if no per-month entry exists)
+  const getBudget = (c, field) => (budgetStore[c].months?.[monthKey]?.[field] ?? budgetStore[c][field]) || 0;
+  const getKPI    = (c, field) => (kpiStore[c].months?.[monthKey]?.[field]    ?? kpiStore[c][field])    || 0;
 
   document.getElementById('bp-month-title').textContent  = `Budget Pacing — ${monthName} ${year}`;
   document.getElementById('bp-month-sub').textContent    = `Ad spend pacing & KPI progress vs monthly targets`;
-  document.getElementById('bp-elapsed-pill').textContent = `Day ${dayOfMonth} of ${daysInMonth} · ${Math.round(elapsed * 100)}% elapsed`;
+  document.getElementById('bp-elapsed-pill').textContent = isCurrentM
+    ? `Day ${dayOfMonth} of ${daysInMonth} · ${Math.round(elapsed * 100)}% elapsed`
+    : `Full month (${daysInMonth} days)`;
 
   // ── Settings grid ──────────────────────────────────────────────────────
   function field(label, id, val, prefix) {
@@ -2180,15 +2214,15 @@ function renderBudgetPacing() {
     <div>
       <div class="bp-set-clabel">${C_FLAG[c]} ${C_NAME[c]}</div>
       <div class="bp-set-sec">Budget / Month</div>
-      ${field('Lead Gen Spend', `bp-input-${c}-lg`, budgetStore[c].leadgen, '$')}
-      ${field('Social Spend',   `bp-input-${c}-sc`, budgetStore[c].social,  '$')}
+      ${field('Lead Gen Spend', `bp-input-${c}-lg`, getBudget(c,'leadgen'), '$')}
+      ${field('Social Spend',   `bp-input-${c}-sc`, getBudget(c,'social'),  '$')}
       <div class="bp-set-sec">Lead Gen KPI Targets</div>
-      ${field('Registrations',  `bp-input-${c}-reg`, kpiStore[c].reg)}
-      ${field('KYC Completed',  `bp-input-${c}-kyc`, kpiStore[c].kyc)}
-      ${field('FTD Count',      `bp-input-${c}-ftd`, kpiStore[c].ftd)}
+      ${field('Registrations',  `bp-input-${c}-reg`, getKPI(c,'reg'))}
+      ${field('KYC Completed',  `bp-input-${c}-kyc`, getKPI(c,'kyc'))}
+      ${field('FTD Count',      `bp-input-${c}-ftd`, getKPI(c,'ftd'))}
       <div class="bp-set-sec">Page Growth Targets</div>
-      ${field('FB Followers',   `bp-input-${c}-fbf`, kpiStore[c].fb_fol)}
-      ${field('IG Followers',   `bp-input-${c}-igf`, kpiStore[c].ig_fol)}
+      ${field('FB Followers',   `bp-input-${c}-fbf`, getKPI(c,'fb_fol'))}
+      ${field('IG Followers',   `bp-input-${c}-igf`, getKPI(c,'ig_fol'))}
     </div>
   `).join('');
 
@@ -2235,8 +2269,8 @@ function renderBudgetPacing() {
   }
 
   document.getElementById('bp-cards-grid').innerHTML = COUNTRIES.map(c => {
-    const lgBudget = budgetStore[c].leadgen || 0;
-    const scBudget = budgetStore[c].social  || 0;
+    const lgBudget = getBudget(c,'leadgen');
+    const scBudget = getBudget(c,'social');
     const lgSpent  = getMonthSpendLG(c, year, month);
     const scSpent  = getMonthSpendSocial(c, year, month);
     const aReg = getMonthActualLG(c, 'reg', year, month);
@@ -2244,8 +2278,8 @@ function renderBudgetPacing() {
     const aFtd = getMonthActualLG(c, 'ftd', year, month);
     const aFbF = getMonthActualSocial(c, 'fb', 'gained', year, month);
     const aIgF = getMonthActualSocial(c, 'ig', 'gained', year, month);
-    const tReg = kpiStore[c].reg || 0, tKyc = kpiStore[c].kyc || 0, tFtd = kpiStore[c].ftd || 0;
-    const tFbF = kpiStore[c].fb_fol || 0, tIgF = kpiStore[c].ig_fol || 0;
+    const tReg = getKPI(c,'reg'), tKyc = getKPI(c,'kyc'), tFtd = getKPI(c,'ftd');
+    const tFbF = getKPI(c,'fb_fol'), tIgF = getKPI(c,'ig_fol');
     const clr  = C_COLOR[c];
 
     // Overall card status badge
@@ -2539,6 +2573,16 @@ function renderSummaryKPIs() {
     let filteredLabels;
     if (filters.periodType === 'week' && filters.weekSel !== 'all') {
       filteredLabels = new Set([filters.weekSel]);
+    } else if (filters.periodType === 'month' && filters.monthSel !== 'all') {
+      filteredLabels = new Set(cs2.flatMap(c =>
+        (socialStore[c][platform]||[]).filter(e => {
+          if (e.monthKey) return e.monthKey === filters.monthSel;
+          // Fallback for older entries without monthKey: derive from week label
+          const ym = weekLabelToYearMonth(e.label);
+          if (!ym) return false;
+          return (ym.year+'-'+String(ym.month+1).padStart(2,'0')) === filters.monthSel;
+        }).map(e => e.label)
+      ));
     } else {
       filteredLabels = new Set(cs2.flatMap(c => (socialStore[c][platform]||[]).map(e => e.label)));
     }
@@ -3230,8 +3274,17 @@ function _processCSVRows(rows) {
   const fromDate = fromVal ? new Date(fromVal + '-01') : null;
   const toDate   = toVal   ? (() => { const [y,m]=toVal.split('-').map(Number); return new Date(y,m,0,23,59,59); })() : null;
 
+  // Preserve manually-entered social totals so they survive a re-sync
+  const manualTotals = {};
+  COUNTRIES.forEach(c => {
+    manualTotals[c] = {fb:{}, ig:{}};
+    ['fb','ig'].forEach(p => {
+      (socialStore[c][p]||[]).forEach(e => { if (!e._autoTotal && e.total > 0) manualTotals[c][p][e.label] = e.total; });
+    });
+  });
+
   COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; });
-  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={};
+  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={}, weekMonthMap={};
   let parsed = 0, lgCount = 0, fbCount = 0, igCount = 0;
 
   // Build category → objective lookup ('fb' | 'ig' | 'leadgen')
@@ -3251,6 +3304,7 @@ function _processCSVRows(rows) {
     const weekRaw = (row[mapStore.weekCol]||'').trim().toUpperCase();
     const label   = /^W\d+$/.test(weekRaw) ? weekRaw : ('W' + getISOWeekNum(d));
     const key     = c + '_' + label;
+    if (!weekMonthMap[label]) weekMonthMap[label] = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
     parsed++;
 
     // Route row to the right objective bucket based on Campaign Category column
@@ -3311,12 +3365,19 @@ function _processCSVRows(rows) {
     let fbRunning = 0;
     byWeek(Object.values(fbMap).filter(x=>x.c===c)).forEach(e=>{
       fbRunning += Math.round(e.gained);
-      socialStore[c].fb.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2),total:fbRunning});
+      socialStore[c].fb.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2),total:fbRunning,_autoTotal:true,monthKey:weekMonthMap[e.label]||''});
     });
     let igRunning = 0;
     byWeek(Object.values(igMap).filter(x=>x.c===c)).forEach(e=>{
       igRunning += Math.round(e.gained);
-      socialStore[c].ig.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2),total:igRunning});
+      socialStore[c].ig.push({label:e.label,gained:Math.round(e.gained),imp:Math.round(e.imp),cpf:e.gained>0?+(e.spend/e.gained).toFixed(2):0,spend:+e.spend.toFixed(2),total:igRunning,_autoTotal:true,monthKey:weekMonthMap[e.label]||''});
+    });
+    // Restore any manually-entered Total Followers that the sync should not overwrite
+    ['fb','ig'].forEach(p => {
+      (socialStore[c][p]||[]).forEach(e => {
+        const m = manualTotals[c]?.[p]?.[e.label];
+        if (m) { e.total = m; e._autoTotal = false; }
+      });
     });
     store[c].days = Object.values(dayMap)
       .filter(x=>x.c===c)
