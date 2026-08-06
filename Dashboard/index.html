@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>EBC Marketing Dashboard</title>
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <style>
@@ -542,7 +545,7 @@ body.snap-mode .snap-banner{display:block}
 .bp-kpi-ring-row{display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border)}
 .bp-kpi-ring-row:last-child{border-bottom:none}
 .bp-kpi-ring-label{font-size:10px;color:var(--text2);flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.bp-kpi-ring-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:40px;height:40px;flex-shrink:0}
+.bp-kpi-ring-wrap{position:relative;display:flex;align-items:center;justify-content:center;width:44px;height:44px;flex-shrink:0}
 .bp-kpi-ring-val{position:absolute;font-size:8.5px;font-weight:700;font-family:'DM Mono',monospace;color:var(--text);text-align:center;line-height:1;pointer-events:none}
 .bp-kpi-ring-info{display:flex;flex-direction:column;gap:2px}
 /* ── ENHANCED KPI CARDS ── */
@@ -2292,8 +2295,11 @@ function renderBudgetPacing() {
   function kpiRow(label, actual, target) {
     if (!target) return `<div class="bp-kpi-ring-row">
       <div class="bp-kpi-ring-label">${label}</div>
-      <div class="bp-kpi-ring-wrap">${ringChart(0,'rgba(255,255,255,0.12)',40)}<div class="bp-kpi-ring-val">—</div></div>
-      <div class="bp-kpi-ring-info"><span class="bp-badge no-target">No target</span></div>
+      <div class="bp-kpi-ring-wrap">${ringChart(0,'#4A6090',44)}<div class="bp-kpi-ring-val" style="color:var(--muted);font-size:8px">N/A</div></div>
+      <div class="bp-kpi-ring-info">
+        <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text)">${fmtN(actual)}</div>
+        <span class="bp-badge no-target">No target</span>
+      </div>
     </div>`;
     const pct  = Math.min(actual / target, 1);
     const pctN = Math.round(pct * 100);
@@ -2303,7 +2309,7 @@ function renderBudgetPacing() {
                 :              `<span class="bp-badge over">${pctN}%</span>`;
     return `<div class="bp-kpi-ring-row">
       <div class="bp-kpi-ring-label">${label}</div>
-      <div class="bp-kpi-ring-wrap">${ringChart(pct, clr, 40)}<div class="bp-kpi-ring-val" style="color:${clr}">${pctN}%</div></div>
+      <div class="bp-kpi-ring-wrap">${ringChart(pct, clr, 44)}<div class="bp-kpi-ring-val" style="color:${clr}">${pctN}%</div></div>
       <div class="bp-kpi-ring-info">
         <div style="font-size:10px;font-family:'DM Mono',monospace;color:var(--text)">${fmtN(actual)} <span style="color:var(--muted)">/ ${fmtN(target)}</span></div>
         ${badge}
@@ -2593,17 +2599,17 @@ function sparklineSVG(values, color, h=34) {
 }
 
 // ── Donut ring SVG for Budget Pacing ──────────────────────────────────────
-function ringChart(pct, color, size=40) {
-  const sw = 4.5, r = (size - sw * 2) / 2;
+function ringChart(pct, color, size=44) {
+  const sw = 5, r = (size - sw * 2) / 2;
   const cx = size / 2, cy = size / 2;
   const circ = 2 * Math.PI * r;
-  const filled = Math.max(0, Math.min(pct * circ, circ - 0.5));
+  const filled = pct > 0 ? Math.max(1.5, Math.min(pct * circ, circ - 0.5)) : 0;
   const gap = circ - filled;
   return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" style="display:block;flex-shrink:0">
-    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.07)" stroke-width="${sw}"/>
-    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="${color}" stroke-width="${sw}"
+    <circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="${sw}"/>
+    ${pct > 0 ? `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="${color}" stroke-width="${sw}"
       stroke-dasharray="${filled.toFixed(1)} ${gap.toFixed(1)}" stroke-linecap="round"
-      transform="rotate(-90 ${cx.toFixed(1)} ${cy.toFixed(1)})"/>
+      transform="rotate(-90 ${cx.toFixed(1)} ${cy.toFixed(1)})"/>` : ''}
   </svg>`;
 }
 
