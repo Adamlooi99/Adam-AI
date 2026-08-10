@@ -719,7 +719,7 @@ body.snap-mode .snap-banner{display:block}
       <div class="kpi-grid" style="margin-bottom:12px">
         <div class="kc"><div class="kc-accent" style="background:var(--c-spend)"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-fb-spend">$0</div><div class="kc-spark" id="kc-spark-fb-spend"></div></div>
         <div class="kc"><div class="kc-accent" style="background:var(--c-fb)"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-fb-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-gained-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-fb-gained"></div></div>
-        <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-fb-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-fb-cpf-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-fb-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-fb-cpf-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-fb-cpf"></div></div>
         <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-fb-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-fb-imp-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-fb-imp"></div></div>
         <div class="kc"><div class="kc-accent" style="background:var(--c-kyc)"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-fb-total">0</div></div>
       </div>
@@ -730,7 +730,7 @@ body.snap-mode .snap-banner{display:block}
       <div class="kpi-grid">
         <div class="kc"><div class="kc-accent" style="background:var(--c-spend)"></div><div class="kc-label">Ad Spend</div><div class="kc-val sm" id="pg-ig-spend">$0</div><div class="kc-spark" id="kc-spark-ig-spend"></div></div>
         <div class="kc"><div class="kc-accent" style="background:var(--c-ig)"></div><div class="kc-label">Followers Gained</div><div class="kc-val" id="pg-ig-gained">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-gained-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ig-gained"></div></div>
-        <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-ig-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-ig-cpf-chg">—</span> vs prev</div></div>
+        <div class="kc"><div class="kc-accent" style="background:var(--c-ftd)"></div><div class="kc-label">Cost Per Follow</div><div class="kc-val sm" id="pg-ig-cpf">$0.00</div><div class="kc-foot"><span class="badge neu" id="pg-ig-cpf-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ig-cpf"></div></div>
         <div class="kc"><div class="kc-accent" style="background:var(--purple)"></div><div class="kc-label">Impressions</div><div class="kc-val sm" id="pg-ig-imp">0</div><div class="kc-foot"><span class="badge neu" id="pg-ig-imp-chg">—</span> vs prev</div><div class="kc-spark" id="kc-spark-ig-imp"></div></div>
         <div class="kc"><div class="kc-accent" style="background:var(--c-kyc)"></div><div class="kc-label">Total Followers</div><div class="kc-val sm" id="pg-ig-total">0</div></div>
       </div>
@@ -1698,6 +1698,7 @@ body.snap-mode .snap-banner{display:block}
       <div style="font-size:18px;font-weight:700;color:var(--text);font-family:var(--fd)">FTD Records</div>
       <div style="font-size:11px;color:var(--muted);margin-top:3px">FTD count &amp; amount pulled from weekly data · Enter LTV totals manually per month</div>
     </div>
+    <button class="btn btn-outline btn-sm" onclick="exportFTDCSV()">↓ Export CSV</button>
   </div>
 
   <!-- Summary cards -->
@@ -1933,6 +1934,7 @@ let modalCountry = null;
 let modalMode = 'add';
 const filters = {objective:'leadgen', calendar:'all', country:'all', periodType:'week', weekSel:'all', monthSel:'all'};
 let socialChannelFilter = 'both';
+let histSortCol = null, histSortAsc = true;
 
 const store = {};
 COUNTRIES.forEach(c => store[c] = {weeks:[], days:[], months:[], activeIdx:0});
@@ -1973,7 +1975,8 @@ const STORAGE_KEY = 'ebc_dash_data_v3';
 const BUDGET_KEY  = 'ebc_budget_v1';
 const KPI_KEY     = 'ebc_kpi_v1';
 const LTV_KEY     = 'ebc_ltv_v1';
-const MAPPING_KEY = 'ebc_mapping_v1';
+const MAPPING_KEY  = 'ebc_mapping_v1';
+const FILTER_KEY   = 'ebc_filters_v1';
 
 // ── Column Mapping Store (user-configurable) ──────────────────────────────
 const MAPPING_DEFAULT = {
@@ -2086,8 +2089,52 @@ function loadPersistedData() {
         if (kd[c]) Object.assign(kpiStore[c], kd[c]);
       });
     }
+    // Load filter state
+    const fraw = localStorage.getItem(FILTER_KEY);
+    if (fraw) { try { Object.assign(filters, JSON.parse(fraw)); } catch(e) {} }
     return any;
   } catch(e) { return false; }
+}
+
+function saveFilters() {
+  try { localStorage.setItem(FILTER_KEY, JSON.stringify(filters)); } catch(e) {}
+}
+
+function restoreFilterUI() {
+  ['leadgen','pagegrowth'].forEach(v => {
+    const el = document.getElementById('pill-obj-'+v);
+    if (el) el.className = 'pill' + (v===filters.objective ? ' a-red' : '');
+  });
+  const kpiLG = document.getElementById('kpi-leadgen');
+  const kpiPG = document.getElementById('kpi-pagegrowth');
+  if (kpiLG) kpiLG.style.display = filters.objective==='leadgen' ? '' : 'none';
+  if (kpiPG) kpiPG.style.display = filters.objective==='pagegrowth' ? '' : 'none';
+  ['all','mn','kr','za'].forEach(v => {
+    const cls = v===filters.country ? (v==='all' ? ' a-neutral' : ' a-'+v) : '';
+    const el = document.getElementById('pill-country-'+v);
+    if (el) el.className = 'pill'+cls;
+  });
+  ['day','week','month'].forEach(t => {
+    const el = document.getElementById('pill-pt-'+t);
+    if (el) el.className = 'pill' + (t===filters.periodType ? ' a-neutral' : '');
+  });
+  const wDrop = document.getElementById('week-sel-filter');
+  const mDrop = document.getElementById('month-sel-filter');
+  if (wDrop) wDrop.style.display = filters.periodType==='week'  ? '' : 'none';
+  if (mDrop) mDrop.style.display = filters.periodType==='month' ? '' : 'none';
+}
+
+function weekDateRange(lbl) {
+  const n = parseInt(lbl.replace(/\D/g,''), 10);
+  if (isNaN(n)) return lbl;
+  const ym = weekLabelToYearMonth(lbl);
+  if (!ym) return lbl;
+  const mon = isoWeekMonday(n, ym.year);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const mStr = MM[mon.getMonth()] + ' ' + mon.getDate();
+  const sStr = (sun.getMonth() !== mon.getMonth() ? MM[sun.getMonth()] + ' ' : '') + sun.getDate();
+  return `${lbl} · ${mStr}–${sStr}`;
 }
 
 // ── Budget Pacing helpers ─────────────────────────────────────────────────
@@ -2448,6 +2495,7 @@ function setFilter(type, val) {
     });
   }
   renderOverview();
+  saveFilters();
 }
 
 function setSocialFilter(val) {
@@ -2536,12 +2584,14 @@ function setPeriodType(type) {
   if (wDrop) { wDrop.style.display = type==='week'  ? '' : 'none'; wDrop.value='all'; }
   if (mDrop) { mDrop.style.display = type==='month' ? '' : 'none'; mDrop.value='all'; }
   renderOverview();
+  saveFilters();
 }
 
 function setPeriodSel(val) {
   if (filters.periodType === 'week')  filters.weekSel  = val;
   if (filters.periodType === 'month') filters.monthSel = val;
   renderOverview();
+  saveFilters();
 }
 
 function populatePeriodDropdowns() {
@@ -2555,7 +2605,7 @@ function populatePeriodDropdowns() {
   if (wDrop) {
     const sorted = [...allWeeks].sort((a,b) => (parseInt(a.replace(/\D/g,''))||0)-(parseInt(b.replace(/\D/g,''))||0));
     wDrop.innerHTML = '<option value="all">All Weeks</option>' +
-      sorted.map(w => `<option value="${w}"${filters.weekSel===w?' selected':''}>${w}</option>`).join('');
+      sorted.map(w => `<option value="${w}"${filters.weekSel===w?' selected':''}>${weekDateRange(w)}</option>`).join('');
   }
   const mDrop = document.getElementById('month-sel-filter');
   if (mDrop) {
@@ -2801,6 +2851,19 @@ function renderSummaryKPIs() {
     injSpark('kc-spark-ig-spend',  socialTrend('ig','spend'),  '#C8923A');
     injSpark('kc-spark-ig-gained', socialTrend('ig','gained'), '#F472B6');
     injSpark('kc-spark-ig-imp',    socialTrend('ig','imp'),    '#A78BFA');
+    const cpfTrend = (platform) => {
+      const wMap = {};
+      cs.forEach(c => (socialStore[c][platform]||[]).forEach(e => {
+        if (!wMap[e.label]) wMap[e.label] = {spend:0, gained:0};
+        wMap[e.label].spend  += e.spend  || 0;
+        wMap[e.label].gained += e.gained || 0;
+      }));
+      return Object.entries(wMap)
+        .sort((a,b)=>(parseInt(a[0].replace(/\D/g,''))||0)-(parseInt(b[0].replace(/\D/g,''))||0))
+        .slice(-10).map(([,v])=>v.gained > 0 ? v.spend/v.gained : 0);
+    };
+    injSpark('kc-spark-fb-cpf', cpfTrend('fb'), '#FBBF24');
+    injSpark('kc-spark-ig-cpf', cpfTrend('ig'), '#FBBF24');
   }
 }
 
@@ -3090,22 +3153,41 @@ function renderHistoryTable() {
   } else {
     // ── Lead Gen history ──────────────────────────────────────────────
     if (histTitle) histTitle.textContent = 'Weekly Performance History';
-    if (thead) thead.innerHTML = `<tr>
-      <th>Country</th><th>Period</th><th>Spend</th><th>Reg</th><th>Pending</th><th>KYC</th><th>FTD</th><th>FTD Amt</th><th>Reg→KYC</th><th>KYC→FTD</th>
-    </tr>`;
+    const COLS = [
+      {key:'country', lbl:'Country'}, {key:'label', lbl:'Period'},
+      {key:'spend', lbl:'Spend'}, {key:'reg', lbl:'Reg'}, {key:'pend', lbl:'Pending'},
+      {key:'kyc', lbl:'KYC'}, {key:'ftd', lbl:'FTD'}, {key:'ftdamt', lbl:'FTD Amt'},
+      {key:'r2k', lbl:'Reg→KYC'}, {key:'k2f', lbl:'KYC→FTD'},
+    ];
+    const si = (col) => histSortCol===col ? (histSortAsc ? ' ▲' : ' ▼') : '';
+    const thStyle = 'cursor:pointer;user-select:none;white-space:nowrap';
+    if (thead) thead.innerHTML = `<tr>${COLS.map(c=>`<th style="${thStyle}" onclick="sortHistTbl('${c.key}')">${c.lbl}${si(c.key)}</th>`).join('')}</tr>`;
 
     const rows = [];
-    cs.forEach(c => { getFilteredWeeks(c).forEach(w => rows.push({c, ...w, pend: Math.max(0, (w.reg||0) - (w.kyc||0))})); });
-    rows.reverse();
+    cs.forEach(c => { getFilteredWeeks(c).forEach(w => {
+      const r2k = w.reg>0 ? Math.round(w.kyc/w.reg*100) : 0;
+      const k2f = w.kyc>0 ? Math.round(w.ftd/w.kyc*100) : 0;
+      rows.push({c, ...w, pend: Math.max(0,(w.reg||0)-(w.kyc||0)), r2k, k2f});
+    }); });
+
+    if (histSortCol) {
+      rows.sort((a, b) => {
+        const va = histSortCol==='country' ? C_NAME[a.c] : (a[histSortCol]??0);
+        const vb = histSortCol==='country' ? C_NAME[b.c] : (b[histSortCol]??0);
+        if (typeof va === 'string') return histSortAsc ? va.localeCompare(vb) : vb.localeCompare(va);
+        return histSortAsc ? va - vb : vb - va;
+      });
+    } else {
+      rows.reverse();
+    }
+
     const filtered = rows.filter(r =>
       C_NAME[r.c].toLowerCase().includes(search) || r.label.toLowerCase().includes(search)
     );
 
     tbody.innerHTML = filtered.length ? filtered.map(r => {
-      const r2k = r.reg>0 ? Math.round(r.kyc/r.reg*100) : 0;
-      const k2f = r.kyc>0 ? Math.round(r.ftd/r.kyc*100) : 0;
-      const c1 = r2k>=40?'cr-good':r2k>=20?'cr-mid':'cr-low';
-      const c2 = k2f>=40?'cr-good':k2f>=20?'cr-mid':'cr-low';
+      const c1 = r.r2k>=40?'cr-good':r.r2k>=20?'cr-mid':'cr-low';
+      const c2 = r.k2f>=40?'cr-good':r.k2f>=20?'cr-mid':'cr-low';
       const color = C_COLOR[r.c];
       return `<tr>
         <td><span style="color:${color}">${C_FLAG[r.c]} ${C_NAME[r.c]}</span></td>
@@ -3113,12 +3195,18 @@ function renderHistoryTable() {
         <td>${r.spend>0?'$'+r.spend.toLocaleString():'<span style="color:var(--muted)">—</span>'}</td>
         <td>${r.reg}</td><td>${r.pend}</td><td>${r.kyc}</td><td>${r.ftd}</td>
         <td>${r.ftdamt>0?'$'+r.ftdamt.toLocaleString():'<span style="color:var(--muted)">—</span>'}</td>
-        <td><span class="cr-pill ${c1}">${r2k}%</span></td>
-        <td><span class="cr-pill ${c2}">${k2f}%</span></td>
+        <td><span class="cr-pill ${c1}">${r.r2k}%</span></td>
+        <td><span class="cr-pill ${c2}">${r.k2f}%</span></td>
       </tr>`;
     }).join('')
     : `<tr><td colspan="10" class="td-empty">No data for current filters.</td></tr>`;
   }
+}
+
+function sortHistTbl(col) {
+  if (histSortCol === col) histSortAsc = !histSortAsc;
+  else { histSortCol = col; histSortAsc = true; }
+  renderHistoryTable();
 }
 
 // ── Export CSV ───────────────────────────────────────────────────────────
@@ -3150,6 +3238,18 @@ function exportHistoryCSV() {
     filename = 'ebc_leadgen_export.csv';
   }
   downloadCsv(rows.map(r=>r.join(',')).join('\n'), filename);
+}
+
+function exportFTDCSV() {
+  const rows = [['Country','Month','FTD Count','FTD Amount ($)','LTV Total ($)','Avg LTV per FTD ($)']];
+  COUNTRIES.forEach(c => {
+    getMonthsFTDData(c).forEach(r => {
+      const ltv = ltvStore[c][r.key] || 0;
+      const avg = (r.ftdCount > 0 && ltv > 0) ? (ltv / r.ftdCount).toFixed(2) : '';
+      rows.push([C_NAME[c], ftdMonthLabel(r.key), r.ftdCount||0, r.ftdAmt>0?r.ftdAmt.toFixed(2):0, ltv>0?ltv.toFixed(2):0, avg]);
+    });
+  });
+  downloadCsv(rows.map(r => r.join(',')).join('\n'), 'ebc_ftd_records.csv');
 }
 
 // ── Collapsible ──────────────────────────────────────────────────────────
@@ -6881,6 +6981,7 @@ loadCopyLibrary();
 loadMapStore();
 renderMappingSection();
 populatePeriodDropdowns();
+restoreFilterUI();
 </script>
 </body>
 </html>
