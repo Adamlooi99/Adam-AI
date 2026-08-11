@@ -777,6 +777,21 @@ body.snap-mode .snap-banner{display:block}
   <div class="stitle" data-i18n="section.countrybreakdown">Country Breakdown</div>
   <div class="cc-grid" id="country-breakdown"></div>
 
+  <!-- CAMPAIGN CATEGORY BREAKDOWN -->
+  <div id="cat-breakdown-panel" style="margin-bottom:18px;display:none">
+    <div class="tbl-wrap">
+      <div class="tbl-head">
+        <span class="tbl-head-title">Campaign Category Breakdown</span>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="tbl" style="width:100%">
+          <thead id="cat-breakdown-thead"></thead>
+          <tbody id="cat-breakdown-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
   <!-- HISTORY TABLE -->
   <div class="tbl-wrap">
     <div class="tbl-head">
@@ -1937,7 +1952,7 @@ let socialChannelFilter = 'both';
 let histSortCol = null, histSortAsc = true;
 
 const store = {};
-COUNTRIES.forEach(c => store[c] = {weeks:[], days:[], months:[], activeIdx:0});
+COUNTRIES.forEach(c => store[c] = {weeks:[], days:[], months:[], catBreakdown:[], activeIdx:0});
 const socialStore = {};
 COUNTRIES.forEach(c => socialStore[c] = {fb:[], ig:[], fbMonths:[], igMonths:[], activePlatform:'fb'});
 
@@ -2051,9 +2066,10 @@ function loadPersistedData() {
     let any = false;
     COUNTRIES.forEach(c => {
       if (d.store[c]) {
-        store[c].weeks  = d.store[c].weeks  || [];
-        store[c].days   = d.store[c].days   || [];
-        store[c].months = d.store[c].months || [];
+        store[c].weeks        = d.store[c].weeks        || [];
+        store[c].days         = d.store[c].days         || [];
+        store[c].months       = d.store[c].months       || [];
+        store[c].catBreakdown = d.store[c].catBreakdown || [];
         store[c].activeIdx = Math.min(d.store[c].activeIdx||0, Math.max(0,store[c].weeks.length-1));
         if (store[c].weeks.length > 0) any = true;
       }
@@ -2629,6 +2645,7 @@ function renderOverview() {
   renderOverviewFunnel();
   renderBarChart();
   renderCountryBreakdown();
+  renderCategoryBreakdown();
   renderHistoryTable();
 }
 
@@ -2865,6 +2882,78 @@ function renderSummaryKPIs() {
     injSpark('kc-spark-fb-cpf', cpfTrend('fb'), '#FBBF24');
     injSpark('kc-spark-ig-cpf', cpfTrend('ig'), '#FBBF24');
   }
+}
+
+function renderCategoryBreakdown() {
+  const panel  = document.getElementById('cat-breakdown-panel');
+  const thead  = document.getElementById('cat-breakdown-thead');
+  const tbody  = document.getElementById('cat-breakdown-tbody');
+  if (!panel || !thead || !tbody) return;
+  if (filters.objective === 'pagegrowth') { panel.style.display = 'none'; return; }
+
+  const cs = activeCountries();
+  // Collect per-category totals for the current filtered period
+  const catMap = {};
+  cs.forEach(c => {
+    const activeLabels = new Set(getFilteredWeeks(c).map(w => w.label));
+    (store[c].catBreakdown || []).forEach(e => {
+      if (!activeLabels.has(e.label)) return;
+      if (!catMap[e.cat]) catMap[e.cat] = {reg:0, kyc:0, ftd:0, ftdamt:0, spend:0};
+      catMap[e.cat].reg    += e.reg    || 0;
+      catMap[e.cat].kyc    += e.kyc    || 0;
+      catMap[e.cat].ftd    += e.ftd    || 0;
+      catMap[e.cat].ftdamt += e.ftdamt || 0;
+      catMap[e.cat].spend  += e.spend  || 0;
+    });
+  });
+
+  const entries = Object.entries(catMap).sort((a, b) => b[1].reg - a[1].reg);
+  if (!entries.length) { panel.style.display = 'none'; return; }
+  panel.style.display = '';
+
+  thead.innerHTML = `<tr>
+    <th>Campaign Category</th>
+    <th style="text-align:right">Reg</th>
+    <th style="text-align:right">Pending</th>
+    <th style="text-align:right">KYC</th>
+    <th style="text-align:right">Reg→KYC</th>
+    <th style="text-align:right">FTD</th>
+    <th style="text-align:right">FTD Amt</th>
+    <th style="text-align:right">Spend</th>
+  </tr>`;
+
+  // Totals row
+  const tot = entries.reduce((s,[,v])=>({reg:s.reg+v.reg,kyc:s.kyc+v.kyc,ftd:s.ftd+v.ftd,ftdamt:s.ftdamt+v.ftdamt,spend:s.spend+v.spend}),{reg:0,kyc:0,ftd:0,ftdamt:0,spend:0});
+
+  tbody.innerHTML = entries.map(([cat, v]) => {
+    const pend = Math.max(0, v.reg - v.kyc);
+    const r2k  = v.reg > 0 ? Math.round(v.kyc / v.reg * 100) : 0;
+    const c1   = r2k >= 40 ? 'cr-good' : r2k >= 20 ? 'cr-mid' : 'cr-low';
+    return `<tr>
+      <td style="font-weight:600">${escapeHtml(cat)}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--c-reg)">${v.reg.toLocaleString()}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--purple)">${pend.toLocaleString()}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--c-kyc)">${v.kyc.toLocaleString()}</td>
+      <td style="text-align:right"><span class="cr-pill ${c1}">${r2k}%</span></td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--c-ftd)">${v.ftd.toLocaleString()}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace">${v.ftdamt > 0 ? fmtUSD(v.ftdamt) : '—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${v.spend > 0 ? fmtUSD(v.spend) : '—'}</td>
+    </tr>`;
+  }).join('') + (() => {
+    const totPend = Math.max(0, tot.reg - tot.kyc);
+    const totR2k  = tot.reg > 0 ? Math.round(tot.kyc / tot.reg * 100) : 0;
+    const tc1     = totR2k >= 40 ? 'cr-good' : totR2k >= 20 ? 'cr-mid' : 'cr-low';
+    return `<tr style="border-top:2px solid var(--border2);background:var(--surface2);font-weight:700">
+      <td>Total</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--c-reg)">${tot.reg.toLocaleString()}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--purple)">${totPend.toLocaleString()}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--c-kyc)">${tot.kyc.toLocaleString()}</td>
+      <td style="text-align:right"><span class="cr-pill ${tc1}">${totR2k}%</span></td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--c-ftd)">${tot.ftd.toLocaleString()}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace">${tot.ftdamt > 0 ? fmtUSD(tot.ftdamt) : '—'}</td>
+      <td style="text-align:right;font-family:'DM Mono',monospace;color:var(--muted)">${tot.spend > 0 ? fmtUSD(tot.spend) : '—'}</td>
+    </tr>`;
+  })();
 }
 
 function renderOverviewFunnel() {
@@ -3530,8 +3619,8 @@ function _processCSVRows(rows) {
     });
   });
 
-  COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; socialStore[c].fbMonths=[]; socialStore[c].igMonths=[]; });
-  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={}, weekMonthMap={}, fbMonMap={}, igMonMap={};
+  COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; store[c].catBreakdown=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; socialStore[c].fbMonths=[]; socialStore[c].igMonths=[]; });
+  const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={}, weekMonthMap={}, fbMonMap={}, igMonMap={}, catBreakdownMap={};
   let parsed = 0, lgCount = 0, fbCount = 0, igCount = 0;
   const unmatchedCats = {}; // catValue → count, for diagnostic
 
@@ -3604,6 +3693,15 @@ function _processCSVRows(rows) {
       lgMap[key].kyc    += _csvNum(row[mapStore.kycCol]);
       lgMap[key].ftd    += _csvNum(row[mapStore.ftdCol]);
       lgMap[key].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+      // Per-category breakdown
+      const catLabel = catVal || '(Untagged)';
+      const catKey   = `${c}_${label}_${catLabel}`;
+      if (!catBreakdownMap[catKey]) catBreakdownMap[catKey] = {c, label, cat:catLabel, spend:0, reg:0, kyc:0, ftd:0, ftdamt:0};
+      catBreakdownMap[catKey].spend  += _csvNum(row[mapStore.spendCol]);
+      catBreakdownMap[catKey].reg    += _csvNum(row[mapStore.regCol]);
+      catBreakdownMap[catKey].kyc    += _csvNum(row[mapStore.kycCol]);
+      catBreakdownMap[catKey].ftd    += _csvNum(row[mapStore.ftdCol]);
+      catBreakdownMap[catKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
 
       // Daily/monthly aggregation — leadgen rows only so Days/Month views stay clean
       const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -3660,6 +3758,10 @@ function _processCSVRows(rows) {
       .filter(x=>x.c===c)
       .sort((a,b)=>a.key.localeCompare(b.key))
       .map(x=>({label:x.label,key:x.key,spend:+x.spend.toFixed(2),reg:Math.round(x.reg),pend:0,kyc:Math.round(x.kyc),ftd:Math.round(x.ftd),ftdamt:+x.ftdamt.toFixed(2)}));
+    store[c].catBreakdown = Object.values(catBreakdownMap)
+      .filter(x=>x.c===c)
+      .sort((a,b)=>(parseInt(a.label.replace(/\D/g,''))||0)-(parseInt(b.label.replace(/\D/g,''))||0)||a.cat.localeCompare(b.cat))
+      .map(x=>({label:x.label,cat:x.cat,reg:Math.round(x.reg),kyc:Math.round(x.kyc),ftd:Math.round(x.ftd),ftdamt:+x.ftdamt.toFixed(2),spend:+x.spend.toFixed(2)}));
     // Social monthly — per-actual-date aggregation for exact month alignment
     socialStore[c].fbMonths = Object.values(fbMonMap).filter(x=>x.c===c).sort((a,b)=>a.monthKey.localeCompare(b.monthKey)).map(x=>({monthKey:x.monthKey,gained:Math.round(x.gained),imp:Math.round(x.imp),spend:+x.spend.toFixed(2),cpf:x.gained>0?+(x.spend/x.gained).toFixed(2):0}));
     socialStore[c].igMonths = Object.values(igMonMap).filter(x=>x.c===c).sort((a,b)=>a.monthKey.localeCompare(b.monthKey)).map(x=>({monthKey:x.monthKey,gained:Math.round(x.gained),imp:Math.round(x.imp),spend:+x.spend.toFixed(2),cpf:x.gained>0?+(x.spend/x.gained).toFixed(2):0}));
