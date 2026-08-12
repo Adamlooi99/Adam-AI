@@ -3635,22 +3635,47 @@ function _processCSVRows(rows) {
   // Fall back to default column name if catCol was accidentally cleared
   const effectiveCatCol = (mapStore.catCol||'').trim() || MAPPING_DEFAULT.catCol;
 
+  // Resolve every configured column name case-insensitively against the actual CSV headers
+  const _hkeys = rows.length ? Object.keys(rows[0]) : [];
+  const _rc = name => _hkeys.find(k => k.trim().toLowerCase() === (name||'').trim().toLowerCase()) || name;
+  const _GEO    = _rc(mapStore.geoCol);
+  const _DATE   = _rc(mapStore.dateCol);
+  const _WEEK   = _rc(mapStore.weekCol);
+  const _SPEND  = _rc(mapStore.spendCol);
+  const _REG    = _rc(mapStore.regCol);
+  const _KYC    = _rc(mapStore.kycCol);
+  const _FTD    = _rc(mapStore.ftdCol);
+  const _FTDAMT = _rc(mapStore.ftdAmtCol);
+  const _FB     = _rc(mapStore.fbCol);
+  const _IG     = _rc(mapStore.igCol);
+  const _IMP    = _rc(mapStore.impCol);
+  const _CAT    = _rc(effectiveCatCol);
+
+  // Diagnostics counters
+  let geoMisses = 0, dateMisses = 0;
+  const unmatchedGeos = {};
+  const headersFound = _hkeys.slice(0, 12); // first 12 headers for display
+
   rows.forEach(row => {
-    const geo = (row[mapStore.geoCol]||'').trim();
+    const geo = (row[_GEO]||'').trim();
     const c   = geoLookup[geo];
-    if (!c) return;
-    const d = _csvDate((row[mapStore.dateCol]||'').trim());
-    if (!d) return;
+    if (!c) {
+      if (geo) unmatchedGeos[geo] = (unmatchedGeos[geo]||0) + 1;
+      else geoMisses++;
+      return;
+    }
+    const d = _csvDate((row[_DATE]||'').trim());
+    if (!d) { dateMisses++; return; }
     if (fromDate && d < fromDate) return;
     if (toDate   && d > toDate)   return;
-    const weekRaw = (row[mapStore.weekCol]||'').trim().toUpperCase();
+    const weekRaw = (row[_WEEK]||'').trim().toUpperCase();
     const label   = /^W\d+$/.test(weekRaw) ? weekRaw : ('W' + getISOWeekNum(d));
     const key     = c + '_' + label;
     if (!weekMonthMap[label]) weekMonthMap[label] = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
     parsed++;
 
     // Route row to the right objective bucket based on Campaign Category column
-    const catVal  = (row[effectiveCatCol]||'').trim();
+    const catVal  = (row[_CAT]||'').trim();
     let objType = 'leadgen';
     if (catVal) {
       if (catLookup[catVal]) {
@@ -3665,43 +3690,43 @@ function _processCSVRows(rows) {
     if (objType === 'fb') {
       fbCount++;
       if (!fbMap[key]) fbMap[key]={c,label,gained:0,imp:0,spend:0};
-      fbMap[key].gained += _csvNum(row[mapStore.fbCol]);
-      fbMap[key].imp    += _csvNum(row[mapStore.impCol]);
-      fbMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+      fbMap[key].gained += _csvNum(row[_FB]);
+      fbMap[key].imp    += _csvNum(row[_IMP]);
+      fbMap[key].spend  += _csvNum(row[_SPEND]);
       // Per-actual-date monthly aggregation (exact match for month filter)
       const fbMK = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
       if (!fbMonMap[fbMK]) fbMonMap[fbMK]={c,monthKey:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),gained:0,imp:0,spend:0};
-      fbMonMap[fbMK].gained += _csvNum(row[mapStore.fbCol]);
-      fbMonMap[fbMK].imp    += _csvNum(row[mapStore.impCol]);
-      fbMonMap[fbMK].spend  += _csvNum(row[mapStore.spendCol]);
+      fbMonMap[fbMK].gained += _csvNum(row[_FB]);
+      fbMonMap[fbMK].imp    += _csvNum(row[_IMP]);
+      fbMonMap[fbMK].spend  += _csvNum(row[_SPEND]);
     } else if (objType === 'ig') {
       igCount++;
       if (!igMap[key]) igMap[key]={c,label,gained:0,imp:0,spend:0};
-      igMap[key].gained += _csvNum(row[mapStore.igCol]);
-      igMap[key].imp    += _csvNum(row[mapStore.impCol]);
-      igMap[key].spend  += _csvNum(row[mapStore.spendCol]);
+      igMap[key].gained += _csvNum(row[_IG]);
+      igMap[key].imp    += _csvNum(row[_IMP]);
+      igMap[key].spend  += _csvNum(row[_SPEND]);
       const igMK = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
       if (!igMonMap[igMK]) igMonMap[igMK]={c,monthKey:d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0'),gained:0,imp:0,spend:0};
-      igMonMap[igMK].gained += _csvNum(row[mapStore.igCol]);
-      igMonMap[igMK].imp    += _csvNum(row[mapStore.impCol]);
-      igMonMap[igMK].spend  += _csvNum(row[mapStore.spendCol]);
+      igMonMap[igMK].gained += _csvNum(row[_IG]);
+      igMonMap[igMK].imp    += _csvNum(row[_IMP]);
+      igMonMap[igMK].spend  += _csvNum(row[_SPEND]);
     } else {
       lgCount++;
       if (!lgMap[key]) lgMap[key] = {c,label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
-      lgMap[key].spend  += _csvNum(row[mapStore.spendCol]);
-      lgMap[key].reg    += _csvNum(row[mapStore.regCol]);
-      lgMap[key].kyc    += _csvNum(row[mapStore.kycCol]);
-      lgMap[key].ftd    += _csvNum(row[mapStore.ftdCol]);
-      lgMap[key].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+      lgMap[key].spend  += _csvNum(row[_SPEND]);
+      lgMap[key].reg    += _csvNum(row[_REG]);
+      lgMap[key].kyc    += _csvNum(row[_KYC]);
+      lgMap[key].ftd    += _csvNum(row[_FTD]);
+      lgMap[key].ftdamt += _csvNum(row[_FTDAMT]);
       // Per-category breakdown
       const catLabel = catVal || '(Untagged)';
       const catKey   = `${c}_${label}_${catLabel}`;
       if (!catBreakdownMap[catKey]) catBreakdownMap[catKey] = {c, label, cat:catLabel, spend:0, reg:0, kyc:0, ftd:0, ftdamt:0};
-      catBreakdownMap[catKey].spend  += _csvNum(row[mapStore.spendCol]);
-      catBreakdownMap[catKey].reg    += _csvNum(row[mapStore.regCol]);
-      catBreakdownMap[catKey].kyc    += _csvNum(row[mapStore.kycCol]);
-      catBreakdownMap[catKey].ftd    += _csvNum(row[mapStore.ftdCol]);
-      catBreakdownMap[catKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+      catBreakdownMap[catKey].spend  += _csvNum(row[_SPEND]);
+      catBreakdownMap[catKey].reg    += _csvNum(row[_REG]);
+      catBreakdownMap[catKey].kyc    += _csvNum(row[_KYC]);
+      catBreakdownMap[catKey].ftd    += _csvNum(row[_FTD]);
+      catBreakdownMap[catKey].ftdamt += _csvNum(row[_FTDAMT]);
 
       // Daily/monthly aggregation — leadgen rows only so Days/Month views stay clean
       const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -3709,21 +3734,21 @@ function _processCSVRows(rows) {
       const dayKey = c+'_'+dateStr;
       const dayLabel = MM[d.getMonth()]+' '+String(d.getDate()).padStart(2,'0');
       if (!dayMap[dayKey]) dayMap[dayKey]={c,date:dateStr,label:dayLabel,weekLabel:label,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
-      dayMap[dayKey].spend  += _csvNum(row[mapStore.spendCol]);
-      dayMap[dayKey].reg    += _csvNum(row[mapStore.regCol]);
-      dayMap[dayKey].kyc    += _csvNum(row[mapStore.kycCol]);
-      dayMap[dayKey].ftd    += _csvNum(row[mapStore.ftdCol]);
-      dayMap[dayKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+      dayMap[dayKey].spend  += _csvNum(row[_SPEND]);
+      dayMap[dayKey].reg    += _csvNum(row[_REG]);
+      dayMap[dayKey].kyc    += _csvNum(row[_KYC]);
+      dayMap[dayKey].ftd    += _csvNum(row[_FTD]);
+      dayMap[dayKey].ftdamt += _csvNum(row[_FTDAMT]);
 
       const monKey = c+'_'+d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
       const monLabel = MM[d.getMonth()]+' '+d.getFullYear();
       const monSortKey = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
       if (!monMap[monKey]) monMap[monKey]={c,key:monSortKey,label:monLabel,spend:0,reg:0,kyc:0,ftd:0,ftdamt:0};
-      monMap[monKey].spend  += _csvNum(row[mapStore.spendCol]);
-      monMap[monKey].reg    += _csvNum(row[mapStore.regCol]);
-      monMap[monKey].kyc    += _csvNum(row[mapStore.kycCol]);
-      monMap[monKey].ftd    += _csvNum(row[mapStore.ftdCol]);
-      monMap[monKey].ftdamt += _csvNum(row[mapStore.ftdAmtCol]);
+      monMap[monKey].spend  += _csvNum(row[_SPEND]);
+      monMap[monKey].reg    += _csvNum(row[_REG]);
+      monMap[monKey].kyc    += _csvNum(row[_KYC]);
+      monMap[monKey].ftd    += _csvNum(row[_FTD]);
+      monMap[monKey].ftdamt += _csvNum(row[_FTDAMT]);
     }
   });
 
@@ -3766,14 +3791,38 @@ function _processCSVRows(rows) {
     socialStore[c].fbMonths = Object.values(fbMonMap).filter(x=>x.c===c).sort((a,b)=>a.monthKey.localeCompare(b.monthKey)).map(x=>({monthKey:x.monthKey,gained:Math.round(x.gained),imp:Math.round(x.imp),spend:+x.spend.toFixed(2),cpf:x.gained>0?+(x.spend/x.gained).toFixed(2):0}));
     socialStore[c].igMonths = Object.values(igMonMap).filter(x=>x.c===c).sort((a,b)=>a.monthKey.localeCompare(b.monthKey)).map(x=>({monthKey:x.monthKey,gained:Math.round(x.gained),imp:Math.round(x.imp),spend:+x.spend.toFixed(2),cpf:x.gained>0?+(x.spend/x.gained).toFixed(2):0}));
   });
-  return {parsed, lgCount, fbCount, igCount, unmatchedCats};
+  return {parsed, lgCount, fbCount, igCount, unmatchedCats, unmatchedGeos, geoMisses, dateMisses, headersFound};
 }
 
-function _applySyncResult({parsed, lgCount, fbCount, igCount, unmatchedCats}) {
+function _applySyncResult({parsed, lgCount, fbCount, igCount, unmatchedCats, unmatchedGeos, geoMisses, dateMisses, headersFound}) {
   persistData();
   populatePeriodDropdowns();
   renderOverview();
   COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); });
+
+  // ── Zero-rows diagnostic ──────────────────────────────────────────────
+  if (parsed === 0) {
+    const geoKeys = Object.keys(unmatchedGeos||{});
+    const headerList = (headersFound||[]).join(', ');
+    let diag = `<span style="color:var(--red)">&#10007; 0 rows matched — nothing was imported.</span>
+      <div style="font-size:11px;margin-top:6px;line-height:1.6">`;
+    if (geoKeys.length) {
+      diag += `<b style="color:var(--amber)">GEO values not in mapping:</b> ${geoKeys.map(k=>`"${k}" (${unmatchedGeos[k]})`).join(', ')}<br>
+        → Go to <b>Column Mapping → GEO Value Mapping</b> and add a rule for each value above.<br>`;
+    } else if (geoMisses > 0) {
+      diag += `<b style="color:var(--amber)">GEO column "${mapStore.geoCol}" appears empty in every row.</b><br>
+        → Check the column header in your CSV matches the GEO Column setting.<br>`;
+    }
+    if (dateMisses > 0) {
+      diag += `<b style="color:var(--amber)">${dateMisses} rows had unparseable dates.</b> Expected DD/MM/YYYY format.<br>`;
+    }
+    if (headerList) {
+      diag += `<b>Headers found in CSV:</b> ${headerList}`;
+    }
+    diag += `</div>`;
+    return diag;
+  }
+
   const summary = COUNTRIES.map(c => {
     const wks = store[c].weeks; if (!wks.length) return '';
     const last = wks[wks.length-1];
