@@ -3425,10 +3425,15 @@ function _csvSplit(line) {
 }
 
 function _parseCSVToRows(text) {
-  // RFC 4180-compliant parser — handles quoted fields that contain commas, quotes, and newlines.
-  // Google Sheets CSV exports can embed literal newlines inside quoted header cells.
   text = text.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
   if (!text.trim()) return { headers:[], rows:[] };
+
+  // Auto-detect delimiter: tab (copy-paste from Sheets/Excel) vs comma (CSV file)
+  const firstLine  = text.split('\n')[0];
+  const tabCount   = (firstLine.match(/\t/g)  || []).length;
+  const commaCount = (firstLine.match(/,/g)   || []).length;
+  const delim      = tabCount > commaCount ? '\t' : ',';
+
   const records = [];
   let i = 0, len = text.length;
   while (i < len) {
@@ -3439,24 +3444,23 @@ function _parseCSVToRows(text) {
         i++; // skip opening quote
         while (i < len) {
           if (text[i] === '"') {
-            if (i+1 < len && text[i+1] === '"') { field += '"'; i += 2; } // escaped ""
-            else { i++; break; } // closing quote
+            if (i+1 < len && text[i+1] === '"') { field += '"'; i += 2; }
+            else { i++; break; }
           } else { field += text[i++]; }
         }
       } else {
-        while (i < len && text[i] !== ',' && text[i] !== '\n') field += text[i++];
+        while (i < len && text[i] !== delim && text[i] !== '\n') field += text[i++];
         field = field.trim();
       }
       record.push(field);
-      if (i < len && text[i] === ',') { i++; continue; }
+      if (i < len && text[i] === delim) { i++; continue; }
       break;
     }
     if (i < len && text[i] === '\n') i++;
     if (record.some(f => f.trim())) records.push(record);
   }
   if (!records.length) return { headers:[], rows:[] };
-  // Strip any sub-line annotation Google Sheets embeds after the first newline in header cells
-  // e.g. "Campaign Category\n (Check 'Naming database' Tab)" → "Campaign Category"
+  // Strip sub-line annotations Google Sheets embeds in header cells
   const headers = records[0].map(h => h.split('\n')[0].trim());
   const rows = records.slice(1).map(fields => {
     const obj = {};
