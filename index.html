@@ -3460,8 +3460,10 @@ function _parseCSVToRows(text) {
     if (record.some(f => f.trim())) records.push(record);
   }
   if (!records.length) return { headers:[], rows:[] };
-  // Strip sub-line annotations Google Sheets embeds in header cells
-  const headers = records[0].map(h => h.split('\n')[0].trim());
+  // Normalise header keys: strip embedded newlines, decorative double-quotes,
+  // and trailing annotation text that Google Sheets sometimes embeds in cells.
+  const _stripHeader = h => h.split('\n')[0].replace(/^"+|"+$/g, '').trim();
+  const headers = records[0].map(_stripHeader);
   const rows = records.slice(1).map(fields => {
     const obj = {};
     headers.forEach((h, idx) => { obj[h] = (fields[idx] || '').trim(); });
@@ -3639,14 +3641,23 @@ function _processCSVRows(rows) {
   // Fall back to default column name if catCol was accidentally cleared
   const effectiveCatCol = (mapStore.catCol||'').trim() || MAPPING_DEFAULT.catCol;
 
-  // Resolve every configured column name case-insensitively against the actual CSV headers.
-  // Also matches against only the first line of a header key, handling cells like
-  // "Campaign Category\n (Check 'Naming database' Tab)" that Google Sheets embeds annotations into.
+  // Resolve configured column names against actual CSV headers.
+  // Handles three Google Sheets quirks:
+  //   1. Embedded newlines:  "Campaign Category\n (Check ...)"
+  //   2. Decorative quotes:  '"Campaign Category (Check ...)"' (literal " in cell)
+  //   3. Annotation suffix:  "Campaign Category (Check 'Naming database' Tab)"
+  // Strategy: normalise both sides (strip newlines + outer quotes), then try
+  // exact match first, then starts-with (so "Campaign Category" matches
+  // "Campaign Category (Check 'Naming database' Tab)").
   const _hkeys = rows.length ? Object.keys(rows[0]) : [];
+  const _normKey = k => k.split('\n')[0].replace(/^"+|"+$/g, '').trim().toLowerCase();
   const _rc = name => {
     if (!name) return name;
-    const want = name.trim().toLowerCase();
-    return _hkeys.find(k => k.trim().toLowerCase() === want || k.split('\n')[0].trim().toLowerCase() === want) || name;
+    const want = _normKey(name);
+    return _hkeys.find(k => {
+      const kn = _normKey(k);
+      return kn === want || kn.startsWith(want + ' ') || kn.startsWith(want + '(');
+    }) || name;
   };
   const _GEO    = _rc(mapStore.geoCol);
   const _DATE   = _rc(mapStore.dateCol);
