@@ -3639,9 +3639,15 @@ function _processCSVRows(rows) {
   // Fall back to default column name if catCol was accidentally cleared
   const effectiveCatCol = (mapStore.catCol||'').trim() || MAPPING_DEFAULT.catCol;
 
-  // Resolve every configured column name case-insensitively against the actual CSV headers
+  // Resolve every configured column name case-insensitively against the actual CSV headers.
+  // Also matches against only the first line of a header key, handling cells like
+  // "Campaign Category\n (Check 'Naming database' Tab)" that Google Sheets embeds annotations into.
   const _hkeys = rows.length ? Object.keys(rows[0]) : [];
-  const _rc = name => _hkeys.find(k => k.trim().toLowerCase() === (name||'').trim().toLowerCase()) || name;
+  const _rc = name => {
+    if (!name) return name;
+    const want = name.trim().toLowerCase();
+    return _hkeys.find(k => k.trim().toLowerCase() === want || k.split('\n')[0].trim().toLowerCase() === want) || name;
+  };
   const _GEO    = _rc(mapStore.geoCol);
   const _DATE   = _rc(mapStore.dateCol);
   const _WEEK   = _rc(mapStore.weekCol);
@@ -3839,8 +3845,11 @@ function _applySyncResult({parsed, lgCount, fbCount, igCount, unmatchedCats, unm
   const unmatchedWarn = unmatchedKeys.length
     ? `<div style="font-size:11px;color:var(--amber);margin-top:4px">⚠ ${unmatchedKeys.reduce((s,k)=>s+(unmatchedCats[k]||0),0)} rows had unrecognised category → defaulted to Lead Gen:<br>${unmatchedKeys.map(k=>`&nbsp;&nbsp;"${k}" (${unmatchedCats[k]} rows)`).join('<br>')}</div>`
     : '';
+  const pgWarn = (parsed > 0 && fbCount === 0 && igCount === 0)
+    ? `<div style="font-size:11px;color:var(--amber);margin-top:4px">⚠ Page Growth section will be empty — no rows matched your Category Rules for Facebook or Instagram.<br>&nbsp;&nbsp;Go to <b>Column Mapping → Category Rules</b> and verify the rule names match your Campaign Category values exactly.</div>`
+    : '';
   return `<span style="color:var(--green)">&#10003; ${parsed.toLocaleString()} rows synced</span>
-    ${routing}${unmatchedWarn}
+    ${routing}${unmatchedWarn}${pgWarn}
     <div style="font-size:11px;color:var(--muted);margin-top:3px">${summary}</div>`;
 }
 
