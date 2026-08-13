@@ -3406,9 +3406,9 @@ function _csvDate(s) {
   let [a, b, c] = p.map(Number);
   let day, mon, yr;
   if (c < 100) { mon = a; day = b; yr = c + 2000; }
-  else if (a > 12) { day = a; mon = b; yr = c; }
-  else if (b > 12) { mon = a; day = b; yr = c; }
-  else { day = a; mon = b; yr = c; }
+  else if (a > 12) { day = a; mon = b; yr = c; }   // DD/MM/YYYY — day must be first
+  else if (b > 12) { mon = a; day = b; yr = c; }   // M/D/YYYY  — day must be second
+  else             { mon = a; day = b; yr = c; }   // ambiguous — default to M/D/YYYY (US format used in this sheet)
   const d = new Date(yr, mon - 1, day);
   return (!isNaN(d.getTime()) && yr >= 2020 && yr <= 2035) ? d : null;
 }
@@ -3500,7 +3500,7 @@ const MAPPING_FIELDS = [
   { key:'impCol',    label:'Impressions',         hint:'Ad impressions column' },
   { key:'geoCol',    label:'GEO Column',          hint:'Column identifying the market' },
   { key:'weekCol',   label:'Week Label',          hint:'Your week label column (W0, W1…)' },
-  { key:'dateCol',   label:'Date Column',         hint:'Daily date column (DD/MM/YYYY)' },
+  { key:'dateCol',   label:'Date Column',         hint:'Daily date column (M/D/YYYY or DD/MM/YYYY)' },
   { key:'catCol',    label:'Campaign Category',   hint:'Column that routes rows to Lead Gen / FB / IG (col M in your sheet)' },
 ];
 
@@ -3835,7 +3835,7 @@ function _applySyncResult({parsed, lgCount, fbCount, igCount, unmatchedCats, unm
         → Check the column header in your CSV matches the GEO Column setting.<br>`;
     }
     if (dateMisses > 0) {
-      diag += `<b style="color:var(--amber)">${dateMisses} rows had unparseable dates.</b> Expected DD/MM/YYYY format.<br>`;
+      diag += `<b style="color:var(--amber)">${dateMisses} rows had unparseable dates.</b> Expected M/D/YYYY or DD/MM/YYYY.<br>`;
     }
     if (headerList) {
       diag += `<b>Headers found in CSV:</b> ${headerList}`;
