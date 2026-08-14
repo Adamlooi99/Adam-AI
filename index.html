@@ -1950,6 +1950,9 @@ let modalMode = 'add';
 const filters = {objective:'leadgen', calendar:'all', country:'all', periodType:'week', weekSel:'all', monthSel:'all'};
 let socialChannelFilter = 'both';
 let histSortCol = null, histSortAsc = true;
+// Actual start/end dates per week label, populated from CSV data so date ranges
+// displayed in dropdowns reflect the sheet's own week boundaries (not ISO Mon–Sun).
+let weekDateMap = {}; // { 'W30': { min: Date, max: Date }, … }
 
 const store = {};
 COUNTRIES.forEach(c => store[c] = {weeks:[], days:[], months:[], catBreakdown:[], activeIdx:0});
@@ -2141,13 +2144,22 @@ function restoreFilterUI() {
 }
 
 function weekDateRange(lbl) {
+  const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  // Prefer actual dates from the CSV so the range matches the sheet's own week boundaries.
+  const actual = weekDateMap[lbl];
+  if (actual && actual.min && actual.max) {
+    const s = actual.min, e = actual.max;
+    const sStr = MM[s.getMonth()] + ' ' + s.getDate();
+    const eStr = (e.getMonth() !== s.getMonth() ? MM[e.getMonth()] + ' ' : '') + e.getDate();
+    return `${lbl} · ${sStr}–${eStr}`;
+  }
+  // Fallback to ISO week computation when no CSV data is loaded yet.
   const n = parseInt(lbl.replace(/\D/g,''), 10);
   if (isNaN(n)) return lbl;
   const ym = weekLabelToYearMonth(lbl);
   if (!ym) return lbl;
   const mon = isoWeekMonday(n, ym.year);
   const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
-  const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   const mStr = MM[mon.getMonth()] + ' ' + mon.getDate();
   const sStr = (sun.getMonth() !== mon.getMonth() ? MM[sun.getMonth()] + ' ' : '') + sun.getDate();
   return `${lbl} · ${mStr}–${sStr}`;
@@ -3626,6 +3638,7 @@ function _processCSVRows(rows) {
   });
 
   COUNTRIES.forEach(c => { store[c].weeks=[]; store[c].days=[]; store[c].months=[]; store[c].catBreakdown=[]; socialStore[c].fb=[]; socialStore[c].ig=[]; socialStore[c].fbMonths=[]; socialStore[c].igMonths=[]; });
+  weekDateMap = {};
   const lgMap={}, fbMap={}, igMap={}, dayMap={}, monMap={}, weekMonthMap={}, fbMonMap={}, igMonMap={}, catBreakdownMap={};
   let parsed = 0, lgCount = 0, fbCount = 0, igCount = 0;
   const unmatchedCats = {}; // catValue → count, for diagnostic
@@ -3693,6 +3706,8 @@ function _processCSVRows(rows) {
     const label   = /^W\d+$/.test(weekRaw) ? weekRaw : ('W' + getISOWeekNum(d));
     const key     = c + '_' + label;
     if (!weekMonthMap[label]) weekMonthMap[label] = d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+    if (!weekDateMap[label]) weekDateMap[label] = {min:d, max:d};
+    else { if (d < weekDateMap[label].min) weekDateMap[label].min = d; if (d > weekDateMap[label].max) weekDateMap[label].max = d; }
     parsed++;
 
     // Route row to the right objective bucket based on Campaign Category column
