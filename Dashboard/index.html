@@ -623,6 +623,9 @@ body.snap-mode .snap-banner{display:block}
     <button class="nav-btn" id="nav-ftd" onclick="showView('ftd')" title="FTD Records">
       <span class="nav-icon">📈</span><span>FTD Records</span>
     </button>
+    <button class="nav-btn" id="nav-compare" onclick="showView('compare')" title="Month Comparison">
+      <span class="nav-icon">🗓</span><span>Month Comparison</span>
+    </button>
     <button class="nav-btn" id="nav-utmgen" onclick="showView('utmgen')" title="UTM Generator">
       <span class="nav-icon">🏷</span><span>UTM Generator</span>
     </button>
@@ -1731,6 +1734,41 @@ body.snap-mode .snap-banner{display:block}
 <!-- ══════════════════════════════════════════════════════════════════════ -->
 <!-- UTM GENERATOR VIEW                                                    -->
 <!-- ══════════════════════════════════════════════════════════════════════ -->
+<div class="view" id="view-compare">
+  <div style="margin-bottom:20px">
+    <div style="font-size:17px;font-weight:700;color:var(--text);font-family:var(--fd)">🗓 Month Comparison</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:3px">Compare up to 4 months side-by-side for a single market</div>
+  </div>
+
+  <!-- Market selector -->
+  <div style="margin-bottom:14px">
+    <div class="tbl-head-title" style="font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Market</div>
+    <div class="pgrp" id="cmp-market-pills">
+      <button class="pill a-red" id="cmp-mn" onclick="setCmpMarket('mn')">🇲🇳 Mongolia</button>
+      <button class="pill" id="cmp-kr" onclick="setCmpMarket('kr')">🇰🇷 South Korea</button>
+      <button class="pill" id="cmp-za" onclick="setCmpMarket('za')">🇿🇦 South Africa</button>
+    </div>
+  </div>
+
+  <!-- Month selector -->
+  <div style="margin-bottom:14px">
+    <div class="tbl-head-title" style="font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">Months to compare <span id="cmp-month-count" style="color:var(--amber);font-size:10px"></span></div>
+    <div id="cmp-month-pills" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+  </div>
+
+  <!-- View toggle -->
+  <div style="margin-bottom:20px">
+    <div class="tbl-head-title" style="font-size:11px;color:var(--muted);margin-bottom:8px;text-transform:uppercase;letter-spacing:.06em">View</div>
+    <div class="pgrp">
+      <button class="pill a-red" id="cmp-view-leadgen" onclick="setCmpView('leadgen')">📋 Lead Gen</button>
+      <button class="pill" id="cmp-view-pagegrowth" onclick="setCmpView('pagegrowth')">📱 Page Growth</button>
+    </div>
+  </div>
+
+  <!-- Comparison output -->
+  <div id="cmp-table-wrap"></div>
+</div>
+
 <div class="view" id="view-utmgen">
   <div style="margin-bottom:20px">
     <div style="font-size:17px;font-weight:700;color:var(--text);font-family:var(--fd)">UTM Naming Generator</div>
@@ -2500,8 +2538,9 @@ function showView(v) {
   if (v === 'upload') { COUNTRIES.forEach(c => { populateWeekSelect(c); prefillInputs(c); }); }
   if (v === 'creative') { updateAIKeyBadge(); }
   if (v === 'utm') { /* UTM view ready */ }
-  if (v === 'budget') { renderBudgetPacing(); }
-  if (v === 'ftd')    { renderFTDRecords(); }
+  if (v === 'budget')  { renderBudgetPacing(); }
+  if (v === 'ftd')     { renderFTDRecords(); }
+  if (v === 'compare') { renderMonthComparison(); }
   if (v === 'utmgen') { utmgUpdate(); }
 }
 
@@ -4572,6 +4611,213 @@ function saveLTVEntry(country, key, val) {
   ltvStore[country][key] = val;
   persistLTV();
 }
+
+// ── Month Comparison ─────────────────────────────────────────────────────────
+let cmpMarket = 'mn';
+let cmpView   = 'leadgen';
+let cmpSelectedMonths = []; // array of 'YYYY-MM' keys, max 4
+const CMP_MAX = 4;
+
+function setCmpMarket(c) {
+  cmpMarket = c;
+  cmpSelectedMonths = [];
+  ['mn','kr','za'].forEach(m => {
+    const el = document.getElementById('cmp-'+m);
+    if (el) el.className = 'pill' + (m === c ? ' a-red' : '');
+  });
+  renderMonthComparison();
+}
+
+function setCmpView(v) {
+  cmpView = v;
+  ['leadgen','pagegrowth'].forEach(k => {
+    const el = document.getElementById('cmp-view-'+k);
+    if (el) el.className = 'pill' + (k === v ? ' a-red' : '');
+  });
+  renderMonthComparison();
+}
+
+function toggleCmpMonth(key) {
+  const idx = cmpSelectedMonths.indexOf(key);
+  if (idx >= 0) {
+    cmpSelectedMonths.splice(idx, 1);
+  } else {
+    if (cmpSelectedMonths.length >= CMP_MAX) return; // cap at 4
+    cmpSelectedMonths.push(key);
+    cmpSelectedMonths.sort();
+  }
+  renderMonthComparison();
+}
+
+function renderMonthComparison() {
+  const MM = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const fmtMK = mk => { const [y,m] = mk.split('-'); return MM[+m-1] + ' ' + y; };
+  const fmtAmt = v => '$' + (+v||0).toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:2});
+  const fmtN   = v => Math.round(+v||0).toLocaleString();
+  const fmtPct = v => (+v||0).toFixed(1) + '%';
+
+  // Build union of available month keys
+  const lgKeys  = (store[cmpMarket]?.months || []).map(m => m.key);
+  const fbKeys  = (socialStore[cmpMarket]?.fbMonths || []).map(m => m.monthKey);
+  const igKeys  = (socialStore[cmpMarket]?.igMonths || []).map(m => m.monthKey);
+  const allKeys = [...new Set([...lgKeys, ...fbKeys, ...igKeys])].sort();
+
+  // Month pill selector
+  const pillWrap = document.getElementById('cmp-month-pills');
+  const countEl  = document.getElementById('cmp-month-count');
+  if (pillWrap) {
+    pillWrap.innerHTML = allKeys.length ? allKeys.map(mk => {
+      const sel = cmpSelectedMonths.includes(mk);
+      const disabled = !sel && cmpSelectedMonths.length >= CMP_MAX;
+      return `<button class="pill${sel ? ' a-red' : ''}" style="font-size:12px;${disabled?'opacity:.4;cursor:not-allowed':''}"
+        onclick="${disabled ? '' : `toggleCmpMonth('${mk}')`}">${fmtMK(mk)}</button>`;
+    }).join('') : '<span style="color:var(--muted);font-size:12px">No data synced yet — sync from Google Sheets first.</span>';
+  }
+  if (countEl) countEl.textContent = cmpSelectedMonths.length ? `(${cmpSelectedMonths.length}/${CMP_MAX} selected)` : '';
+
+  const wrap = document.getElementById('cmp-table-wrap');
+  if (!wrap) return;
+
+  if (!cmpSelectedMonths.length) {
+    wrap.innerHTML = `<div style="color:var(--muted);font-size:12px;padding:20px 0">Select at least one month above to see the comparison.</div>`;
+    return;
+  }
+
+  const cols = cmpSelectedMonths; // sorted YYYY-MM keys
+
+  // Helpers to look up month data
+  const getLG  = mk => (store[cmpMarket]?.months || []).find(m => m.key === mk) || {};
+  const getFB  = mk => (socialStore[cmpMarket]?.fbMonths || []).find(m => m.monthKey === mk) || {};
+  const getIG  = mk => (socialStore[cmpMarket]?.igMonths || []).find(m => m.monthKey === mk) || {};
+
+  // Bar helper — inline bar for a cell (width relative to max in the row)
+  const bar = (val, max, color) => {
+    if (!max) return '';
+    const w = Math.round(Math.max(0, Math.min(100, (val/max)*100)));
+    return `<div style="margin-top:4px;height:3px;border-radius:2px;background:var(--border);overflow:hidden"><div style="width:${w}%;height:100%;background:${color};border-radius:2px"></div></div>`;
+  };
+
+  // Change badge vs first selected month
+  const chgBadge = (cur, base) => {
+    if (!base || base === 0) return '';
+    const pct = ((cur - base) / base) * 100;
+    const up  = pct >= 0;
+    const col = up ? 'var(--green)' : 'var(--red)';
+    return `<span style="font-size:10px;color:${col};margin-left:5px">${up?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</span>`;
+  };
+
+  let html = '';
+
+  if (cmpView === 'leadgen') {
+    // ── Lead Gen metrics ──
+    const metrics = [
+      { label:'Ad Spend',      key:'spend',  fmt:fmtAmt, color:'#C8923A' },
+      { label:'Registrations', key:'reg',    fmt:fmtN,   color:'#60A5FA' },
+      { label:'Pending',       key:'pend',   fmt:fmtN,   color:'#A78BFA' },
+      { label:'KYC',           key:'kyc',    fmt:fmtN,   color:'#34D399' },
+      { label:'FTD',           key:'ftd',    fmt:fmtN,   color:'#F59E0B' },
+      { label:'FTD Amount',    key:'ftdamt', fmt:fmtAmt, color:'#F59E0B' },
+    ];
+    const derivedMetrics = [
+      {
+        label: 'Reg → KYC %',
+        fn: d => d.reg > 0 ? (d.kyc / d.reg * 100) : 0,
+        fmt: fmtPct,
+        color: '#34D399',
+        higherIsBetter: true,
+      },
+      {
+        label: 'Cost per Reg',
+        fn: d => d.reg > 0 ? (d.spend / d.reg) : 0,
+        fmt: fmtAmt,
+        color: '#F472B6',
+        higherIsBetter: false,
+      },
+    ];
+
+    html += `<div class="tbl-wrap"><div class="tbl-head"><span class="tbl-head-title">Lead Gen — ${C_NAME[cmpMarket]}</span></div><div style="overflow-x:auto"><table class="tbl" style="width:100%;min-width:420px"><thead><tr>
+      <th style="text-align:left;width:140px">Metric</th>
+      ${cols.map((mk,i) => `<th style="text-align:right">${fmtMK(mk)}</th>`).join('')}
+    </tr></thead><tbody>`;
+
+    metrics.forEach(m => {
+      const vals = cols.map(mk => +(getLG(mk)[m.key] || 0));
+      const maxV = Math.max(...vals, 0.01);
+      const baseV = vals[0];
+      html += `<tr><td style="font-size:12px;color:var(--muted)">${m.label}</td>`;
+      vals.forEach((v, i) => {
+        const chg = i > 0 ? chgBadge(v, baseV) : '';
+        html += `<td style="text-align:right;font-size:13px;font-weight:600">${m.fmt(v)}${chg}${bar(v,maxV,m.color)}</td>`;
+      });
+      html += `</tr>`;
+    });
+
+    derivedMetrics.forEach(m => {
+      const vals = cols.map(mk => m.fn(getLG(mk)));
+      const maxV = Math.max(...vals, 0.01);
+      const baseV = vals[0];
+      html += `<tr><td style="font-size:12px;color:var(--muted)">${m.label}</td>`;
+      vals.forEach((v, i) => {
+        const pct = i > 0 && baseV > 0 ? ((v - baseV)/baseV)*100 : null;
+        let badge = '';
+        if (pct !== null) {
+          const better = m.higherIsBetter ? pct >= 0 : pct <= 0;
+          const col = better ? 'var(--green)' : 'var(--red)';
+          badge = `<span style="font-size:10px;color:${col};margin-left:5px">${pct>=0?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</span>`;
+        }
+        html += `<td style="text-align:right;font-size:13px;font-weight:600">${m.fmt(v)}${badge}${bar(v,maxV,m.color)}</td>`;
+      });
+      html += `</tr>`;
+    });
+
+    html += `</tbody></table></div></div>`;
+
+  } else {
+    // ── Page Growth metrics ──
+    const platforms = [
+      { id:'fb', label:'📘 Facebook', getD: getFB, spendColor:'#C8923A', gainColor:'#60A5FA', cpfColor:'#F59E0B', impColor:'#A78BFA' },
+      { id:'ig', label:'📸 Instagram', getD: getIG, spendColor:'#C8923A', gainColor:'#F472B6', cpfColor:'#F59E0B', impColor:'#A78BFA' },
+    ];
+
+    platforms.forEach(p => {
+      const rows = [
+        { label:'Ad Spend',         fn: d => +(d.spend||0),  fmt: fmtAmt, color: p.spendColor, higherIsBetter: false },
+        { label:'Followers Gained', fn: d => +(d.gained||0), fmt: fmtN,   color: p.gainColor,  higherIsBetter: true  },
+        { label:'Cost per Follow',  fn: d => +(d.cpf||0),    fmt: fmtAmt, color: p.cpfColor,   higherIsBetter: false },
+        { label:'Impressions',      fn: d => +(d.imp||0),    fmt: fmtN,   color: p.impColor,   higherIsBetter: true  },
+      ];
+
+      html += `<div class="tbl-wrap" style="margin-bottom:18px"><div class="tbl-head"><span class="tbl-head-title">${p.label} — ${C_NAME[cmpMarket]}</span></div><div style="overflow-x:auto"><table class="tbl" style="width:100%;min-width:420px"><thead><tr>
+        <th style="text-align:left;width:160px">Metric</th>
+        ${cols.map(mk => `<th style="text-align:right">${fmtMK(mk)}</th>`).join('')}
+      </tr></thead><tbody>`;
+
+      rows.forEach(r => {
+        const vals = cols.map(mk => r.fn(p.getD(mk)));
+        const maxV = Math.max(...vals, 0.01);
+        const baseV = vals[0];
+        html += `<tr><td style="font-size:12px;color:var(--muted)">${r.label}</td>`;
+        vals.forEach((v, i) => {
+          const pct = i > 0 && baseV > 0 ? ((v - baseV)/baseV)*100 : null;
+          let badge = '';
+          if (pct !== null) {
+            const better = r.higherIsBetter ? pct >= 0 : pct <= 0;
+            const col = better ? 'var(--green)' : 'var(--red)';
+            badge = `<span style="font-size:10px;color:${col};margin-left:5px">${pct>=0?'▲':'▼'}${Math.abs(pct).toFixed(1)}%</span>`;
+          }
+          html += `<td style="text-align:right;font-size:13px;font-weight:600">${r.fmt(v)}${badge}${bar(v,maxV,r.color)}</td>`;
+        });
+        html += `</tr>`;
+      });
+
+      html += `</tbody></table></div></div>`;
+    });
+  }
+
+  wrap.innerHTML = html;
+}
+
+// ── End Month Comparison ──────────────────────────────────────────────────────
 
 function renderFTDRecords() {
   // Grand totals
